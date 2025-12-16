@@ -28,6 +28,11 @@ body{
 }
 
 a{color:inherit; text-decoration:none}
+.wrap{max-width:var(--max); margin:0 auto; padding:22px}
 
-.wrap{max-width:var(--max); margin
-
+.card{
+  border:1px solid var(--stroke);
+  background: rgba(11,13,20,.72);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
