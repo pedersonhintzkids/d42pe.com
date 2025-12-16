@@ -10,7 +10,6 @@
   <!-- Social preview -->
   <meta property="og:title" content="D42PE — Events" />
   <meta property="og:description" content="Tickets + details for the next D42PE event." />
-  <!-- Add a real image later (1200x630). Example: /og.jpg -->
   <meta property="og:image" content="/og.jpg" />
   <meta property="og:type" content="website" />
 
@@ -21,7 +20,7 @@
       --text:#e9e9f2;
       --muted:#a7a7bd;
       --stroke:rgba(255,255,255,.09);
-      --accent:#8b5cf6; /* change if you want */
+      --accent:#8b5cf6;
       --accent2:#22d3ee;
       --shadow: 0 12px 40px rgba(0,0,0,.55);
       --radius:18px;
@@ -38,311 +37,122 @@
         radial-gradient(900px 400px at 80% 20%, rgba(34,211,238,.12), transparent 60%),
         radial-gradient(900px 600px at 50% 100%, rgba(139,92,246,.10), transparent 70%),
         var(--bg);
-      line-height:1.45;
-      letter-spacing:.2px;
     }
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:var(--max); margin:0 auto; padding:22px}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:22px}
     .nav{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(to bottom, rgba(7,8,12,.75), rgba(7,8,12,.25));
-      border-bottom: 1px solid var(--stroke);
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(10px);
+      background:linear-gradient(to bottom, rgba(7,8,12,.75), rgba(7,8,12,.25));
+      border-bottom:1px solid var(--stroke);
     }
-    .nav-inner{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 22px}
-    .brand{
-      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.8px;
-      text-transform:uppercase;
-    }
-    .dot{
-      width:10px; height:10px; border-radius:999px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 22px rgba(139,92,246,.55);
-    }
-    .links{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;gap:14px}
+    .brand{display:flex;gap:10px;font-weight:800;text-transform:uppercase}
+    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+    .links{display:flex;gap:10px;flex-wrap:wrap}
     .chip{
-      padding:8px 12px; border:1px solid var(--stroke); border-radius:999px;
-      color:var(--muted); font-size:13px;
-      background: rgba(255,255,255,.02);
+      padding:8px 12px;border:1px solid var(--stroke);
+      border-radius:999px;font-size:13px;color:var(--muted)
     }
-    .chip:hover{border-color: rgba(139,92,246,.35); color:var(--text)}
     .btn{
-      padding:10px 14px; border-radius:999px; font-weight:700; font-size:13px;
+      padding:10px 14px;border-radius:999px;
+      font-weight:700;font-size:13px;
       border:1px solid rgba(139,92,246,.55);
-      background: linear-gradient(135deg, rgba(139,92,246,.22), rgba(34,211,238,.10));
-      box-shadow: 0 10px 30px rgba(139,92,246,.12);
+      background:linear-gradient(135deg, rgba(139,92,246,.22), rgba(34,211,238,.1));
     }
-    .btn:hover{transform: translateY(-1px)}
-    .hero{padding:48px 0 10px}
-    .hero-grid{
-      display:grid; grid-template-columns: 1.2fr .8fr; gap:18px;
-    }
-    @media (max-width: 900px){ .hero-grid{grid-template-columns:1fr} }
+    .hero{padding:48px 0}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+    @media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
     .card{
       border:1px solid var(--stroke);
-      background: rgba(11,13,20,.72);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      background:rgba(11,13,20,.72);
+      border-radius:var(--radius);
+      padding:22px;
     }
-    .hero-main{padding:26px}
-    .kicker{
-      display:inline-flex; gap:10px; align-items:center;
-      padding:8px 12px; border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      color:var(--muted); font-size:13px;
-      background: rgba(255,255,255,.02);
-    }
-    h1{
-      margin:14px 0 10px;
-      font-size: clamp(36px, 5vw, 60px);
-      line-height:1.05;
-      letter-spacing:.6px;
-      text-transform:uppercase;
-    }
-    .sub{
-      color:var(--muted);
-      font-size:16px;
-      max-width: 62ch;
-    }
-    .cta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px}
-    .ghost{
-      padding:10px 14px; border-radius:999px; font-weight:700; font-size:13px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.02);
-      color:var(--text);
-    }
-    .ghost:hover{border-color: rgba(34,211,238,.35)}
-    .hero-side{padding:18px}
-    .stat{
-      padding:14px;
-      border:1px solid var(--stroke);
-      border-radius: 14px;
-      background: rgba(255,255,255,.02);
-      margin-bottom:12px;
-    }
-    .label{color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.9px}
-    .value{font-size:16px; font-weight:800; margin-top:6px}
-    .grid{
-      display:grid; grid-template-columns: 1fr 1fr; gap:14px;
-      margin-top:16px;
-    }
-    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
-    section{padding:14px 0}
-    .section-card{padding:18px}
-    .h2{
-      margin:0 0 10px;
-      font-size:18px;
-      text-transform:uppercase;
-      letter-spacing:1px;
-    }
-    .p{color:var(--muted); margin:0}
-    .list{margin:10px 0 0; padding-left:18px; color:var(--muted)}
-    .list li{margin:6px 0}
-    .embed{
-      margin-top:12px;
-      border:1px dashed rgba(255,255,255,.18);
-      border-radius: 14px;
-      overflow:hidden;
-      background: rgba(0,0,0,.25);
-    }
-    .embed iframe{width:100%; height:640px; border:0}
+    h1{text-transform:uppercase;font-size:clamp(36px,5vw,60px)}
+    .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .section{margin-top:18px}
     .footer{
-      padding:28px 0 44px;
-      color:var(--muted);
-      font-size:13px;
-      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+      margin-top:30px;padding:22px;
       border-top:1px solid var(--stroke);
-      margin-top:18px;
+      display:flex;justify-content:space-between;color:var(--muted);font-size:13px
     }
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
   </style>
 </head>
 
 <body>
-  <div class="nav">
-    <div class="nav-inner wrap">
-      <div class="brand">
-        <span class="dot"></span>
-        <span>D42PE</span>
-        <span style="color:var(--muted); font-weight:700;">EVENTS</span>
-      </div>
-      <div class="links">
-        <a class="chip" href="#details">Details</a>
-        <a class="btn" href="/tickets/">Buy Tickets</a>
-        <a class="chip" href="#location">Location</a>
-        <a class="chip" href="#faq">FAQ</a>
-        <a class="chip" href="https://www.instagram.com/d42pe.events/" target="_blank" rel="noopener">Instagram</a>
-        <a class="chip" href="#socials">Snap</a>
-        <a class="btn" href="TICKET_URL_HERE" target="_blank" rel="noopener">Buy Tickets</a>
-      </div>
+
+<div class="nav">
+  <div class="nav-inner wrap">
+    <div class="brand">
+      <span class="dot"></span>
+      <span>D42PE</span><span style="color:var(--muted)">EVENTS</span>
+    </div>
+    <div class="links">
+      <a class="chip" href="#details">Details</a>
+      <a class="chip" href="#location">Location</a>
+      <a class="chip" href="#faq">FAQ</a>
+      <a class="chip" href="https://www.instagram.com/d42pe.events/" target="_blank">Instagram</a>
+      <a class="btn" href="/tickets/">Tickets</a>
     </div>
   </div>
+</div>
 
-  <main class="wrap">
-    <div class="hero">
-      <div class="hero-grid">
-        <div class="card hero-main">
-          <div class="kicker">
-            <span class="mono">D42PE.COM</span>
-            <span style="opacity:.6;">•</span>
-            <span>UNDERGROUND-INSPIRED • CLEAN EXECUTION</span>
-          </div>
+<main class="wrap">
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="card">
+        <h1>Next Event<br>D42PE</h1>
+        <p>High-energy DJ night. Dark. Loud. Clean.</p>
 
-          <h1>Next Event<br/>D42PE</h1>
-
-          <p class="sub">
-            High-energy DJ night with a dark, minimal aesthetic. Tickets online. Updates on socials.
-          </p>
-
-          <div class="cta-row">
-            <a class="btn" href="TICKET_URL_HERE" target="_blank" rel="noopener">Buy Tickets</a>
-            <a class="ghost" href="#tickets">See ticket info</a>
-            <a class="ghost" href="https://www.instagram.com/d42pe.events/" target="_blank" rel="noopener">IG: d42pe.events</a>
-          </div>
-
-          <div class="grid">
-            <div class="stat">
-              <div class="label">Date</div>
-              <div class="value">TBA (Jan 2026)</div>
-            </div>
-            <div class="stat">
-              <div class="label">City</div>
-              <div class="value">Austin, TX</div>
-            </div>
-            <div class="stat">
-              <div class="label">Doors</div>
-              <div class="value">TBA</div>
-            </div>
-            <div class="stat">
-              <div class="label">Age</div>
-              <div class="value">Policy: TBA</div>
-            </div>
-          </div>
+        <div class="cta-row">
+          <a class="btn" href="/tickets/">Buy Tickets</a>
+          <a class="chip" href="https://www.instagram.com/d42pe.events/" target="_blank">IG @d42pe.events</a>
         </div>
 
-        <div class="card hero-side">
-          <div class="stat">
-            <div class="label">Lineup</div>
-            <div class="value">Headliner: TBA</div>
-            <div style="color:var(--muted); margin-top:8px; font-size:13px;">
-              Support: TBA<br/>Local: TBA
-            </div>
-          </div>
-
-          <div class="stat">
-            <div class="label">Vibe</div>
-            <div class="value">Dark • Loud • Clean</div>
-            <div style="color:var(--muted); margin-top:8px; font-size:13px;">
-              No drama. Respect the venue. Respect each other.
-            </div>
-          </div>
-
-          <div class="stat">
-            <div class="label">Get updates</div>
-            <div class="value">@d42pe.events</div>
-            <div style="color:var(--muted); margin-top:8px; font-size:13px;">
-              Instagram + Snapchat handle: <span class="mono">d42pe.events</span>
-            </div>
-          </div>
+        <div class="cta-row">
+          <div class="chip">Austin, TX</div>
+          <div class="chip">Jan 2026</div>
+          <div class="chip">Doors TBA</div>
         </div>
+      </div>
+
+      <div class="card">
+        <p><b>Lineup:</b> TBA</p>
+        <p><b>Vibe:</b> Dark • Loud • Clean</p>
+        <p><b>Updates:</b> @d42pe.events</p>
       </div>
     </div>
+  </section>
 
-    <section id="details">
-      <div class="card section-card">
-        <div class="h2">Event details</div>
-        <p class="p">
-          Doors, set times, and full rules will be posted on Instagram the week of the event.
-        </p>
-        <ul class="list">
-          <li>Bring ID (policy depends on venue).</li>
-          <li>Entry subject to security screening.</li>
-          <li>Respect venue staff and neighbors.</li>
-          <li>No re-entry unless stated.</li>
-        </ul>
-      </div>
-    </section>
+  <section id="details" class="section card">
+    <h3>Event Details</h3>
+    <ul>
+      <li>Bring valid ID</li>
+      <li>Entry subject to security</li>
+      <li>Respect the venue</li>
+    </ul>
+  </section>
 
-    <section id="tickets">
-      <div class="card section-card">
-        <div class="h2">Tickets</div>
-        <p class="p">
-          Buy online to lock in your price and guarantee entry while capacity lasts.
-        </p>
+  <section id="location" class="section card">
+    <h3>Location</h3>
+    <p>Austin, TX — address announced closer to event</p>
+  </section>
 
-        <div class="cta-row" style="margin-top:12px;">
-          <a class="btn" href="TICKET_URL_HERE" target="_blank" rel="noopener">Buy Tickets Online</a>
-          <a class="ghost" href="https://www.instagram.com/d42pe.events/" target="_blank" rel="noopener">DM for questions</a>
-        </div>
+  <section id="faq" class="section card">
+    <h3>FAQ</h3>
+    <p>Refunds follow ticket checkout policy.</p>
+  </section>
 
-        <!-- Optional: embed your ticket checkout if your platform provides an iframe embed -->
-        <!-- Replace EMBED_URL_HERE if available, otherwise delete this whole div -->
-        <div class="embed" style="margin-top:14px;">
-          <iframe
-            title="Tickets"
-            src="EMBED_URL_HERE"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
-        </div>
+  <div class="footer">
+    <span>© <span id="y"></span> D42PE</span>
+    <span>d42pe.com</span>
+  </div>
+</main>
 
-        <p class="p" style="margin-top:12px; font-size:13px;">
-          If the embed doesn’t work, keep the button only (cleaner + fewer bugs).
-        </p>
-      </div>
-    </section>
+<script>
+  document.getElementById("y").textContent = new Date().getFullYear();
+</script>
 
-    <section id="location">
-      <div class="card section-card">
-        <div class="h2">Location</div>
-        <p class="p">Venue: TBA</p>
-        <p class="p" style="margin-top:6px;">
-          Address will be posted after tickets go live (or when confirmed).
-        </p>
-
-        <div class="cta-row" style="margin-top:12px;">
-          <a class="ghost" href="https://maps.google.com/?q=Austin%2C%20TX" target="_blank" rel="noopener">Open Maps</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="faq">
-      <div class="card section-card">
-        <div class="h2">FAQ</div>
-        <ul class="list">
-          <li><b>Refunds:</b> Follow the policy on the ticket checkout page.</li>
-          <li><b>At the door:</b> Limited if capacity is close; online is safest.</li>
-          <li><b>Safety:</b> Security on-site. If you see something, report it.</li>
-          <li><b>Lost items:</b> Contact via Instagram DM after the event.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="socials">
-      <div class="card section-card">
-        <div class="h2">Socials</div>
-        <p class="p">Instagram + Snapchat: <span class="mono">d42pe.events</span></p>
-
-        <div class="cta-row" style="margin-top:12px;">
-          <a class="btn" href="https://www.instagram.com/d42pe.events/" target="_blank" rel="noopener">Open Instagram</a>
-          <!-- Snapchat web profiles are inconsistent; keep this as plain handle -->
-          <a class="ghost" href="https://www.snapchat.com/" target="_blank" rel="noopener">Open Snapchat</a>
-        </div>
-
-        <p class="p" style="margin-top:12px; font-size:13px;">
-          Tip: put your Snap profile link in your Instagram bio, then link IG here.
-        </p>
-      </div>
-    </section>
-
-    <div class="footer">
-      <div>© <span id="y"></span> D42PE</div>
-      <div class="mono">d42pe.com</div>
-    </div>
-  </main>
-
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
