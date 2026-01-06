@@ -4,37 +4,126 @@
     <meta charset="UTF-8" />
     <title>d42pe – GENER</title>
 
-    <!-- Instant redirect (better than meta refresh) -->
-    <script>
-      window.location.replace(
-        "https://www.universe.com/events/d42pe-com-tickets-7WT30Q"
-      );
-    </script>
+    <!-- Redirect after 5 seconds -->
+    <meta http-equiv="refresh" content="5; url=https://www.universe.com/events/d42pe-com-tickets-7WT30Q" />
 
-    <!-- Fallback for ultra-old browsers -->
-    <meta http-equiv="refresh" content="0; url=https://www.universe.com/events/d42pe-com-tickets-7WT30Q">
+    <style>
+      :root {
+        --bg: #07080c;
+        --panel: #0b0d14;
+        --text: #e9e9f2;
+        --muted: #a7a7bd;
+        --accent: #8b5cf6;
+        --border: rgba(255, 255, 255, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        height: 100vh;
+        background:
+          radial-gradient(900px 450px at 20% 10%, rgba(139, 92, 246, 0.18), transparent 60%),
+          var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+        color: var(--text);
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 42px 32px;
+        max-width: 460px;
+        width: 92%;
+        text-align: center;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 7px 14px;
+        border-radius: 999px;
+        background: rgba(139, 92, 246, 0.18);
+        color: var(--accent);
+        font-weight: 800;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        margin-bottom: 22px;
+      }
+
+      h1 {
+        margin: 0 0 18px;
+        font-size: 36px;
+        line-height: 1.2;
+        font-weight: 900;
+      }
+
+      .code {
+        margin: 24px 0;
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(139, 92, 246, 0.16);
+        border: 2px dashed var(--accent);
+        font-size: 34px;
+        font-weight: 900;
+        letter-spacing: 0.18em;
+        color: var(--accent);
+      }
+
+      .sub {
+        font-size: 16px;
+        color: var(--muted);
+        margin-bottom: 26px;
+      }
+
+      .cta {
+        display: inline-block;
+        padding: 15px 26px;
+        border-radius: 14px;
+        background: var(--accent);
+        color: #07080c;
+        font-weight: 900;
+        text-decoration: none;
+        font-size: 16px;
+      }
+
+      .timer {
+        margin-top: 18px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+    </style>
   </head>
 
-  <body
-    style="
-      margin:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:100vh;
-      background:#07080c;
-      color:#e9e9f2;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-    "
-  >
-    <div>
-      Redirecting to tickets…<br />
+  <body>
+    <div class="card">
+      <div class="badge">D42PE DISCOUNT</div>
+
+      <h1>
+        Use code <strong>GENER</strong><br />
+        for <strong>$3 off</strong> each ticket
+      </h1>
+
+      <div class="code">GENER</div>
+
+      <div class="sub">
+        Enter this code at checkout to save $3 per ticket.
+      </div>
+
       <a
+        class="cta"
         href="https://www.universe.com/events/d42pe-com-tickets-7WT30Q"
-        style="color:#8b5cf6"
       >
-        Tap here if nothing happens
+        Go to tickets now
       </a>
+
+      <div class="timer">
+        Redirecting to checkout in 5 seconds…
+      </div>
     </div>
   </body>
 </html>
