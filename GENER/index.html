@@ -4,96 +4,115 @@
     <meta charset="UTF-8" />
     <title>d42pe – GENER</title>
 
-    <!-- Redirect after 5 seconds -->
-    <meta http-equiv="refresh" content="5; url=https://www.universe.com/events/d42pe-com-tickets-7WT30Q" />
+    <!-- Redirect after 7 seconds -->
+    <meta http-equiv="refresh" content="7; url=https://www.universe.com/events/d42pe-com-tickets-7WT30Q" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <style>
       :root {
-        --bg: #07080c;
+        --bg: #05060a;
         --panel: #0b0d14;
-        --text: #e9e9f2;
-        --muted: #a7a7bd;
+        --text: #f2f2ff;
+        --muted: #b5b6d6;
         --accent: #8b5cf6;
         --border: rgba(255, 255, 255, 0.08);
       }
 
-      * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
 
       body {
         margin: 0;
-        height: 100vh;
+        min-height: 100vh;
         background:
-          radial-gradient(900px 450px at 20% 10%, rgba(139, 92, 246, 0.18), transparent 60%),
+          radial-gradient(1100px 600px at 50% -10%, rgba(139, 92, 246, 0.25), transparent 60%),
           var(--bg);
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
         color: var(--text);
+        padding: 24px;
       }
 
       .card {
-        background: var(--panel);
+        background: linear-gradient(
+          180deg,
+          rgba(139, 92, 246, 0.08),
+          rgba(11, 13, 20, 0.95)
+        );
         border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 42px 32px;
-        max-width: 460px;
-        width: 92%;
+        border-radius: 24px;
+        padding: 48px 36px;
+        width: 100%;
+        max-width: 520px;
         text-align: center;
-        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75);
       }
 
       .badge {
         display: inline-block;
-        padding: 7px 14px;
+        padding: 8px 18px;
         border-radius: 999px;
-        background: rgba(139, 92, 246, 0.18);
+        background: rgba(139, 92, 246, 0.2);
         color: var(--accent);
         font-weight: 800;
         font-size: 12px;
-        letter-spacing: 0.12em;
-        margin-bottom: 22px;
+        letter-spacing: 0.16em;
+        margin-bottom: 28px;
       }
 
       h1 {
         margin: 0 0 18px;
-        font-size: 36px;
-        line-height: 1.2;
+        font-size: 40px;
+        line-height: 1.15;
         font-weight: 900;
       }
 
+      h1 span {
+        color: var(--accent);
+      }
+
       .code {
-        margin: 24px 0;
-        padding: 20px;
-        border-radius: 16px;
-        background: rgba(139, 92, 246, 0.16);
-        border: 2px dashed var(--accent);
-        font-size: 34px;
+        margin: 28px 0;
+        padding: 22px 18px;
+        border-radius: 18px;
+        background: rgba(139, 92, 246, 0.22);
+        border: 2px solid var(--accent);
+        font-size: 40px;
         font-weight: 900;
-        letter-spacing: 0.18em;
+        letter-spacing: 0.22em;
         color: var(--accent);
       }
 
       .sub {
-        font-size: 16px;
+        font-size: 17px;
         color: var(--muted);
-        margin-bottom: 26px;
+        margin-bottom: 32px;
       }
 
       .cta {
         display: inline-block;
-        padding: 15px 26px;
-        border-radius: 14px;
+        padding: 16px 32px;
+        border-radius: 16px;
         background: var(--accent);
-        color: #07080c;
+        color: #05060a;
         font-weight: 900;
         text-decoration: none;
-        font-size: 16px;
+        font-size: 17px;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .cta:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 30px rgba(139, 92, 246, 0.45);
       }
 
       .timer {
-        margin-top: 18px;
-        font-size: 13px;
+        margin-top: 22px;
+        font-size: 14px;
         color: var(--muted);
       }
     </style>
@@ -104,25 +123,25 @@
       <div class="badge">D42PE DISCOUNT</div>
 
       <h1>
-        Use code <strong>GENER</strong><br />
-        for <strong>$3 off</strong> each ticket
+        Use code <span>GENER</span><br />
+        for <span>$3 off</span> each ticket
       </h1>
 
       <div class="code">GENER</div>
 
       <div class="sub">
-        Enter this code at checkout to save $3 per ticket.
+        Enter this code at checkout to save <strong>$3 per ticket</strong>.
       </div>
 
       <a
         class="cta"
         href="https://www.universe.com/events/d42pe-com-tickets-7WT30Q"
       >
-        Go to tickets now
+        Go to tickets
       </a>
 
       <div class="timer">
-        Redirecting to checkout in 5 seconds…
+        Redirecting to checkout in 7 seconds…
       </div>
     </div>
   </body>
