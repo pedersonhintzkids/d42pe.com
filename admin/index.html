@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>D42PE Admin</title>
+  <meta name="theme-color" content="#0b0b10" />
+
+  <style>
+    :root{
+      --bg:#07080c; --panel:#0b0d14; --text:#e9e9f2; --muted:#a7a7bd;
+      --stroke:rgba(255,255,255,.09); --accent:#8b5cf6; --accent2:#22d3ee;
+      --shadow: 0 12px 40px rgba(0,0,0,.55); --radius:18px; --max:900px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 400px at 20% 10%, rgba(139,92,246,.16), transparent 60%),
+        radial-gradient(900px 400px at 80% 20%, rgba(34,211,238,.12), transparent 60%),
+        radial-gradient(900px 600px at 50% 100%, rgba(139,92,246,.10), transparent 70%),
+        var(--bg);
+    }
+    .wrap{max-width:var(--max);margin:0 auto;padding:26px}
+    .card{
+      border:1px solid var(--stroke);
+      background:rgba(11,13,20,.78);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:900;text-transform:uppercase}
+    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+    .btn{
+      padding:10px 16px;border-radius:999px;
+      font-weight:800;font-size:14px; cursor:pointer;
+      border:1px solid rgba(139,92,246,.55);
+      background:linear-gradient(135deg, rgba(139,92,246,.22), rgba(34,211,238,.1));
+      color:var(--text);
+    }
+    .muted{color:var(--muted);font-size:12px;line-height:1.45}
+    .label{display:block;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin:12px 0 6px}
+    .field{
+      width:100%;
+      border:1px solid var(--stroke);
+      background:rgba(7,8,12,.65);
+      color:var(--text);
+      border-radius:14px;
+      padding:12px;
+      outline:none;
+    }
+    .field:focus{border-color:rgba(139,92,246,.55)}
+    textarea.field{min-height:160px;resize:vertical}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .hidden{display:none}
+    .status{margin-top:10px;color:var(--muted);font-size:12px}
+    .warn{margin-top:10px;color:var(--muted);font-size:12px}
+    .warn b{color:var(--text)}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="top">
+        <div class="brand"><span class="dot"></span><span>D42PE Admin</span></div>
+        <a class="btn" href="/" style="text-decoration:none;display:inline-block;">Home</a>
+      </div>
+
+      <!-- LOCK -->
+      <div id="lockBox">
+        <span class="label">Passcode</span>
+        <input class="field" id="passcode" type="password" autocomplete="off" placeholder="Enter passcode" />
+        <div class="row">
+          <button class="btn" id="unlockBtn" type="button">Unlock</button>
+        </div>
+        <div class="status" id="lockStatus"></div>
+        <div class="warn"><b>Note:</b> this is not real security on GitHub Pages.</div>
+      </div>
+
+      <!-- PANEL -->
+      <div id="panel" class="hidden">
+        <div class="muted">Type what you want, then hit Copy + Open ChatGPT. Paste and send in ChatGPT.</div>
+
+        <span class="label">Instruction</span>
+        <textarea class="field" id="task" placeholder="Example: Write an SMS blast for Feb 28, 2 versions, hype but not cringe."></textarea>
+
+        <div class="row">
+          <button class="btn" id="copyBtn" type="button">Copy Prompt</button>
+          <a class="btn" id="openBtn" href="https://chatgpt.com/" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;">Open ChatGPT</a>
+        </div>
+
+        <div class="status" id="status"></div>
+        <div class="warn"><b>Agent Mode:</b> you can’t force it from a website. Toggle it manually in ChatGPT if you want.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // CHANGE THIS (not real security; visible in source)
+    const PASSCODE = "4287";
+
+    // CHANGE THIS BASE PROMPT
+    const BASE_PROMPT =
+`You are an execution agent for D42PE.
+Rules:
+- Be direct and actionable.
+- If you have tool access, use it. If you do not, still produce the best result and list next steps.
+Output format: Plan (short) -> Deliverable -> Next actions.`;
+
+    const lockBox = document.getElementById("lockBox");
+    const panel = document.getElementById("panel");
+    const passcode = document.getElementById("passcode");
+    const unlockBtn = document.getElementById("unlockBtn");
+    const lockStatus = document.getElementById("lockStatus");
+    const task = document.getElementById("task");
+    const copyBtn = document.getElementById("copyBtn");
+    const status = document.getElementById("status");
+
+    function unlock(){
+      if (passcode.value === PASSCODE){
+        lockBox.classList.add("hidden");
+        panel.classList.remove("hidden");
+        task.focus();
+      } else {
+        lockStatus.textContent = "Wrong passcode.";
+      }
+    }
+
+    unlockBtn.addEventListener("click", unlock);
+    passcode.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") unlock();
+    });
+
+    function buildPrompt(){
+      const t = (task.value || "").trim();
+      return `${BASE_PROMPT}\n\nTask:\n${t}`;
+    }
+
+    copyBtn.addEventListener("click", async () => {
+      const t = (task.value || "").trim();
+      if (!t){
+        status.textContent = "Type an instruction first.";
+        return;
+      }
+      const finalPrompt = buildPrompt();
+      try{
+        await navigator.clipboard.writeText(finalPrompt);
+        status.textContent = "Copied. Paste into ChatGPT and press send.";
+      } catch {
+        status.textContent = "Clipboard blocked. Copy manually from the popup.";
+        alert(finalPrompt);
+      }
+    });
+  </script>
+</body>
+</html>
