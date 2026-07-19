@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Mansion Party Ticket Drop — D42PE</title>
   <meta
     name="description"
@@ -71,9 +71,13 @@
     }
 
     .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       background: rgba(5, 5, 6, 0.78);
       backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
 
     .nav-inner {
@@ -232,10 +236,81 @@
       letter-spacing: 0.08em;
     }
 
+    .action-row {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .action-button {
+      min-height: 50px;
+      padding: 14px 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 14px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.055em;
+      text-align: center;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .action-button:hover { transform: translateY(-1px); }
+
+    .action-button:focus-visible,
+    .scroll-cue:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+
+    .share-button {
+      border: 1px solid var(--pink);
+      color: #fff;
+      background: linear-gradient(135deg, #f12863, #b90d40);
+      box-shadow: 0 10px 30px rgba(255, 47, 109, 0.19);
+    }
+
+    .share-button:hover { background: linear-gradient(135deg, #ff3f78, #c91148); }
+
+    .download-button {
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #f1e5ea;
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .download-button:hover {
+      border-color: rgba(255, 104, 151, 0.55);
+      background: rgba(255, 47, 109, 0.08);
+    }
+
+    .action-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .share-status {
+      min-height: 18px;
+      margin: 9px 0 0;
+      color: var(--pink-light);
+      font-size: 12px;
+      font-weight: 750;
+      text-align: center;
+    }
+
+    .scroll-cue { display: none; }
+
     .flyer-wrap {
       position: relative;
       width: min(100%, 500px);
       justify-self: end;
+      scroll-margin-top: 86px;
     }
 
     .flyer-wrap::before {
@@ -271,7 +346,8 @@
 
     @media (max-width: 850px) {
       .hero {
-        padding-top: 42px;
+        min-height: auto;
+        padding-top: 38px;
         grid-template-columns: 1fr;
       }
 
@@ -282,19 +358,52 @@
         width: min(100%, 620px);
         justify-self: center;
       }
+
+      .scroll-cue {
+        width: fit-content;
+        margin: 15px auto 0;
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+        color: #c7bbc0;
+        font-size: 11px;
+        font-weight: 850;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .scroll-arrow {
+        color: var(--pink-light);
+        font-size: 15px;
+      }
     }
 
     @media (max-width: 520px) {
       .wrap { width: min(calc(100% - 28px), var(--max)); }
       .nav-inner { min-height: 62px; }
       .instagram { padding: 8px 11px; }
-      .hero { min-height: auto; padding: 34px 0 38px; gap: 34px; }
-      h1 { font-size: clamp(42px, 14vw, 64px); }
-      .details { grid-template-columns: 1fr; }
-      .detail { min-height: auto; padding: 17px; }
-      .detail:nth-child(odd) { border-right: 0; }
-      .detail:not(:last-child) { border-bottom: 1px solid var(--line); }
+      .hero { padding: 30px 0 36px; gap: 30px; }
+      .eyebrow { margin-bottom: 17px; font-size: 10px; }
+      h1 { font-size: clamp(38px, 13vw, 58px); line-height: 0.94; }
+      .offer { margin-top: 18px; font-size: 19px; }
+      .details { margin-top: 24px; }
+      .detail { min-height: 86px; padding: 14px; }
+      .detail-label { font-size: 9px; letter-spacing: 0.13em; }
+      .detail-value { font-size: 13px; }
+      .ticket-button { min-height: 52px; padding: 14px 12px; font-size: 12px; }
+      .drop-note { font-size: 10px; }
+      .action-row { margin-top: 14px; gap: 9px; }
+      .action-button { min-height: 48px; padding: 12px 9px; font-size: 11px; }
+      .flyer { border-radius: 14px; }
       footer { flex-direction: column; gap: 8px; }
+    }
+
+    @media (max-width: 350px) {
+      .action-row { grid-template-columns: 1fr; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -349,9 +458,29 @@
           Tickets Drop Monday at 6 PM
         </button>
         <p class="drop-note">50 discounted tickets available at 50% off</p>
+
+        <div class="action-row">
+          <button class="action-button share-button" id="share-button" type="button">
+            <span class="action-icon" aria-hidden="true">↗</span>
+            <span>Share With Friends</span>
+          </button>
+          <a
+            class="action-button download-button"
+            href="/assets/mansion-party-drop.jpg"
+            download="D42PE-Mansion-Party-Ticket-Drop.jpg"
+          >
+            <span class="action-icon" aria-hidden="true">↓</span>
+            <span>Download Flyer</span>
+          </a>
+        </div>
+        <p class="share-status" id="share-status" role="status" aria-live="polite"></p>
+        <a class="scroll-cue" href="#flyer">
+          <span>View Flyer</span>
+          <span class="scroll-arrow" aria-hidden="true">↓</span>
+        </a>
       </div>
 
-      <div class="flyer-wrap">
+      <div class="flyer-wrap" id="flyer">
         <img
           class="flyer"
           src="/assets/mansion-party-drop.jpg"
@@ -371,6 +500,49 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    const shareButton = document.getElementById("share-button");
+    const shareStatus = document.getElementById("share-status");
+    const shareData = {
+      title: "50 Ticket Drop — 50% Off",
+      text: "50 Mansion Party tickets drop Monday, July 20 at 6 PM CT. Friday, July 24 in Austin — all ages.",
+      url: "https://d42pe.com/"
+    };
+
+    async function copyShareLink() {
+      let copied = false;
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        copied = true;
+      } catch (error) {
+        const textArea = document.createElement("textarea");
+        textArea.value = shareData.url;
+        textArea.setAttribute("readonly", "");
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.select();
+        copied = document.execCommand("copy");
+        textArea.remove();
+      }
+      shareStatus.textContent = copied
+        ? "Link copied — send it anywhere."
+        : "Share this link: d42pe.com";
+    }
+
+    shareButton.addEventListener("click", async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+          shareStatus.textContent = "Shared.";
+        } catch (error) {
+          if (error.name !== "AbortError") await copyShareLink();
+        }
+        return;
+      }
+
+      await copyShareLink();
+    });
   </script>
 </body>
 </html>
