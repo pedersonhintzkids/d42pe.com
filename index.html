@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Mansion Party Ticket Drop — D42PE</title>
+  <title>Playboy-Themed Mansion Party Tickets — D42PE</title>
   <meta
     name="description"
-    content="50 Mansion Party tickets drop for 50% off Monday, July 20 at 6 PM CT on D42PE.com."
+    content="50 discounted tickets at 50% off for the Playboy-Themed Mansion Party in Austin on Friday, July 24."
   />
   <meta name="theme-color" content="#050506" />
 
-  <meta property="og:title" content="50 Ticket Drop — 50% Off" />
+  <meta property="og:title" content="Playboy-Themed Mansion Party — Austin" />
   <meta
     property="og:description"
-    content="This Monday, July 20 at 6 PM CT on D42PE.com."
+    content="50 discounted tickets at 50% off. Friday, July 24 in Austin — all ages."
   />
-  <meta property="og:image" content="https://d42pe.com/assets/mansion-party-drop.jpg" />
+  <meta property="og:image" content="https://d42pe.com/assets/mansion-party-social.jpg" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://d42pe.com/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Playboy-Themed Mansion Party — Austin" />
+  <meta name="twitter:description" content="50 discounted tickets at 50% off. Friday, July 24 in Austin — all ages." />
+  <meta name="twitter:image" content="https://d42pe.com/assets/mansion-party-social.jpg" />
 
   <style>
     :root {
@@ -213,6 +217,10 @@
       width: 100%;
       margin-top: 18px;
       padding: 17px 22px;
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border: 1px solid rgba(255, 104, 151, 0.5);
       border-radius: 14px;
       color: #d9c8cf;
@@ -222,9 +230,63 @@
       font-size: 14px;
       font-weight: 900;
       letter-spacing: 0.08em;
+      text-align: center;
       text-transform: uppercase;
       cursor: not-allowed;
       opacity: 0.82;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+    }
+
+    .ticket-button.is-disabled {
+      pointer-events: none;
+    }
+
+    .ticket-button.is-live {
+      border-color: var(--pink);
+      color: #fff;
+      background: linear-gradient(135deg, #ff3d77, #b90d40);
+      box-shadow: 0 12px 34px rgba(255, 47, 109, 0.28);
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    .ticket-button.is-live:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(135deg, #ff578a, #cb124b);
+    }
+
+    .ticket-button:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+
+    .countdown-shell {
+      margin-top: 18px;
+      padding: 15px 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 47, 109, 0.055);
+      text-align: center;
+    }
+
+    .countdown-label {
+      margin: 0 0 5px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .countdown-time {
+      margin: 0;
+      color: #fff;
+      font-size: clamp(24px, 4vw, 34px);
+      font-weight: 950;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.1em;
+      line-height: 1;
+      text-shadow: 0 0 24px rgba(255, 47, 109, 0.32);
     }
 
     .drop-note {
@@ -432,13 +494,13 @@
     <section class="hero">
       <div class="content">
         <div class="eyebrow">512 Events × D42PE</div>
-        <h1>Mansion Party <span>Ticket Drop</span></h1>
-        <p class="offer"><strong>50 tickets. 50% off.</strong><br />Dropping this Monday.</p>
+        <h1 id="headline">Mansion Party <span>Ticket Drop</span></h1>
+        <p class="offer" id="offer"><strong>50 tickets. 50% off.</strong><br />Dropping this Monday.</p>
 
         <div class="details" aria-label="Drop and event details">
           <div class="detail">
-            <span class="detail-label">Ticket drop</span>
-            <span class="detail-value">Monday, July 20<br />6 PM CT</span>
+            <span class="detail-label" id="ticket-detail-label">Ticket drop</span>
+            <span class="detail-value" id="ticket-detail-value">Monday, July 20<br />6 PM CT</span>
           </div>
           <div class="detail">
             <span class="detail-label">Event</span>
@@ -454,10 +516,15 @@
           </div>
         </div>
 
-        <button class="ticket-button" type="button" disabled>
+        <div class="countdown-shell" id="countdown-shell">
+          <p class="countdown-label">Tickets open in</p>
+          <p class="countdown-time" id="countdown-time" role="timer" aria-live="off">00:00:00</p>
+        </div>
+
+        <a class="ticket-button is-disabled" id="ticket-button" aria-disabled="true" tabindex="-1">
           Tickets Drop Monday at 6 PM
-        </button>
-        <p class="drop-note">50 discounted tickets available at 50% off</p>
+        </a>
+        <p class="drop-note" id="drop-note">50 discounted tickets available at 50% off</p>
 
         <div class="action-row">
           <button class="action-button share-button" id="share-button" type="button">
@@ -466,6 +533,7 @@
           </button>
           <a
             class="action-button download-button"
+            id="download-button"
             href="/assets/mansion-party-drop.jpg"
             download="D42PE-Mansion-Party-Ticket-Drop.jpg"
           >
@@ -483,6 +551,7 @@
       <div class="flyer-wrap" id="flyer">
         <img
           class="flyer"
+          id="event-flyer"
           src="/assets/mansion-party-drop.jpg"
           alt="Mansion Party ticket drop flyer: 50 tickets at 50% off Monday, July 20 at 6 PM"
           width="1122"
@@ -501,6 +570,22 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
+    const TICKET_URL = "https://www.universe.com/events/playboy-themed-mansion-party-austin-d42pe-tickets-R5XHPM?ref=Website";
+    const LAUNCH_AT = Date.parse("2026-07-20T18:00:00-05:00");
+
+    const headline = document.getElementById("headline");
+    const offer = document.getElementById("offer");
+    const ticketDetailLabel = document.getElementById("ticket-detail-label");
+    const ticketDetailValue = document.getElementById("ticket-detail-value");
+    const countdownShell = document.getElementById("countdown-shell");
+    const countdownTime = document.getElementById("countdown-time");
+    const ticketButton = document.getElementById("ticket-button");
+    const dropNote = document.getElementById("drop-note");
+    const downloadButton = document.getElementById("download-button");
+    const eventFlyer = document.getElementById("event-flyer");
+    let launchIsLive = false;
+    let countdownTimer;
+
     const shareButton = document.getElementById("share-button");
     const shareStatus = document.getElementById("share-status");
     const shareData = {
@@ -508,6 +593,57 @@
       text: "50 Mansion Party tickets drop Monday, July 20 at 6 PM CT. Friday, July 24 in Austin — all ages.",
       url: "https://d42pe.com/"
     };
+
+    function formatCountdown(milliseconds) {
+      const totalSeconds = Math.max(0, Math.ceil(milliseconds / 1000));
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      return [hours, minutes, seconds]
+        .map((value) => String(value).padStart(2, "0"))
+        .join(":");
+    }
+
+    function activateLaunch() {
+      if (launchIsLive) return;
+      launchIsLive = true;
+
+      headline.innerHTML = "Mansion Party <span>Tickets Live</span>";
+      offer.innerHTML = "<strong>50 tickets. 50% off.</strong><br />Available now.";
+      ticketDetailLabel.textContent = "Tickets";
+      ticketDetailValue.innerHTML = "Live now<br />Limited drop";
+      countdownShell.hidden = true;
+      ticketButton.href = TICKET_URL;
+      ticketButton.classList.remove("is-disabled");
+      ticketButton.classList.add("is-live");
+      ticketButton.removeAttribute("aria-disabled");
+      ticketButton.removeAttribute("tabindex");
+      ticketButton.textContent = "Get Tickets — 50% Off";
+      dropNote.textContent = "50 discounted tickets — available while supplies last";
+      downloadButton.href = "/assets/mansion-party-live.jpg";
+      downloadButton.download = "D42PE-Mansion-Party-Tickets-Live.jpg";
+      eventFlyer.src = "/assets/mansion-party-live.jpg";
+      eventFlyer.alt = "Playboy-Themed Mansion Party tickets live: 50 tickets at 50% off for Friday, July 24 in Austin";
+      shareData.title = "Mansion Party Tickets Live — 50% Off";
+      shareData.text = "50 discounted Mansion Party tickets are live now. Friday, July 24 in Austin — all ages.";
+
+      if (countdownTimer) window.clearInterval(countdownTimer);
+    }
+
+    function renderLaunchState(now = Date.now()) {
+      const remaining = LAUNCH_AT - now;
+      if (remaining <= 0) {
+        activateLaunch();
+        return "live";
+      }
+
+      countdownTime.textContent = formatCountdown(remaining);
+      return "countdown";
+    }
+
+    if (renderLaunchState() === "countdown") {
+      countdownTimer = window.setInterval(renderLaunchState, 1000);
+    }
 
     async function copyShareLink() {
       let copied = false;
