@@ -6,7 +6,7 @@
   <title>Mansion Party Tickets — D42PE</title>
   <meta
     name="description"
-    content="50 discounted Mansion Party tickets at 50% off. Friday, July 24 in Austin."
+    content="$20 general admission for the Mansion Party on Friday, July 24 in Austin."
   />
   <meta name="theme-color" content="#050506" />
   <style>
@@ -135,67 +135,20 @@
 <body>
   <main class="card">
     <p class="brand">D42PE × 512 Events</p>
-    <h1 id="heading">Ticket Drop Coming</h1>
-    <p class="offer">50 tickets at 50% off</p>
-    <p class="details" id="details">Monday, July 20 • 6 PM CT<br />D42PE.com</p>
-    <p class="countdown-label" id="countdown-label">Tickets open in</p>
-    <p class="countdown-time" id="countdown-time" role="timer" aria-live="off">00:00:00</p>
-    <a class="ticket-button is-disabled" id="ticket-button" aria-disabled="true" tabindex="-1">
-      Tickets Drop Monday at 6 PM
+    <h1>Tickets Live</h1>
+    <p class="offer">General admission: $20</p>
+    <p class="details">Friday, July 24 • 9 PM–2 AM<br />Austin, Texas • All Ages</p>
+    <a
+      class="ticket-button is-live"
+      href="https://www.universe.com/events/playboy-themed-mansion-party-austin-d42pe-tickets-R5XHPM?ref=Website"
+    >
+      Continue to $20 Tickets
     </a>
     <a class="back" href="/">Return to event details</a>
   </main>
   <script>
     const TICKET_URL = "https://www.universe.com/events/playboy-themed-mansion-party-austin-d42pe-tickets-R5XHPM?ref=Website";
-    const LAUNCH_AT = Date.parse("2026-07-20T18:00:00-05:00");
-    const heading = document.getElementById("heading");
-    const details = document.getElementById("details");
-    const countdownLabel = document.getElementById("countdown-label");
-    const countdownTime = document.getElementById("countdown-time");
-    const ticketButton = document.getElementById("ticket-button");
-    let launchIsLive = false;
-    let countdownTimer;
-
-    function formatCountdown(milliseconds) {
-      const totalSeconds = Math.max(0, Math.ceil(milliseconds / 1000));
-      const hours = Math.floor(totalSeconds / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
-      return [hours, minutes, seconds]
-        .map((value) => String(value).padStart(2, "0"))
-        .join(":");
-    }
-
-    function activateLaunch() {
-      if (launchIsLive) return;
-      launchIsLive = true;
-      heading.textContent = "Tickets Live";
-      details.innerHTML = "Friday, July 24 • 9 PM–2 AM<br />Austin, Texas • All Ages";
-      countdownLabel.textContent = "Opening secure checkout";
-      countdownTime.textContent = "Live now";
-      ticketButton.href = TICKET_URL;
-      ticketButton.classList.remove("is-disabled");
-      ticketButton.classList.add("is-live");
-      ticketButton.removeAttribute("aria-disabled");
-      ticketButton.removeAttribute("tabindex");
-      ticketButton.textContent = "Continue to Tickets";
-      if (countdownTimer) window.clearInterval(countdownTimer);
-      window.setTimeout(() => window.location.replace(TICKET_URL), 700);
-    }
-
-    function renderLaunchState(now = Date.now()) {
-      const remaining = LAUNCH_AT - now;
-      if (remaining <= 0) {
-        activateLaunch();
-        return "live";
-      }
-      countdownTime.textContent = formatCountdown(remaining);
-      return "countdown";
-    }
-
-    if (renderLaunchState() === "countdown") {
-      countdownTimer = window.setInterval(renderLaunchState, 1000);
-    }
+    window.setTimeout(() => window.location.replace(TICKET_URL), 700);
   </script>
 </body>
 </html>
