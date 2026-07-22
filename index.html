@@ -289,15 +289,6 @@
       text-shadow: 0 0 24px rgba(255, 47, 109, 0.32);
     }
 
-    .drop-note {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 12px;
-      text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
     .action-row {
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
@@ -457,7 +448,6 @@
       .detail-label { font-size: 9px; letter-spacing: 0.13em; }
       .detail-value { font-size: 13px; }
       .ticket-button { min-height: 52px; padding: 14px 12px; font-size: 12px; }
-      .drop-note { font-size: 10px; }
       .action-row { margin-top: 14px; gap: 9px; }
       .action-button { min-height: 48px; padding: 12px 9px; font-size: 11px; }
       .flyer { border-radius: 14px; }
@@ -494,13 +484,13 @@
     <section class="hero">
       <div class="content">
         <div class="eyebrow">512 Events × D42PE</div>
-        <h1 id="headline">Mansion Party <span>Tickets Live</span></h1>
-        <p class="offer" id="offer"><strong>General admission: $20.</strong><br />The 24-hour 50% off drop has ended.</p>
+        <h1>Mansion Party <span>Tickets</span></h1>
+        <p class="offer"><strong>General admission — $20.</strong><br />Available now.</p>
 
         <div class="details" aria-label="Ticket and event details">
           <div class="detail">
-            <span class="detail-label" id="ticket-detail-label">Tickets</span>
-            <span class="detail-value" id="ticket-detail-value">$20 General Admission<br />Available Now</span>
+            <span class="detail-label">Tickets</span>
+            <span class="detail-value">General Admission<br />$20</span>
           </div>
           <div class="detail">
             <span class="detail-label">Event</span>
@@ -523,7 +513,6 @@
         >
           Get Tickets — $20
         </a>
-        <p class="drop-note" id="drop-note">24-hour discounted drop ended • General admission available now</p>
 
         <div class="action-row">
           <button class="action-button share-button" id="share-button" type="button">
@@ -572,8 +561,8 @@
     const shareButton = document.getElementById("share-button");
     const shareStatus = document.getElementById("share-status");
     const shareData = {
-      title: "Mansion Party Tickets — $20 General Admission",
-      text: "Mansion Party tickets are $20. Friday, July 24 in Austin — all ages.",
+      title: "Mansion Party — $20 General Admission",
+      text: "General admission tickets are $20. Friday, July 24 in Austin — all ages.",
       url: "https://d42pe.com/"
     };
 
