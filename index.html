@@ -3,24 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>TONIGHT — Mansion Party in Austin | D42PE</title>
+  <title>D42PE — Austin Events</title>
   <meta
     name="description"
-    content="Tonight, July 24, from 9 PM–2 AM. Important: the address has changed, and the updated location is being sent only to verified ticket holders."
+    content="Official D42PE events, tickets, and announcements in Austin, Texas. Follow for the next event."
   />
   <meta name="theme-color" content="#050506" />
 
-  <meta property="og:title" content="TONIGHT — Playboy-Themed Mansion Party | Austin" />
+  <meta property="og:title" content="D42PE — Austin Events" />
   <meta
     property="og:description"
-    content="Tonight, 9 PM–2 AM. Address changed — the updated location is being sent only to verified ticket holders. $20 general admission."
+    content="Official D42PE events, tickets, and announcements in Austin, Texas. Follow for the next event."
   />
   <meta property="og:image" content="https://d42pe.com/assets/mansion-party-social.jpg" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://d42pe.com/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="TONIGHT — Playboy-Themed Mansion Party | Austin" />
-  <meta name="twitter:description" content="Tonight, 9 PM–2 AM. Address changed — the updated location is being sent only to verified ticket holders. $20 general admission." />
+  <meta name="twitter:title" content="D42PE — Austin Events" />
+  <meta name="twitter:description" content="Official D42PE events, tickets, and announcements in Austin, Texas. Follow for the next event." />
   <meta name="twitter:image" content="https://d42pe.com/assets/mansion-party-social.jpg" />
 
   <style>
@@ -366,6 +366,20 @@
       scroll-margin-top: 86px;
     }
 
+    .flyer-label {
+      width: fit-content;
+      margin: 0 0 14px auto;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--pink-light);
+      background: rgba(255, 47, 109, 0.07);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
     .flyer-wrap::before {
       content: "";
       position: absolute;
@@ -411,6 +425,8 @@
         width: min(100%, 620px);
         justify-self: center;
       }
+
+      .flyer-label { margin-left: 0; }
 
       .scroll-cue {
         width: fit-content;
@@ -483,65 +499,32 @@
   <main class="wrap">
     <section class="hero">
       <div class="content">
-        <div class="eyebrow">Tonight • Doors 9 PM • Austin</div>
-        <h1>Mansion Party <span>Tickets</span></h1>
-        <p class="offer"><strong>IMPORTANT: THE ADDRESS HAS CHANGED.</strong><br />The updated location is being sent only to verified ticket holders. Do not go to the previous address. Check your email, texts, and spam folder.</p>
-
-        <div class="details" aria-label="Ticket and event details">
-          <div class="detail">
-            <span class="detail-label">Tickets</span>
-            <span class="detail-value">General Admission<br />$20</span>
-          </div>
-          <div class="detail">
-            <span class="detail-label">Event</span>
-            <span class="detail-value">Tonight, July 24<br />9 PM–2 AM</span>
-          </div>
-          <div class="detail">
-            <span class="detail-label">Location</span>
-            <span class="detail-value">Address Changed<br />Ticket Holders Only</span>
-          </div>
-          <div class="detail">
-            <span class="detail-label">Entry</span>
-            <span class="detail-value">All Ages</span>
-          </div>
-        </div>
+        <div class="eyebrow">July 24 Event • Complete</div>
+        <h1>Austin <span>Showed Out.</span></h1>
+        <p class="offer">The July 24 Mansion Party has ended. Thank you to everyone who came through. Follow <strong>@D42PE.EVENTS_ATX</strong> for the next D42PE event announcement.</p>
 
         <a
           class="ticket-button is-live"
-          id="ticket-button"
-          href="https://www.universe.com/events/playboy-themed-mansion-party-austin-d42pe-tickets-R5XHPM?ref=Website"
+          href="https://www.instagram.com/d42pe.events_atx/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          Get Tickets For Tonight — $20
+          Follow For The Next Event
         </a>
 
-        <div class="action-row">
-          <button class="action-button share-button" id="share-button" type="button">
-            <span class="action-icon" aria-hidden="true">↗</span>
-            <span>Share With Friends</span>
-          </button>
-          <a
-            class="action-button download-button"
-            id="download-button"
-            href="/assets/mansion-party-social.jpg"
-            download="D42PE-Mansion-Party.jpg"
-          >
-            <span class="action-icon" aria-hidden="true">↓</span>
-            <span>Download Flyer</span>
-          </a>
-        </div>
-        <p class="share-status" id="share-status" role="status" aria-live="polite"></p>
         <a class="scroll-cue" href="#flyer">
-          <span>View Flyer</span>
+          <span>View Past Event Flyer</span>
           <span class="scroll-arrow" aria-hidden="true">↓</span>
         </a>
       </div>
 
       <div class="flyer-wrap" id="flyer">
+        <div class="flyer-label">Past Event • July 24, 2026</div>
         <img
           class="flyer"
           id="event-flyer"
           src="/assets/mansion-party-social.jpg"
-          alt="Playboy-Themed Mansion Party tonight, July 24, in Austin, Texas, from 9 PM to 2 AM"
+          alt="Flyer from the July 24, 2026 D42PE Mansion Party in Austin, Texas"
           width="1000"
           height="1000"
           fetchpriority="high"
@@ -557,49 +540,6 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-
-    const shareButton = document.getElementById("share-button");
-    const shareStatus = document.getElementById("share-status");
-    const shareData = {
-      title: "Mansion Party Tonight — Austin",
-      text: "Tonight from 9 PM–2 AM. The address has changed, and the updated location is being sent only to verified ticket holders. Do not go to the previous address.",
-      url: "https://d42pe.com/"
-    };
-
-    async function copyShareLink() {
-      let copied = false;
-      try {
-        await navigator.clipboard.writeText(shareData.url);
-        copied = true;
-      } catch (error) {
-        const textArea = document.createElement("textarea");
-        textArea.value = shareData.url;
-        textArea.setAttribute("readonly", "");
-        textArea.style.position = "fixed";
-        textArea.style.opacity = "0";
-        document.body.appendChild(textArea);
-        textArea.select();
-        copied = document.execCommand("copy");
-        textArea.remove();
-      }
-      shareStatus.textContent = copied
-        ? "Link copied — send it anywhere."
-        : "Share this link: d42pe.com";
-    }
-
-    shareButton.addEventListener("click", async () => {
-      if (navigator.share) {
-        try {
-          await navigator.share(shareData);
-          shareStatus.textContent = "Shared.";
-        } catch (error) {
-          if (error.name !== "AbortError") await copyShareLink();
-        }
-        return;
-      }
-
-      await copyShareLink();
-    });
   </script>
 </body>
 </html>
