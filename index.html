@@ -178,6 +178,13 @@
 
     .offer strong { color: var(--pink-light); }
 
+    .hero-actions {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 12px;
+    }
+
     .details {
       margin: 32px 0 0;
       display: grid;
@@ -253,6 +260,25 @@
     .ticket-button.is-live:hover {
       transform: translateY(-1px);
       background: linear-gradient(135deg, #ff578a, #cb124b);
+    }
+
+    .hero-actions .ticket-button {
+      margin-top: 0;
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    .ticket-button.secondary {
+      border-color: rgba(255, 255, 255, 0.22);
+      color: #fff;
+      background: rgba(255, 255, 255, 0.065);
+      box-shadow: none;
+    }
+
+    .ticket-button.secondary:hover {
+      transform: translateY(-1px);
+      border-color: var(--pink-light);
+      background: rgba(255, 47, 109, 0.12);
     }
 
     .ticket-button:focus-visible {
@@ -464,6 +490,7 @@
       .detail-label { font-size: 9px; letter-spacing: 0.13em; }
       .detail-value { font-size: 13px; }
       .ticket-button { min-height: 52px; padding: 14px 12px; font-size: 12px; }
+      .hero-actions { grid-template-columns: 1fr; gap: 10px; margin-top: 24px; }
       .action-row { margin-top: 14px; gap: 9px; }
       .action-button { min-height: 48px; padding: 12px 9px; font-size: 11px; }
       .flyer { border-radius: 14px; }
@@ -497,16 +524,25 @@
   <main class="wrap">
     <section class="hero">
       <div class="content">
-        <div class="eyebrow">July 24 Event • Complete</div>
-        <h1>Austin <span>Showed Out.</span></h1>
-        <p class="offer">The July 24 Mansion Party has ended. Thank you to everyone who came through. Follow <strong>@D42PE.EVENTS_ATX</strong> for the next D42PE event announcement.</p>
+        <div class="eyebrow">July 24 Event • Over</div>
+        <h1>Next Event <span>Coming Soon.</span></h1>
 
-        <a
-          class="ticket-button is-live"
-          href="/join/"
-        >
-          View Socials
-        </a>
+        <div class="hero-actions">
+          <a
+            class="ticket-button is-live"
+            id="sms-link"
+            href="sms:+15126107851?body=D42PE"
+            aria-label="Get D42PE text updates by texting D42PE to 512-610-7851"
+          >
+            Get Text Updates
+          </a>
+          <a
+            class="ticket-button secondary"
+            href="/join/"
+          >
+            View Socials
+          </a>
+        </div>
 
         <a class="scroll-cue" href="#flyer">
           <span>View Past Event Flyer</span>
@@ -515,7 +551,7 @@
       </div>
 
       <div class="flyer-wrap" id="flyer">
-        <div class="flyer-label">Past Event • July 24, 2026</div>
+        <div class="flyer-label">Past Event • July 24</div>
         <img
           class="flyer"
           id="event-flyer"
@@ -536,6 +572,15 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    const smsLink = document.getElementById("sms-link");
+    const isIOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+    if (isIOS) {
+      smsLink.href = "sms:+15126107851&body=D42PE";
+    }
   </script>
 </body>
 </html>
