@@ -1,0 +1,56 @@
+{
+  "generatedFor": "D42PE search and shared-link production update",
+  "releaseDate": "2026-08-04",
+  "generator": "tools/generate-brand-assets.cjs",
+  "provenance": "Deterministic SVG composition using the existing local D42PE palette, system typography and favicon path; no outside media or remote fonts.",
+  "palette": {
+    "background": "#07090d",
+    "surface": "#0d1117",
+    "surfaceSubtle": "#121720",
+    "text": "#f5f4ef",
+    "muted": "#9ca5b2",
+    "accent": "#586cff",
+    "focus": "#a9b4ff",
+    "border": "#252d39"
+  },
+  "assets": [
+    {
+      "file": "assets/d42pe-home-social-preview-2026-08-04.png",
+      "width": 1200,
+      "height": 630,
+      "purpose": "Homepage Open Graph and large-summary preview",
+      "alt": "D42PE — Austin Events — Event Drops, Ticket Links and Updates — d42pe.com",
+      "mimeType": "image/png",
+      "bytes": 16594,
+      "sha256": "8697e39da13b0c327f66a03024aea1a7f0610dda66a56671dadbfcb687c08138"
+    },
+    {
+      "file": "assets/d42pe-join-social-preview-2026-08-04.png",
+      "width": 1200,
+      "height": 630,
+      "purpose": "Join-page Open Graph and large-summary preview",
+      "alt": "D42PE — Stay Tapped In — Text Updates and Official Socials — d42pe.com/join",
+      "mimeType": "image/png",
+      "bytes": 16270,
+      "sha256": "b890e91e9def6ce36fefd641874d5ea9a3748cedea3a8252898095de2b1219f7"
+    },
+    {
+      "file": "assets/d42pe-brand-logo-512.png",
+      "width": 512,
+      "height": 512,
+      "purpose": "Organization logo and PNG favicon fallback",
+      "mimeType": "image/png",
+      "bytes": 5739,
+      "sha256": "dacde6203d6400f29b3fd56c62c7462351f447f1b86ddf76019024a98a7d9537"
+    },
+    {
+      "file": "apple-touch-icon.png",
+      "width": 180,
+      "height": 180,
+      "purpose": "Apple touch icon",
+      "mimeType": "image/png",
+      "bytes": 2231,
+      "sha256": "5001242696c556f95983065f8f19205f53fda7110af6340673122fafc82f442f"
+    }
+  ]
+}
