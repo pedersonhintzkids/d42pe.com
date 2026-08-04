@@ -239,31 +239,6 @@ svg {
   line-height: 1.08;
 }
 
-.proof-list {
-  margin: 2rem 0 0;
-  border-top: 1px solid var(--border);
-}
-
-.proof-row {
-  min-height: 4.75rem;
-  padding-block: 1rem;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.8fr);
-  align-items: center;
-  gap: 1.5rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.proof-row dt {
-  font-size: 1.05rem;
-  font-weight: 800;
-}
-
-.proof-row dd {
-  margin: 0;
-  color: var(--muted);
-}
-
 .follow-list {
   margin-top: 2rem;
   display: grid;
@@ -736,15 +711,6 @@ svg {
   .cta-group,
   .follow-list {
     grid-template-columns: 1fr;
-  }
-
-  .proof-row {
-    grid-template-columns: 1fr;
-    gap: 0.15rem;
-  }
-
-  .proof-row dd {
-    font-size: 0.88rem;
   }
 
   .footer-inner {
