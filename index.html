@@ -1,586 +1,141 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>D42PE — Austin Events</title>
-  <meta
-    name="description"
-    content="Official D42PE events, tickets, and announcements in Austin, Texas. Follow for the next event."
-  />
-  <meta name="theme-color" content="#050506" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>D42PE | Austin Events, Concerts &amp; Event Drops</title>
+  <meta name="description" content="D42PE produces and promotes live events in Austin. Get ticket drops, event updates and official social links.">
+  <meta name="theme-color" content="#07090d">
+  <link rel="canonical" href="https://d42pe.com/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
-  <meta property="og:title" content="D42PE — Austin Events" />
-  <meta
-    property="og:description"
-    content="Official D42PE events, tickets, and announcements in Austin, Texas. Follow for the next event."
-  />
-  <meta property="og:image" content="https://d42pe.com/assets/mansion-party-social.jpg" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://d42pe.com/" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="D42PE — Austin Events" />
-  <meta name="twitter:description" content="Official D42PE events, tickets, and announcements in Austin, Texas. Follow for the next event." />
-  <meta name="twitter:image" content="https://d42pe.com/assets/mansion-party-social.jpg" />
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="D42PE">
+  <meta property="og:url" content="https://d42pe.com/">
+  <meta property="og:title" content="D42PE | Austin Events, Concerts &amp; Event Drops">
+  <meta property="og:description" content="D42PE produces and promotes live events in Austin. Get ticket drops, event updates and official social links.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="D42PE | Austin Events, Concerts &amp; Event Drops">
+  <meta name="twitter:description" content="D42PE produces and promotes live events in Austin. Get ticket drops, event updates and official social links.">
 
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #050506;
-      --panel: rgba(14, 12, 15, 0.88);
-      --panel-soft: rgba(255, 255, 255, 0.035);
-      --text: #fff7fa;
-      --muted: #b8aeb3;
-      --pink: #ff2f6d;
-      --pink-light: #ff8aad;
-      --line: rgba(255, 104, 151, 0.25);
-      --max: 1180px;
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      overflow-x: hidden;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 78% 18%, rgba(255, 47, 109, 0.15), transparent 26rem),
-        radial-gradient(circle at 8% 80%, rgba(147, 19, 57, 0.16), transparent 32rem),
-        linear-gradient(145deg, #030304 0%, #080609 55%, #030304 100%);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      opacity: 0.22;
-      background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: linear-gradient(to bottom, black, transparent 86%);
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    .wrap {
-      width: min(calc(100% - 40px), var(--max));
-      margin: 0 auto;
-    }
-
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(5, 5, 6, 0.78);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-    }
-
-    .nav-inner {
-      min-height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 11px;
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: 0.14em;
-    }
-
-    .brand-mark {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--pink);
-      box-shadow: 0 0 18px rgba(255, 47, 109, 0.95);
-    }
-
-    .instagram {
-      padding: 9px 14px;
-      border: 1px solid rgba(255, 255, 255, 0.13);
-      border-radius: 999px;
-      color: #e9dfe3;
-      font-size: 13px;
-      font-weight: 750;
-      transition: border-color 160ms ease, background 160ms ease;
-    }
-
-    .instagram:hover {
-      border-color: var(--pink);
-      background: rgba(255, 47, 109, 0.08);
-    }
-
-    .hero {
-      min-height: calc(100vh - 70px);
-      padding: 54px 0 44px;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(340px, 0.78fr);
-      align-items: center;
-      gap: clamp(36px, 6vw, 86px);
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 22px;
-      color: var(--pink-light);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 34px;
-      height: 1px;
-      background: var(--pink);
-      box-shadow: 0 0 10px rgba(255, 47, 109, 0.7);
-    }
-
-    h1 {
-      max-width: 760px;
-      margin: 0;
-      font-size: clamp(44px, 7.2vw, 92px);
-      line-height: 0.92;
-      letter-spacing: -0.055em;
-      text-transform: uppercase;
-    }
-
-    h1 span {
-      color: transparent;
-      -webkit-text-stroke: 1.5px var(--pink-light);
-      text-shadow: 0 0 28px rgba(255, 47, 109, 0.18);
-    }
-
-    .offer {
-      margin: 24px 0 0;
-      color: #f7eaf0;
-      font-size: clamp(19px, 2.2vw, 27px);
-      font-weight: 760;
-      line-height: 1.35;
-    }
-
-    .offer strong { color: var(--pink-light); }
-
-    .hero-actions {
-      margin-top: 30px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-      gap: 12px;
-    }
-
-    .details {
-      margin: 32px 0 0;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      overflow: hidden;
-      background: var(--panel-soft);
-    }
-
-    .detail {
-      min-height: 100px;
-      padding: 20px;
-    }
-
-    .detail:nth-child(odd) { border-right: 1px solid var(--line); }
-    .detail:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
-
-    .detail-label {
-      display: block;
-      margin-bottom: 7px;
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.17em;
-      text-transform: uppercase;
-    }
-
-    .detail-value {
-      font-size: 15px;
-      font-weight: 840;
-      line-height: 1.35;
-      text-transform: uppercase;
-    }
-
-    .ticket-button {
-      width: 100%;
-      margin-top: 18px;
-      padding: 17px 22px;
-      min-height: 54px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(255, 104, 151, 0.5);
-      border-radius: 14px;
-      color: #d9c8cf;
-      background:
-        linear-gradient(135deg, rgba(255, 47, 109, 0.12), rgba(255, 255, 255, 0.025));
-      font: inherit;
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-align: center;
-      text-transform: uppercase;
-      cursor: not-allowed;
-      opacity: 0.82;
-      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
-    }
-
-    .ticket-button.is-disabled {
-      pointer-events: none;
-    }
-
-    .ticket-button.is-live {
-      border-color: var(--pink);
-      color: #fff;
-      background: linear-gradient(135deg, #ff3d77, #b90d40);
-      box-shadow: 0 12px 34px rgba(255, 47, 109, 0.28);
-      cursor: pointer;
-      opacity: 1;
-    }
-
-    .ticket-button.is-live:hover {
-      transform: translateY(-1px);
-      background: linear-gradient(135deg, #ff578a, #cb124b);
-    }
-
-    .hero-actions .ticket-button {
-      margin-top: 0;
-      cursor: pointer;
-      opacity: 1;
-    }
-
-    .ticket-button.secondary {
-      border-color: rgba(255, 255, 255, 0.22);
-      color: #fff;
-      background: rgba(255, 255, 255, 0.065);
-      box-shadow: none;
-    }
-
-    .ticket-button.secondary:hover {
-      transform: translateY(-1px);
-      border-color: var(--pink-light);
-      background: rgba(255, 47, 109, 0.12);
-    }
-
-    .ticket-button:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 3px;
-    }
-
-    .countdown-shell {
-      margin-top: 18px;
-      padding: 15px 18px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(255, 47, 109, 0.055);
-      text-align: center;
-    }
-
-    .countdown-label {
-      margin: 0 0 5px;
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    .countdown-time {
-      margin: 0;
-      color: #fff;
-      font-size: clamp(24px, 4vw, 34px);
-      font-weight: 950;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: 0.1em;
-      line-height: 1;
-      text-shadow: 0 0 24px rgba(255, 47, 109, 0.32);
-    }
-
-    .action-row {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .action-button {
-      min-height: 50px;
-      padding: 14px 16px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border-radius: 14px;
-      font: inherit;
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: 0.055em;
-      text-align: center;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .action-button:hover { transform: translateY(-1px); }
-
-    .action-button:focus-visible,
-    .scroll-cue:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 3px;
-    }
-
-    .share-button {
-      border: 1px solid var(--pink);
-      color: #fff;
-      background: linear-gradient(135deg, #f12863, #b90d40);
-      box-shadow: 0 10px 30px rgba(255, 47, 109, 0.19);
-    }
-
-    .share-button:hover { background: linear-gradient(135deg, #ff3f78, #c91148); }
-
-    .download-button {
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: #f1e5ea;
-      background: rgba(255, 255, 255, 0.055);
-    }
-
-    .download-button:hover {
-      border-color: rgba(255, 104, 151, 0.55);
-      background: rgba(255, 47, 109, 0.08);
-    }
-
-    .action-icon {
-      font-size: 16px;
-      line-height: 1;
-    }
-
-    .share-status {
-      min-height: 18px;
-      margin: 9px 0 0;
-      color: var(--pink-light);
-      font-size: 12px;
-      font-weight: 750;
-      text-align: center;
-    }
-
-    .scroll-cue { display: none; }
-
-    .flyer-wrap {
-      position: relative;
-      width: min(100%, 500px);
-      justify-self: end;
-      scroll-margin-top: 86px;
-    }
-
-    .flyer-label {
-      width: fit-content;
-      margin: 0 0 14px auto;
-      padding: 8px 12px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--pink-light);
-      background: rgba(255, 47, 109, 0.07);
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .flyer-wrap::before {
-      content: "";
-      position: absolute;
-      inset: 8% -8% -4% 8%;
-      z-index: -1;
-      border-radius: 40px;
-      background: rgba(255, 47, 109, 0.18);
-      filter: blur(52px);
-    }
-
-    .flyer {
-      display: block;
-      width: 100%;
-      height: auto;
-      border: 1px solid rgba(255, 104, 151, 0.34);
-      border-radius: 18px;
-      box-shadow:
-        0 30px 80px rgba(0, 0, 0, 0.6),
-        0 0 0 7px rgba(255, 255, 255, 0.025);
-    }
-
-    footer {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 22px 0 28px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      color: #93878d;
-      font-size: 12px;
-    }
-
-    @media (max-width: 850px) {
-      .hero {
-        min-height: auto;
-        padding-top: 38px;
-        grid-template-columns: 1fr;
-      }
-
-      .content { order: 1; }
-
-      .flyer-wrap {
-        order: 2;
-        width: min(100%, 620px);
-        justify-self: center;
-      }
-
-      .flyer-label { margin-left: 0; }
-
-      .scroll-cue {
-        width: fit-content;
-        margin: 15px auto 0;
-        padding: 8px 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 999px;
-        color: #c7bbc0;
-        font-size: 11px;
-        font-weight: 850;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-      }
-
-      .scroll-arrow {
-        color: var(--pink-light);
-        font-size: 15px;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .wrap { width: min(calc(100% - 28px), var(--max)); }
-      .nav-inner { min-height: 62px; }
-      .instagram { padding: 8px 11px; }
-      .hero { padding: 30px 0 36px; gap: 30px; }
-      .eyebrow { margin-bottom: 17px; font-size: 10px; }
-      h1 { font-size: clamp(38px, 13vw, 58px); line-height: 0.94; }
-      .offer { margin-top: 18px; font-size: 19px; }
-      .details { margin-top: 24px; }
-      .detail { min-height: 86px; padding: 14px; }
-      .detail-label { font-size: 9px; letter-spacing: 0.13em; }
-      .detail-value { font-size: 13px; }
-      .ticket-button { min-height: 52px; padding: 14px 12px; font-size: 12px; }
-      .hero-actions { grid-template-columns: 1fr; gap: 10px; margin-top: 24px; }
-      .action-row { margin-top: 14px; gap: 9px; }
-      .action-button { min-height: 48px; padding: 12px 9px; font-size: 11px; }
-      .flyer { border-radius: 14px; }
-      footer { flex-direction: column; gap: 8px; }
-    }
-
-    @media (max-width: 350px) {
-      .action-row { grid-template-columns: 1fr; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * { scroll-behavior: auto !important; transition: none !important; }
-    }
-  </style>
+  <link rel="stylesheet" href="/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "D42PE",
+    "url": "https://d42pe.com/",
+    "email": "contact@d42pe.com",
+    "areaServed": {
+      "@type": "City",
+      "name": "Austin, Texas"
+    },
+    "sameAs": [
+      "https://www.instagram.com/d42pe.events_atx/",
+      "https://www.snapchat.com/add/d42pe.events"
+    ]
+  }
+  </script>
 </head>
-
 <body>
-  <header class="nav">
-    <div class="nav-inner wrap">
-      <a class="brand" href="/" aria-label="D42PE home">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>D42PE</span>
-      </a>
-      <a
-        class="instagram"
-        href="/join/"
-      >View Socials</a>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner site-shell">
+      <a class="wordmark" href="/" aria-label="D42PE home">D42PE</a>
+      <a class="header-link" href="/join/">View Socials</a>
     </div>
   </header>
 
-  <main class="wrap">
-    <section class="hero">
-      <div class="content">
-        <div class="eyebrow">July 24 Event • Over</div>
-        <h1>Next Event <span>Coming Soon.</span></h1>
+  <main id="main-content">
+    <section class="public-hero" aria-labelledby="hero-title">
+      <div class="site-shell">
+        <div class="hero-copy">
+          <p class="eyebrow">D42PE • AUSTIN EVENTS</p>
+          <h1 class="hero-title" id="hero-title">NEXT EVENT COMING SOON.</h1>
+          <p class="hero-support">Get event drops, ticket links, and important updates first.</p>
 
-        <div class="hero-actions">
-          <a
-            class="ticket-button is-live"
-            id="sms-link"
-            href="sms:+15126107851?body=D42PE"
-            aria-label="Get D42PE text updates by texting D42PE to 512-610-7851"
-          >
-            Get Text Updates
-          </a>
-          <a
-            class="ticket-button secondary"
-            href="/join/"
-          >
-            View Socials
-          </a>
+          <div class="cta-group">
+            <a class="cta cta-primary" id="sms-link" href="sms:+15126107851?body=D42PE" aria-label="GET TEXT UPDATES by SMS — text D42PE to (512) 610-7851">GET TEXT UPDATES</a>
+            <a class="cta cta-secondary" href="/join/">VIEW SOCIALS</a>
+          </div>
+
+          <p class="sms-fallback">If texting does not open, text D42PE to (512) 610-7851.</p>
+          <p class="subscriber-proof">300+ active SMS subscribers</p>
         </div>
-
-        <a class="scroll-cue" href="#flyer">
-          <span>View Past Event Flyer</span>
-          <span class="scroll-arrow" aria-hidden="true">↓</span>
-        </a>
-      </div>
-
-      <div class="flyer-wrap" id="flyer">
-        <div class="flyer-label">Past Event • July 24</div>
-        <img
-          class="flyer"
-          id="event-flyer"
-          src="/assets/mansion-party-social.jpg"
-          alt="Flyer from the July 24, 2026 D42PE Mansion Party in Austin, Texas"
-          width="1000"
-          height="1000"
-          fetchpriority="high"
-        />
       </div>
     </section>
 
-    <footer>
-      <span>© <span id="year"></span> D42PE</span>
-      <span>contact@d42pe.com</span>
-    </footer>
+    <section class="public-section" aria-labelledby="past-events-title">
+      <div class="site-shell">
+        <p class="section-kicker">Austin concerts and events</p>
+        <h2 class="section-heading" id="past-events-title">PAST EVENTS</h2>
+        <dl class="proof-list">
+          <div class="proof-row">
+            <dt>Winter Blackout</dt>
+            <dd>First D42PE event</dd>
+          </div>
+          <div class="proof-row">
+            <dt>July 24 Promotion</dt>
+            <dd>119 online tickets sold</dd>
+          </div>
+          <div class="proof-row">
+            <dt>Lil Xan at Empire ATX</dt>
+            <dd>175 verified platform tickets</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="public-section" aria-labelledby="follow-title">
+      <div class="site-shell">
+        <p class="section-kicker">Official accounts</p>
+        <h2 class="section-heading" id="follow-title">FOLLOW D42PE</h2>
+        <div class="follow-list">
+          <a class="follow-link" href="https://www.instagram.com/d42pe.events_atx/" target="_blank" rel="me noopener noreferrer">
+            <span class="platform-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M7.03.084c-1.277.06-2.149.264-2.911.563-.789.308-1.458.72-2.123 1.388S.922 3.37.617 4.16C.321 4.924.121 5.797.065 7.074.008 8.352-.004 8.762.002 12.021s.021 3.667.083 4.947c.061 1.277.264 2.149.564 2.911.308.789.72 1.457 1.388 2.123.668.665 1.337 1.074 2.129 1.38.763.295 1.636.496 2.913.552 1.277.056 1.688.069 4.946.063 3.258-.006 3.668-.021 4.948-.081 1.28-.061 2.147-.265 2.91-.563.789-.309 1.458-.72 2.123-1.388.665-.668 1.074-1.338 1.379-2.129.296-.763.497-1.636.552-2.912.056-1.281.069-1.69.063-4.948-.006-3.258-.021-3.667-.082-4.946-.061-1.28-.264-2.149-.563-2.912-.308-.789-.72-1.457-1.388-2.123C21.298 1.33 20.628.921 19.838.617 19.074.321 18.202.12 16.924.065 15.647.009 15.236-.005 11.977.001 8.718.008 8.31.022 7.03.084zm.14 21.693c-1.17-.051-1.805-.245-2.229-.408-.56-.216-.96-.477-1.382-.895-.422-.418-.681-.819-.9-1.378-.164-.423-.362-1.058-.417-2.228-.059-1.265-.072-1.644-.079-4.848-.007-3.204.005-3.583.061-4.848.05-1.169.246-1.805.408-2.228.216-.561.476-.96.895-1.382.419-.422.818-.681 1.378-.9.423-.165 1.058-.361 2.227-.417 1.266-.06 1.645-.072 4.848-.079 3.203-.007 3.584.005 4.85.061 1.169.051 1.805.245 2.228.408.561.216.96.475 1.382.895.422.419.682.818.9 1.379.166.422.362 1.056.417 2.226.06 1.266.074 1.645.08 4.848.006 3.203-.006 3.583-.061 4.848-.051 1.17-.245 1.806-.408 2.229-.216.56-.476.96-.895 1.381-.419.422-.818.681-1.379.9-.422.165-1.057.362-2.226.417-1.266.06-1.645.072-4.849.079-3.205.007-3.583-.006-4.848-.061zM16.953 5.586A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.442zM5.839 12.012a6.162 6.162 0 1 0 12.323-.024 6.162 6.162 0 0 0-12.323.024zM8 12.008a4 4 0 1 1 8-.016 4 4 0 0 1-8 .016z"/>
+              </svg>
+            </span>
+            <span class="follow-copy">
+              <span class="follow-platform">Instagram</span>
+              <span class="follow-handle">@d42pe.events_atx</span>
+            </span>
+            <span class="click-label">Click Here</span>
+          </a>
+
+          <a class="follow-link" href="https://www.snapchat.com/add/d42pe.events" target="_blank" rel="me noopener noreferrer">
+            <span class="platform-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.033.57c.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405-.165 0-.343-.031-.568-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288h-.329c-1.468 0-2.427-.675-3.279-1.288-.599-.42-1.107-.779-1.707-.884-.314-.045-.629-.074-.928-.074-.54 0-.958.089-1.272.149-.211.043-.391.074-.54.074-.374 0-.523-.224-.583-.42-.061-.192-.09-.389-.135-.567-.046-.181-.105-.494-.166-.57-1.918-.222-2.95-.642-3.189-1.226a.568.568 0 0 1-.055-.225c-.015-.243.165-.465.42-.509 3.264-.54 4.73-3.879 4.807-4.049.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-1.107-.435-1.257-.93-1.197-1.273.09-.479.674-.793 1.168-.793.146 0 .27.029.383.074.42.194.789.3 1.104.3.234 0 .384-.06.465-.105l-.046-.569c-.098-1.626-.225-3.651.307-4.837C7.392 1.077 10.739.807 11.727.807l.479-.015z"/>
+              </svg>
+            </span>
+            <span class="follow-copy">
+              <span class="follow-platform">Snapchat</span>
+              <span class="follow-handle">@d42pe.events</span>
+            </span>
+            <span class="click-label">Click Here</span>
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
 
+  <footer class="site-footer">
+    <div class="footer-inner site-shell">
+      <span>© 2026 D42PE</span>
+      <a href="mailto:contact@d42pe.com">contact@d42pe.com</a>
+    </div>
+  </footer>
+
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    const smsLink = document.getElementById("sms-link");
-    const isIOS =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-
-    if (isIOS) {
-      smsLink.href = "sms:+15126107851&body=D42PE";
-    }
+    (() => {
+      const link = document.getElementById("sms-link");
+      const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      if (iOS) link.href = "sms:+15126107851&body=D42PE";
+    })();
   </script>
 </body>
 </html>

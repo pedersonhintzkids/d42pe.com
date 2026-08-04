@@ -1,493 +1,96 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Stay Tapped In | D42PE</title>
-  <meta
-    name="description"
-    content="Join D42PE SMS and follow the official social accounts for Austin event drops and updates."
-  />
-  <meta name="theme-color" content="#050506" />
-  <link rel="canonical" href="https://d42pe.com/join/" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Stay Tapped In | D42PE Austin</title>
+  <meta name="description" content="Get D42PE event drops by text and follow the official D42PE Instagram and Snapchat accounts.">
+  <meta name="theme-color" content="#07090d">
+  <link rel="canonical" href="https://d42pe.com/join/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
-  <meta property="og:title" content="Stay Tapped In | D42PE" />
-  <meta
-    property="og:description"
-    content="Join the SMS list and follow D42PE."
-  />
-  <meta property="og:image" content="https://d42pe.com/assets/mansion-party-social.jpg" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://d42pe.com/join/" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Stay Tapped In | D42PE" />
-  <meta
-    name="twitter:description"
-    content="Join the SMS list and follow D42PE."
-  />
-  <meta name="twitter:image" content="https://d42pe.com/assets/mansion-party-social.jpg" />
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="D42PE">
+  <meta property="og:url" content="https://d42pe.com/join/">
+  <meta property="og:title" content="Stay Tapped In | D42PE Austin">
+  <meta property="og:description" content="Get D42PE event drops by text and follow the official D42PE Instagram and Snapchat accounts.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Stay Tapped In | D42PE Austin">
+  <meta name="twitter:description" content="Get D42PE event drops by text and follow the official D42PE Instagram and Snapchat accounts.">
 
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #050506;
-      --panel: rgba(17, 13, 16, 0.9);
-      --panel-soft: rgba(255, 255, 255, 0.04);
-      --text: #fff7fa;
-      --muted: #baadb3;
-      --pink: #ff2f6d;
-      --pink-light: #ff8aad;
-      --line: rgba(255, 104, 151, 0.27);
-      --max: 680px;
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      overflow-x: hidden;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 50% 2%, rgba(255, 47, 109, 0.2), transparent 25rem),
-        radial-gradient(circle at 8% 88%, rgba(147, 19, 57, 0.18), transparent 30rem),
-        linear-gradient(145deg, #030304 0%, #080609 55%, #030304 100%);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      opacity: 0.22;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: linear-gradient(to bottom, black, transparent 88%);
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .wrap {
-      width: min(calc(100% - 32px), var(--max));
-      margin: 0 auto;
-    }
-
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(5, 5, 6, 0.78);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-    }
-
-    .nav-inner {
-      min-height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 11px;
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: 0.14em;
-    }
-
-    .brand-mark {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--pink);
-      box-shadow: 0 0 18px rgba(255, 47, 109, 0.95);
-    }
-
-    .home-link {
-      padding: 9px 14px;
-      border: 1px solid rgba(255, 255, 255, 0.13);
-      border-radius: 999px;
-      color: #e9dfe3;
-      font-size: 13px;
-      font-weight: 750;
-      transition: border-color 160ms ease, background 160ms ease;
-    }
-
-    .home-link:hover {
-      border-color: var(--pink);
-      background: rgba(255, 47, 109, 0.08);
-    }
-
-    main {
-      min-height: calc(100vh - 70px);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .social-hub {
-      flex: 1;
-      padding: clamp(42px, 7vw, 68px) 0 36px;
-    }
-
-    h1 {
-      max-width: 560px;
-      margin: 0;
-      font-size: clamp(42px, 9vw, 74px);
-      line-height: 0.94;
-      letter-spacing: -0.055em;
-      text-transform: uppercase;
-    }
-
-    h1 span {
-      color: var(--pink-light);
-      text-shadow: 0 0 28px rgba(255, 47, 109, 0.22);
-    }
-
-    .link-list {
-      margin-top: 30px;
-      display: grid;
-      gap: 13px;
-    }
-
-    .social-link {
-      min-height: 82px;
-      padding: 15px 18px;
-      display: grid;
-      grid-template-columns: 54px minmax(0, 1fr) auto;
-      align-items: center;
-      gap: 14px;
-      border: 1.5px solid rgba(255, 255, 255, 0.24);
-      border-radius: 17px;
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.03));
-      box-shadow:
-        0 16px 42px rgba(0, 0, 0, 0.24),
-        inset 0 1px 0 rgba(255, 255, 255, 0.04);
-      cursor: pointer;
-      touch-action: manipulation;
-      transition:
-        transform 160ms ease,
-        border-color 160ms ease,
-        background 160ms ease,
-        box-shadow 160ms ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .social-link:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255, 104, 151, 0.62);
-      background:
-        linear-gradient(135deg, rgba(255, 47, 109, 0.11), rgba(255, 255, 255, 0.025));
-      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.26);
-    }
-
-    .social-link:active {
-      transform: scale(0.985);
-    }
-
-    .social-link:focus-visible,
-    .home-link:focus-visible,
-    .brand:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 3px;
-    }
-
-    .social-link.primary {
-      min-height: 96px;
-      border: 2px solid var(--pink-light);
-      background: linear-gradient(135deg, #f12863, #b90d40);
-      box-shadow:
-        0 16px 42px rgba(255, 47, 109, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.14);
-    }
-
-    .social-link.primary:hover {
-      border-color: var(--pink-light);
-      background: linear-gradient(135deg, #ff3f78, #c91148);
-      box-shadow: 0 18px 46px rgba(255, 47, 109, 0.3);
-    }
-
-    .channel {
-      width: 54px;
-      min-height: 34px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 10px;
-      color: var(--pink-light);
-      background: rgba(0, 0, 0, 0.2);
-      font-size: 10px;
-      font-weight: 950;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .primary .channel {
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.32);
-      background: rgba(0, 0, 0, 0.14);
-    }
-
-    .platform-icon {
-      width: 54px;
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .platform-icon svg {
-      width: 26px;
-      height: 26px;
-      fill: currentColor;
-    }
-
-    .instagram-icon {
-      color: #fff;
-      background:
-        radial-gradient(circle at 30% 108%, #feda75 0 18%, #fa7e1e 33%, #d62976 55%, #962fbf 74%, #4f5bd5 100%);
-    }
-
-    .snapchat-icon {
-      color: #000;
-      border-color: #fffc00;
-      background: #fffc00;
-    }
-
-    .link-copy {
-      min-width: 0;
-    }
-
-    .link-title {
-      display: block;
-      font-size: 15px;
-      font-weight: 930;
-      letter-spacing: 0.035em;
-      line-height: 1.2;
-      text-transform: uppercase;
-    }
-
-    .link-detail {
-      display: block;
-      margin-top: 5px;
-      overflow-wrap: anywhere;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 680;
-      line-height: 1.35;
-    }
-
-    .primary .link-detail {
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .click-label {
-      padding: 8px 10px;
-      border: 1px solid rgba(255, 138, 173, 0.45);
-      border-radius: 999px;
-      color: var(--pink-light);
-      background: rgba(255, 47, 109, 0.08);
-      font-size: 10px;
-      font-weight: 950;
-      letter-spacing: 0.07em;
-      line-height: 1;
-      white-space: nowrap;
-      text-transform: uppercase;
-    }
-
-    .primary .click-label {
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.52);
-      background: rgba(0, 0, 0, 0.14);
-    }
-
-    .consent {
-      margin: 24px 0 0;
-      padding: 14px 16px;
-      border: 1px solid var(--line);
-      border-radius: 15px;
-      color: #b7a8af;
-      background: rgba(255, 47, 109, 0.045);
-      font-size: 10.5px;
-      line-height: 1.55;
-    }
-
-    footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 22px 0 28px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      color: #93878d;
-      font-size: 12px;
-    }
-
-    .email-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: #cfc1c7;
-      font-weight: 700;
-    }
-
-    .email-link:hover { color: var(--pink-light); }
-
-    @media (max-width: 520px) {
-      .wrap { width: min(calc(100% - 28px), var(--max)); }
-      .nav-inner { min-height: 62px; }
-      .home-link { padding: 8px 11px; }
-      .social-hub { padding: 38px 0 30px; }
-      h1 { font-size: clamp(40px, 13vw, 58px); }
-      .link-list { margin-top: 24px; gap: 10px; }
-      .social-link {
-        min-height: 76px;
-        padding: 12px 13px;
-        grid-template-columns: 45px minmax(0, 1fr) auto;
-        gap: 11px;
-        border-radius: 15px;
-      }
-      .social-link.primary { min-height: 88px; }
-      .channel {
-        width: 45px;
-        min-height: 32px;
-        font-size: 9px;
-      }
-      .platform-icon {
-        width: 45px;
-        min-height: 40px;
-      }
-      .platform-icon svg { width: 23px; height: 23px; }
-      .link-title { font-size: 13px; }
-      .link-detail { font-size: 11px; }
-      .click-label { padding: 7px 8px; font-size: 8px; }
-      .consent { margin-top: 21px; padding: 13px 14px; font-size: 9.5px; }
-      footer { align-items: flex-start; flex-direction: column; gap: 12px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * { scroll-behavior: auto !important; transition: none !important; }
-    }
-  </style>
+  <link rel="stylesheet" href="/style.css">
 </head>
+<body class="join-page">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-<body>
-  <header class="nav">
-    <div class="nav-inner wrap">
-      <a class="brand" href="/" aria-label="D42PE home">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>D42PE</span>
-      </a>
-      <a class="home-link" href="/">Home</a>
+  <header class="site-header">
+    <div class="header-inner site-shell">
+      <a class="wordmark" href="/" aria-label="D42PE home">D42PE</a>
+      <a class="header-link" href="/">Home</a>
     </div>
   </header>
 
-  <main>
-    <section class="social-hub wrap" aria-labelledby="page-title">
-      <h1 id="page-title">Stay <span>Tapped In.</span></h1>
+  <main class="join-main" id="main-content">
+    <section class="join-content" aria-labelledby="page-title">
+      <p class="eyebrow">D42PE • AUSTIN EVENTS</p>
+      <h1 class="join-title" id="page-title">STAY TAPPED IN.</h1>
 
-      <nav class="link-list" aria-label="D42PE signup and social links">
-        <a
-          class="social-link primary"
-          id="sms-link"
-          href="sms:+15126107851?body=D42PE"
-          aria-label="Join the D42PE SMS list by texting D42PE to 512-610-7851"
-        >
-          <span class="channel" aria-hidden="true">SMS</span>
-          <span class="link-copy">
-            <span class="link-title">Join The SMS List</span>
-            <span class="link-detail">Text D42PE to (512) 610-7851</span>
+      <nav class="channel-list" aria-label="D42PE text and social links">
+        <a class="channel-link primary" id="sms-link" href="sms:+15126107851?body=D42PE">
+          <span class="platform-icon"><strong>SMS</strong></span>
+          <span class="channel-copy">
+            <span class="channel-title">Join the SMS List</span>
+            <span class="channel-detail">Text D42PE to (512) 610-7851</span>
           </span>
-          <span class="click-label" aria-hidden="true">Click Here</span>
+          <span class="click-label">Click Here</span>
         </a>
 
-        <a
-          class="social-link"
-          href="https://www.instagram.com/d42pe.events_atx/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Follow D42PE on Instagram at d42pe.events_atx"
-        >
-          <span class="platform-icon instagram-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/>
+        <a class="channel-link" href="https://www.instagram.com/d42pe.events_atx/" target="_blank" rel="me noopener noreferrer">
+          <span class="platform-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M7.03.084c-1.277.06-2.149.264-2.911.563-.789.308-1.458.72-2.123 1.388S.922 3.37.617 4.16C.321 4.924.121 5.797.065 7.074.008 8.352-.004 8.762.002 12.021s.021 3.667.083 4.947c.061 1.277.264 2.149.564 2.911.308.789.72 1.457 1.388 2.123.668.665 1.337 1.074 2.129 1.38.763.295 1.636.496 2.913.552 1.277.056 1.688.069 4.946.063 3.258-.006 3.668-.021 4.948-.081 1.28-.061 2.147-.265 2.91-.563.789-.309 1.458-.72 2.123-1.388.665-.668 1.074-1.338 1.379-2.129.296-.763.497-1.636.552-2.912.056-1.281.069-1.69.063-4.948-.006-3.258-.021-3.667-.082-4.946-.061-1.28-.264-2.149-.563-2.912-.308-.789-.72-1.457-1.388-2.123C21.298 1.33 20.628.921 19.838.617 19.074.321 18.202.12 16.924.065 15.647.009 15.236-.005 11.977.001 8.718.008 8.31.022 7.03.084zm.14 21.693c-1.17-.051-1.805-.245-2.229-.408-.56-.216-.96-.477-1.382-.895-.422-.418-.681-.819-.9-1.378-.164-.423-.362-1.058-.417-2.228-.059-1.265-.072-1.644-.079-4.848-.007-3.204.005-3.583.061-4.848.05-1.169.246-1.805.408-2.228.216-.561.476-.96.895-1.382.419-.422.818-.681 1.378-.9.423-.165 1.058-.361 2.227-.417 1.266-.06 1.645-.072 4.848-.079 3.203-.007 3.584.005 4.85.061 1.169.051 1.805.245 2.228.408.561.216.96.475 1.382.895.422.419.682.818.9 1.379.166.422.362 1.056.417 2.226.06 1.266.074 1.645.08 4.848.006 3.203-.006 3.583-.061 4.848-.051 1.17-.245 1.806-.408 2.229-.216.56-.476.96-.895 1.381-.419.422-.818.681-1.379.9-.422.165-1.057.362-2.226.417-1.266.06-1.645.072-4.849.079-3.205.007-3.583-.006-4.848-.061zM16.953 5.586A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.442zM5.839 12.012a6.162 6.162 0 1 0 12.323-.024 6.162 6.162 0 0 0-12.323.024zM8 12.008a4 4 0 1 1 8-.016 4 4 0 0 1-8 .016z"/>
             </svg>
           </span>
-          <span class="link-copy">
-            <span class="link-title">Instagram</span>
-            <span class="link-detail">@d42pe.events_atx</span>
+          <span class="channel-copy">
+            <span class="channel-title">Instagram</span>
+            <span class="channel-detail">@d42pe.events_atx</span>
           </span>
-          <span class="click-label" aria-hidden="true">Click Here</span>
+          <span class="click-label">Click Here</span>
         </a>
 
-        <a
-          class="social-link"
-          href="https://www.snapchat.com/add/d42pe.events"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Add D42PE on Snapchat at d42pe.events"
-        >
-          <span class="platform-icon snapchat-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405h-.03c-.135 0-.313-.031-.538-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288-.06 0-.119-.015-.18-.015h-.149c-1.468 0-2.427-.675-3.279-1.288-.599-.42-1.107-.779-1.707-.884-.314-.045-.629-.074-.928-.074-.54 0-.958.089-1.272.149-.211.043-.391.074-.54.074-.374 0-.523-.224-.583-.42-.061-.192-.09-.389-.135-.567-.046-.181-.105-.494-.166-.57-1.918-.222-2.95-.642-3.189-1.226-.031-.063-.052-.15-.055-.225-.015-.243.165-.465.42-.509 3.264-.54 4.73-3.879 4.791-4.02l.016-.029c.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-1.107-.435-1.257-.93-1.197-1.273.09-.479.674-.793 1.168-.793.146 0 .27.029.383.074.42.194.789.3 1.104.3.234 0 .384-.06.465-.105l-.046-.569c-.098-1.626-.225-3.651.307-4.837C7.392 1.077 10.739.807 11.727.807l.419-.015h.06z"/>
+        <a class="channel-link" href="https://www.snapchat.com/add/d42pe.events" target="_blank" rel="me noopener noreferrer">
+          <span class="platform-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.033.57c.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405-.165 0-.343-.031-.568-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288h-.329c-1.468 0-2.427-.675-3.279-1.288-.599-.42-1.107-.779-1.707-.884-.314-.045-.629-.074-.928-.074-.54 0-.958.089-1.272.149-.211.043-.391.074-.54.074-.374 0-.523-.224-.583-.42-.061-.192-.09-.389-.135-.567-.046-.181-.105-.494-.166-.57-1.918-.222-2.95-.642-3.189-1.226a.568.568 0 0 1-.055-.225c-.015-.243.165-.465.42-.509 3.264-.54 4.73-3.879 4.807-4.049.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-1.107-.435-1.257-.93-1.197-1.273.09-.479.674-.793 1.168-.793.146 0 .27.029.383.074.42.194.789.3 1.104.3.234 0 .384-.06.465-.105l-.046-.569c-.098-1.626-.225-3.651.307-4.837C7.392 1.077 10.739.807 11.727.807l.479-.015z"/>
             </svg>
           </span>
-          <span class="link-copy">
-            <span class="link-title">Snapchat</span>
-            <span class="link-detail">@d42pe.events</span>
+          <span class="channel-copy">
+            <span class="channel-title">Snapchat</span>
+            <span class="channel-detail">@d42pe.events</span>
           </span>
-          <span class="click-label" aria-hidden="true">Click Here</span>
+          <span class="click-label">Click Here</span>
         </a>
       </nav>
 
-      <p class="consent">
-        By texting D42PE, you agree to recurring automated promotional texts from D42PE.
-        Consent is not a condition of purchase. Frequency varies. Message and data rates may
-        apply. Reply STOP to opt out or HELP for help.
-      </p>
+      <p class="consent">By texting D42PE, you agree to recurring automated promotional texts from D42PE. Consent is not a condition of purchase. Frequency varies. Message and data rates may apply. Reply STOP to opt out or HELP for help.</p>
     </section>
 
-    <footer class="wrap">
-      <span>© <span id="year"></span> D42PE</span>
-      <a
-        class="email-link"
-        href="mailto:contact@d42pe.com"
-        aria-label="Email D42PE at contact@d42pe.com"
-      >
-        <span class="channel" aria-hidden="true">Email</span>
-        <span>contact@d42pe.com</span>
-      </a>
-    </footer>
   </main>
 
+  <footer class="site-footer">
+      <div class="footer-inner site-shell">
+        <span>© 2026 D42PE</span>
+        <a href="mailto:contact@d42pe.com">contact@d42pe.com</a>
+      </div>
+  </footer>
+
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    const smsLink = document.getElementById("sms-link");
-    const isIOS =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-
-    if (isIOS) {
-      smsLink.href = "sms:+15126107851&body=D42PE";
-    }
+    (() => {
+      const link = document.getElementById("sms-link");
+      const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      if (iOS) link.href = "sms:+15126107851&body=D42PE";
+    })();
   </script>
 </body>
 </html>
