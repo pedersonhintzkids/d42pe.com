@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>D42PE Next Up — Austin Chooses</title>
+  <title>D42PE Artist Intake — Austin</title>
   <meta
     name="description"
-    content="Help D42PE test which rising-artist event Austin would actually consider attending at a $20 ticket price."
+    content="Share your music, performance proof, Austin draw, availability, and booking terms for potential future D42PE events."
   />
-  <meta name="theme-color" content="#070508" />
+  <meta name="theme-color" content="#07090d" />
   <meta name="robots" content="noindex,nofollow,noarchive" />
   <link rel="canonical" href="https://d42pe.com/next-up/" />
 
-  <meta property="og:title" content="D42PE Next Up — Austin Chooses" />
+  <meta property="og:title" content="D42PE Artist Intake — Austin" />
   <meta
     property="og:description"
-    content="Choose the rising-artist event you would actually consider attending at $20."
+    content="Artists and DJs: share your strongest work and event fit for potential future D42PE opportunities."
   />
   <meta property="og:image" content="https://d42pe.com/assets/next-up/d42pe-next-up-story.png" />
   <meta property="og:type" content="website" />
@@ -25,16 +25,16 @@
   <style>
     :root {
       color-scheme: dark;
-      --bg: #070508;
-      --panel: rgba(18, 11, 18, 0.86);
-      --panel-strong: rgba(27, 15, 25, 0.96);
-      --text: #fff8fb;
-      --muted: #c2b3bb;
-      --pink: #ff2f7d;
-      --pink-light: #ff9ac3;
-      --blue: #43c9ff;
-      --line: rgba(255, 154, 195, 0.24);
-      --success: #4de2a8;
+      --bg: #07090d;
+      --panel: #0d1117;
+      --panel-strong: #121720;
+      --text: #f5f4ef;
+      --muted: #9ca5b2;
+      --blue: #586cff;
+      --blue-hover: #7181ff;
+      --blue-light: #a9b4ff;
+      --line: #252d39;
+      --success: #a9b4ff;
       --max: 760px;
     }
 
@@ -48,8 +48,7 @@
       overflow-x: hidden;
       color: var(--text);
       background:
-        linear-gradient(rgba(7, 5, 8, 0.36), rgba(7, 5, 8, 0.96) 52%, #070508 82%),
-        url("/assets/next-up/concert-background.png") top center / min(100vw, 900px) auto no-repeat,
+        radial-gradient(circle at 50% 0, rgba(88, 108, 255, 0.13), transparent 40%),
         var(--bg);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
@@ -62,8 +61,8 @@
       pointer-events: none;
       opacity: 0.18;
       background-image:
-        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        linear-gradient(rgba(169, 180, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(169, 180, 255, 0.04) 1px, transparent 1px);
       background-size: 38px 38px;
       mask-image: linear-gradient(to bottom, black, transparent 88%);
     }
@@ -85,8 +84,8 @@
     }
 
     .nav {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-      background: rgba(7, 5, 8, 0.74);
+      border-bottom: 1px solid var(--line);
+      background: rgba(7, 9, 13, 0.9);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
     }
@@ -114,15 +113,15 @@
       width: 11px;
       height: 11px;
       border-radius: 50%;
-      background: var(--pink);
-      box-shadow: 0 0 18px rgba(255, 47, 125, 0.95);
+      background: var(--blue);
+      box-shadow: 0 0 18px rgba(88, 108, 255, 0.9);
     }
 
     .concept-label {
       padding: 8px 11px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      border: 1px solid var(--line);
       border-radius: 999px;
-      color: #e9dce3;
+      color: var(--muted);
       font-size: 10px;
       font-weight: 850;
       letter-spacing: 0.08em;
@@ -138,7 +137,7 @@
 
     .eyebrow {
       margin: 0 0 16px;
-      color: var(--pink-light);
+      color: var(--blue-light);
       font-size: 11px;
       font-weight: 950;
       letter-spacing: 0.19em;
@@ -156,27 +155,27 @@
 
     h1 span {
       display: block;
-      color: var(--pink-light);
-      text-shadow: 0 0 32px rgba(255, 47, 125, 0.36);
+      color: var(--blue-light);
+      text-shadow: 0 0 32px rgba(88, 108, 255, 0.36);
     }
 
     .hero-copy {
       max-width: 620px;
       margin: 22px auto 0;
-      color: #f8eaf1;
+      color: var(--text);
       font-size: clamp(18px, 4.8vw, 24px);
       font-weight: 760;
       line-height: 1.4;
     }
 
-    .price-pill {
+    .intake-pill {
       width: fit-content;
       margin: 20px auto 0;
       padding: 10px 15px;
-      border: 1px solid rgba(255, 154, 195, 0.58);
+      border: 1px solid var(--blue);
       border-radius: 999px;
-      color: #fff;
-      background: rgba(255, 47, 125, 0.16);
+      color: var(--text);
+      background: rgba(88, 108, 255, 0.14);
       font-size: 13px;
       font-weight: 950;
       letter-spacing: 0.08em;
@@ -202,8 +201,8 @@
     .progress-bar {
       width: 25%;
       height: 100%;
-      background: linear-gradient(90deg, var(--pink), var(--pink-light), var(--blue));
-      box-shadow: 0 0 18px rgba(255, 47, 125, 0.65);
+      background: linear-gradient(90deg, var(--blue), var(--blue-hover), var(--blue-light));
+      box-shadow: 0 0 18px rgba(88, 108, 255, 0.65);
       transition: width 220ms ease;
     }
 
@@ -217,7 +216,7 @@
     .step-count {
       display: block;
       margin-bottom: 8px;
-      color: var(--pink-light);
+      color: var(--blue-light);
       font-size: 10px;
       font-weight: 950;
       letter-spacing: 0.15em;
@@ -268,8 +267,8 @@
 
     .choice-card:hover {
       transform: translateY(-1px);
-      border-color: rgba(255, 154, 195, 0.52);
-      background: rgba(255, 47, 125, 0.08);
+      border-color: var(--blue-light);
+      background: rgba(88, 108, 255, 0.08);
     }
 
     .choice-input:focus-visible + .choice-card,
@@ -283,9 +282,9 @@
     }
 
     .choice-input:checked + .choice-card {
-      border-color: var(--pink-light);
-      background: linear-gradient(135deg, rgba(255, 47, 125, 0.18), rgba(67, 201, 255, 0.06));
-      box-shadow: inset 0 0 0 1px rgba(255, 154, 195, 0.16);
+      border-color: var(--blue-light);
+      background: linear-gradient(135deg, rgba(88, 108, 255, 0.18), rgba(169, 180, 255, 0.06));
+      box-shadow: inset 0 0 0 1px rgba(169, 180, 255, 0.16);
     }
 
     .choice-copy { min-width: 0; }
@@ -315,8 +314,8 @@
     }
 
     .choice-input:checked + .choice-card .choice-marker {
-      border-color: var(--pink-light);
-      background: var(--pink);
+      border-color: var(--blue-light);
+      background: var(--blue);
       box-shadow: inset 0 0 0 5px var(--panel-strong);
     }
 
@@ -329,7 +328,7 @@
     .field-label {
       display: grid;
       gap: 7px;
-      color: #f3e7ed;
+      color: var(--text);
       font-size: 12px;
       font-weight: 850;
     }
@@ -342,7 +341,7 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 13px;
       color: var(--text);
-      background: rgba(4, 3, 5, 0.56);
+      background: var(--bg);
       outline: none;
     }
 
@@ -352,7 +351,7 @@
       line-height: 1.4;
     }
 
-    .field::placeholder { color: #857881; }
+    .field::placeholder { color: var(--muted); }
 
     .actions {
       margin-top: 26px;
@@ -369,21 +368,21 @@
       justify-content: center;
       border: 1px solid transparent;
       border-radius: 13px;
-      color: #fff;
-      background: linear-gradient(135deg, #ff3b83, #b90c50);
-      box-shadow: 0 12px 30px rgba(255, 47, 125, 0.22);
+      color: var(--bg);
+      background: var(--blue);
+      box-shadow: 0 12px 30px rgba(88, 108, 255, 0.22);
       font-weight: 900;
       text-align: center;
       text-decoration: none;
       cursor: pointer;
     }
 
-    .button:hover { filter: brightness(1.08); }
+    .button:hover { background: var(--blue-hover); }
 
     .button.secondary {
       border-color: rgba(255, 255, 255, 0.16);
-      color: #e8dbe2;
-      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      background: var(--panel-strong);
       box-shadow: none;
     }
 
@@ -396,7 +395,7 @@
     .error {
       min-height: 20px;
       margin: 10px 0 0;
-      color: #ffb1c9;
+      color: var(--blue-light);
       font-size: 12px;
       font-weight: 750;
     }
@@ -449,17 +448,17 @@
       padding: 15px;
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 14px;
-      color: #cdbfc6;
-      background: rgba(0, 0, 0, 0.2);
+      color: var(--muted);
+      background: var(--panel-strong);
       font-size: 12px;
       line-height: 1.55;
     }
 
-    .disclosure strong { color: #fff; }
+    .disclosure strong { color: var(--text); }
 
     footer {
       padding: 26px 0 0;
-      color: #8e7e87;
+      color: var(--muted);
       font-size: 11px;
       line-height: 1.5;
       text-align: center;
@@ -468,11 +467,6 @@
     .hidden { display: none !important; }
 
     @media (max-width: 520px) {
-      body {
-        background-size: 760px auto;
-        background-position: 50% 0;
-      }
-
       .nav-inner { min-height: 60px; }
       .concept-label { font-size: 9px; }
       main { padding-top: 43px; }
@@ -496,22 +490,22 @@
         <span class="brand-mark" aria-hidden="true"></span>
         <span>D42PE</span>
       </a>
-      <span class="concept-label">Concept Test</span>
+      <span class="concept-label">Artist Intake</span>
     </div>
   </header>
 
   <main class="wrap">
     <section class="hero" aria-labelledby="page-title">
-      <p class="eyebrow">D42PE Next Up</p>
-      <h1 id="page-title">Austin Chooses <span>The Next Show.</span></h1>
+      <p class="eyebrow">D42PE Artist Intake</p>
+      <h1 id="page-title">Apply To Perform <span>With D42PE.</span></h1>
       <p class="hero-copy">
-        Which rising-artist event would you actually consider attending?
-        Choose a format, see the proposed price, and submit your real answer.
+        We are testing a direct intake for artists and DJs who could fit future Austin events.
+        Send your strongest work, expected draw, availability, and terms.
       </p>
-      <p class="price-pill">Proposed GA • $20</p>
+      <p class="intake-pill">Artists &amp; DJs • Austin</p>
     </section>
 
-    <section class="experiment" aria-label="D42PE Next Up concept test">
+    <section class="experiment" aria-label="D42PE artist intake concept test">
       <div class="progress" aria-hidden="true">
         <div class="progress-bar" id="progress-bar"></div>
       </div>
@@ -519,35 +513,64 @@
       <form id="mvp-form" novalidate>
         <section class="step active" data-step="1" aria-labelledby="step-one-title">
           <span class="step-count">Step 1 of 4</span>
-          <h2 id="step-one-title">Which show would you pick?</h2>
-          <p class="step-intro">Choose the one you would be most likely to attend in Austin.</p>
+          <h2 id="step-one-title">Tell us who you are.</h2>
+          <p class="step-intro">Use the artist identity and contact you want D42PE to review.</p>
 
-          <div class="choices">
-            <input class="choice-input" type="radio" name="concept" id="concept-rap" value="Underground Rap Night" />
-            <label class="choice-card" for="concept-rap">
-              <span class="choice-copy">
-                <span class="choice-title">Underground Rap Night</span>
-                <span class="choice-detail">Three rising rap artists and one local opener</span>
-              </span>
-              <span class="choice-marker" aria-hidden="true"></span>
+          <div class="fields">
+            <label class="field-label" for="stage-name">
+              Artist or stage name
+              <input
+                class="field"
+                id="stage-name"
+                name="stageName"
+                type="text"
+                maxlength="60"
+                autocomplete="organization"
+                placeholder="Your artist or DJ name"
+                required
+              />
             </label>
 
-            <input class="choice-input" type="radio" name="concept" id="concept-dj" value="Rising DJ Night" />
-            <label class="choice-card" for="concept-dj">
-              <span class="choice-copy">
-                <span class="choice-title">Rising DJ Night</span>
-                <span class="choice-detail">Three up-and-coming DJs in one night</span>
-              </span>
-              <span class="choice-marker" aria-hidden="true"></span>
+            <label class="field-label" for="contact">
+              Best contact
+              <input
+                class="field"
+                id="contact"
+                name="contact"
+                type="text"
+                maxlength="80"
+                autocomplete="off"
+                placeholder="Email, phone, or @handle"
+                required
+              />
             </label>
 
-            <input class="choice-input" type="radio" name="concept" id="concept-mix" value="Breakout Mix" />
-            <label class="choice-card" for="concept-mix">
-              <span class="choice-copy">
-                <span class="choice-title">Breakout Mix</span>
-                <span class="choice-detail">A rising rap artist, DJ, and local opener</span>
-              </span>
-              <span class="choice-marker" aria-hidden="true"></span>
+            <label class="field-label" for="city">
+              Current city
+              <input
+                class="field"
+                id="city"
+                name="city"
+                type="text"
+                maxlength="60"
+                autocomplete="address-level2"
+                placeholder="City, state or country"
+                required
+              />
+            </label>
+
+            <label class="field-label" for="genre">
+              Genre or sound
+              <input
+                class="field"
+                id="genre"
+                name="genre"
+                type="text"
+                maxlength="60"
+                autocomplete="off"
+                placeholder="Be specific and concise"
+                required
+              />
             </label>
           </div>
 
@@ -559,38 +582,38 @@
 
         <section class="step" data-step="2" aria-labelledby="step-two-title">
           <span class="step-count">Step 2 of 4</span>
-          <h2 id="step-two-title">Now include the price.</h2>
-          <p class="step-intro">
-            If D42PE developed your selected show in Austin and general admission was $20,
-            what would you actually do?
-          </p>
+          <h2 id="step-two-title">Show us your strongest work.</h2>
+          <p class="step-intro">Send direct links that open without a login or access request.</p>
 
-          <div class="choices">
-            <input class="choice-input" type="radio" name="intent" id="intent-yes" value="Join first access at $20" />
-            <label class="choice-card" for="intent-yes">
-              <span class="choice-copy">
-                <span class="choice-title">Join First Access at $20</span>
-                <span class="choice-detail">I would seriously consider buying if this becomes real</span>
-              </span>
-              <span class="choice-marker" aria-hidden="true"></span>
+          <div class="fields">
+            <label class="field-label" for="social-link">
+              Primary social or artist profile link
+              <input
+                class="field"
+                id="social-link"
+                name="socialLink"
+                type="url"
+                inputmode="url"
+                maxlength="200"
+                autocomplete="url"
+                placeholder="https://instagram.com/..."
+                required
+              />
             </label>
 
-            <input class="choice-input" type="radio" name="intent" id="intent-maybe" value="Maybe, depending on details" />
-            <label class="choice-card" for="intent-maybe">
-              <span class="choice-copy">
-                <span class="choice-title">Maybe — It Depends</span>
-                <span class="choice-detail">The lineup or another detail would decide it</span>
-              </span>
-              <span class="choice-marker" aria-hidden="true"></span>
-            </label>
-
-            <input class="choice-input" type="radio" name="intent" id="intent-no" value="No, not at $20" />
-            <label class="choice-card" for="intent-no">
-              <span class="choice-copy">
-                <span class="choice-title">No — Not at $20</span>
-                <span class="choice-detail">I would not seriously consider buying this concept</span>
-              </span>
-              <span class="choice-marker" aria-hidden="true"></span>
+            <label class="field-label" for="clip-link">
+              Strongest live-performance or music clip link
+              <input
+                class="field"
+                id="clip-link"
+                name="clipLink"
+                type="url"
+                inputmode="url"
+                maxlength="200"
+                autocomplete="url"
+                placeholder="https://youtube.com/..."
+                required
+              />
             </label>
           </div>
 
@@ -603,72 +626,74 @@
 
         <section class="step" data-step="3" aria-labelledby="step-three-title">
           <span class="step-count">Step 3 of 4</span>
-          <h2 id="step-three-title">Tell us what drove your answer.</h2>
-          <p class="step-intro">This takes about 20 seconds. Do not include private information.</p>
+          <h2 id="step-three-title">What would a fit look like?</h2>
+          <p class="step-intro">Give realistic numbers and terms. Honest answers are more useful than inflated ones.</p>
 
           <div class="fields">
-            <label class="field-label" for="audience">
-              Which best describes you?
-              <select class="field" id="audience" name="audience" required>
-                <option value="">Select one</option>
-                <option>High school student</option>
-                <option>College student</option>
-                <option>Neither</option>
-              </select>
-            </label>
-
-            <label class="field-label" for="last-event">
-              When did you last pay for a concert or event?
-              <select class="field" id="last-event" name="lastEvent" required>
-                <option value="">Select one</option>
-                <option>Within the last 3 months</option>
-                <option>3 to 12 months ago</option>
-                <option>More than a year ago</option>
-                <option>I have never paid for one</option>
-              </select>
-            </label>
-
-            <label class="field-label" for="factor">
-              What would matter most before you bought?
-              <select class="field" id="factor" name="factor" required>
-                <option value="">Select one</option>
-                <option>The artist or lineup</option>
-                <option>Friends going</option>
-                <option>The ticket price</option>
-                <option>The venue</option>
-                <option>The date</option>
-                <option>Production and experience</option>
-              </select>
-            </label>
-
-            <label class="field-label" for="artist">
-              Optional: one rising artist or DJ you would want in Austin
-              <input
-                class="field"
-                id="artist"
-                name="artist"
-                type="text"
-                maxlength="60"
-                autocomplete="off"
-                placeholder="Artist or DJ name"
-              />
-            </label>
-
-            <label class="field-label" for="feedback">
-              Optional: what felt unclear, weak, or untrustworthy?
+            <label class="field-label" for="availability">
+              Availability for Austin performances
               <textarea
                 class="field"
-                id="feedback"
-                name="feedback"
-                maxlength="140"
-                placeholder="One honest sentence"
+                id="availability"
+                name="availability"
+                maxlength="120"
+                placeholder="Dates, weekdays/weekends, and notice needed"
+                required
+              ></textarea>
+            </label>
+
+            <label class="field-label" for="expected-draw">
+              Expected paid draw in Austin
+              <select class="field" id="expected-draw" name="expectedDraw" required>
+                <option value="">Select one</option>
+                <option>Under 25 people</option>
+                <option>25–49 people</option>
+                <option>50–99 people</option>
+                <option>100–199 people</option>
+                <option>200+ people</option>
+                <option>Unsure or no established Austin draw</option>
+              </select>
+            </label>
+
+            <label class="field-label" for="terms">
+              Desired performance terms or fee
+              <textarea
+                class="field"
+                id="terms"
+                name="terms"
+                maxlength="160"
+                placeholder="Guarantee, door split, travel needs, or open to discuss"
+                required
+              ></textarea>
+            </label>
+
+            <label class="field-label" for="promotion">
+              Promotion commitment if selected
+              <select class="field" id="promotion" name="promotion" required>
+                <option value="">Select one</option>
+                <option>Full rollout: post or reel, 3+ stories, and ticket link</option>
+                <option>Standard: one post or reel and 1–2 stories</option>
+                <option>Stories and direct fan outreach only</option>
+                <option>Limited promotion or discuss first</option>
+              </select>
+            </label>
+
+            <label class="field-label" for="fit-note">
+              Why would your act fit a D42PE Austin event?
+              <textarea
+                class="field"
+                id="fit-note"
+                name="fitNote"
+                maxlength="160"
+                placeholder="One concise note about your audience, sound, or live set"
+                required
               ></textarea>
             </label>
           </div>
 
           <p class="error" id="step-three-error" role="alert"></p>
           <div class="actions">
-            <button class="button" type="button" id="prepare-response">Prepare My Response</button>
+            <button class="button" type="button" id="prepare-response">Prepare My Application</button>
             <button class="button secondary" type="button" data-back="2">Back</button>
           </div>
         </section>
@@ -677,17 +702,17 @@
           <span class="step-count">Step 4 of 4</span>
           <h2 id="step-four-title">Finish by sending the text.</h2>
           <p class="step-intro">
-            Your choices are placed into a text to D42PE. Tap the button, review the message,
-            and press send. The message is the completed response.
+            Your application is placed into a text to D42PE. Tap the button, review the message,
+            and press send. The sent message is the completed application.
           </p>
 
           <div class="summary" id="response-summary" aria-live="polite"></div>
 
           <a class="button sms-button" id="sms-response" href="sms:+15126107851">
-            Open My Response in Messages
+            Open My Application in Messages
           </a>
           <button class="button secondary sms-button" id="copy-response" type="button">
-            Copy Response Instead
+            Copy Application Instead
           </button>
           <p class="copy-status" id="copy-status" role="status"></p>
 
@@ -702,15 +727,15 @@
       </form>
 
       <p class="disclosure">
-        <strong>Concept test only.</strong> No artist, event, date, or venue is confirmed.
-        No payment is collected, and this does not purchase or reserve a ticket.
-        D42PE may reply about this concept, but this response does not enroll you in recurring automated texts.
+        <strong>Artist intake concept test only.</strong> This is not a booking offer or agreement.
+        No artist, event, date, venue, performance slot, fee, or payment is confirmed, and no payment is collected.
+        D42PE may contact you if there is a potential fit, but submitting does not enroll you in recurring automated texts.
       </p>
     </section>
 
     <footer>
-      D42PE Next Up • Austin, Texas<br />
-      This page is a market-demand experiment, not an event announcement.
+      D42PE Artist Intake • Austin, Texas<br />
+      This page is an artist intake experiment, not a booking confirmation.
     </footer>
   </main>
 
@@ -734,10 +759,6 @@
         return form.elements[name]?.value?.trim() || "";
       }
 
-      function radioValue(name) {
-        return form.querySelector(`input[name="${name}"]:checked`)?.value || "";
-      }
-
       function showStep(stepNumber) {
         document.querySelectorAll(".step").forEach(step => {
           step.classList.toggle("active", Number(step.dataset.step) === stepNumber);
@@ -750,18 +771,27 @@
 
       function validateStep(stepNumber) {
         const error = document.getElementById(`step-${["one", "two", "three"][stepNumber - 1]}-error`);
-        if (stepNumber === 1 && !radioValue("concept")) {
-          error.textContent = "Choose one event concept to continue.";
+        const requiredByStep = {
+          1: ["stageName", "contact", "city", "genre"],
+          2: ["socialLink", "clipLink"],
+          3: ["availability", "expectedDraw", "terms", "promotion", "fitNote"]
+        };
+        const missing = requiredByStep[stepNumber].filter(name => !value(name));
+        if (missing.length) {
+          error.textContent = "Complete every required field to continue.";
           return false;
         }
-        if (stepNumber === 2 && !radioValue("intent")) {
-          error.textContent = "Choose the answer that most closely matches what you would do.";
-          return false;
-        }
-        if (stepNumber === 3) {
-          const missing = ["audience", "lastEvent", "factor"].filter(name => !value(name));
-          if (missing.length) {
-            error.textContent = "Complete the three required dropdown questions.";
+        if (stepNumber === 2) {
+          const invalidLink = requiredByStep[2].some(name => {
+            try {
+              const url = new URL(value(name));
+              return !["http:", "https:"].includes(url.protocol);
+            } catch {
+              return true;
+            }
+          });
+          if (invalidLink) {
+            error.textContent = "Enter complete links beginning with http:// or https://.";
             return false;
           }
         }
@@ -782,31 +812,40 @@
       function buildResponse() {
         const answers = {
           source,
-          concept: radioValue("concept"),
-          intent: radioValue("intent"),
-          audience: value("audience"),
-          lastEvent: value("lastEvent"),
-          factor: value("factor"),
-          artist: value("artist") || "No suggestion",
-          feedback: value("feedback") || "No additional feedback"
+          stageName: value("stageName"),
+          contact: value("contact"),
+          city: value("city"),
+          genre: value("genre"),
+          socialLink: value("socialLink"),
+          clipLink: value("clipLink"),
+          availability: value("availability"),
+          expectedDraw: value("expectedDraw"),
+          terms: value("terms"),
+          promotion: value("promotion"),
+          fitNote: value("fitNote")
         };
 
         responseText = [
-          "D42PE NEXT UP — MVP RESPONSE",
+          "D42PE NEXT UP — ARTIST APPLICATION",
           `Source: ${answers.source}`,
-          `Event choice: ${answers.concept}`,
-          `At $20: ${answers.intent}`,
-          `Audience: ${answers.audience}`,
-          `Last paid event: ${answers.lastEvent}`,
-          `Main factor: ${answers.factor}`,
-          `Artist suggestion: ${answers.artist}`,
-          `Feedback: ${answers.feedback}`
+          `Artist/stage name: ${answers.stageName}`,
+          `Best contact: ${answers.contact}`,
+          `Current city: ${answers.city}`,
+          `Genre/sound: ${answers.genre}`,
+          `Primary profile: ${answers.socialLink}`,
+          `Strongest clip: ${answers.clipLink}`,
+          `Austin availability: ${answers.availability}`,
+          `Expected paid draw: ${answers.expectedDraw}`,
+          `Desired terms/fee: ${answers.terms}`,
+          `Promotion commitment: ${answers.promotion}`,
+          `Why D42PE fits: ${answers.fitNote}`
         ].join("\n");
 
         const rows = [
-          ["Event", answers.concept],
-          ["At $20", answers.intent],
-          ["Main factor", answers.factor],
+          ["Artist", answers.stageName],
+          ["Genre", answers.genre],
+          ["Austin draw", answers.expectedDraw],
+          ["Terms", answers.terms],
           ["Source", answers.source]
         ];
         responseSummary.innerHTML = rows.map(([label, answer]) =>
@@ -840,7 +879,7 @@
       copyButton.addEventListener("click", async () => {
         try {
           await navigator.clipboard.writeText(responseText);
-          copyStatus.textContent = "Response copied. Send it to D42PE at (512) 610-7851.";
+          copyStatus.textContent = "Application copied. Send it to D42PE at (512) 610-7851.";
         } catch {
           copyStatus.textContent = "Copy was blocked. Use the Messages button instead.";
         }
