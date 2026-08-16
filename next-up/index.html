@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>D42PE Next Up — Austin Chooses</title>
+  <meta
+    name="description"
+    content="Help D42PE test which rising-artist event Austin would actually consider attending at a $20 ticket price."
+  />
+  <meta name="theme-color" content="#070508" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <link rel="canonical" href="https://d42pe.com/next-up/" />
+
+  <meta property="og:title" content="D42PE Next Up — Austin Chooses" />
+  <meta
+    property="og:description"
+    content="Choose the rising-artist event you would actually consider attending at $20."
+  />
+  <meta property="og:image" content="https://d42pe.com/assets/next-up/d42pe-next-up-story.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://d42pe.com/next-up/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070508;
+      --panel: rgba(18, 11, 18, 0.86);
+      --panel-strong: rgba(27, 15, 25, 0.96);
+      --text: #fff8fb;
+      --muted: #c2b3bb;
+      --pink: #ff2f7d;
+      --pink-light: #ff9ac3;
+      --blue: #43c9ff;
+      --line: rgba(255, 154, 195, 0.24);
+      --success: #4de2a8;
+      --max: 760px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(7, 5, 8, 0.36), rgba(7, 5, 8, 0.96) 52%, #070508 82%),
+        url("/assets/next-up/concert-background.png") top center / min(100vw, 900px) auto no-repeat,
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: linear-gradient(to bottom, black, transparent 88%);
+    }
+
+    button,
+    input,
+    select,
+    textarea { font: inherit; }
+
+    button,
+    a,
+    label { -webkit-tap-highlight-color: transparent; }
+
+    a { color: inherit; }
+
+    .wrap {
+      width: min(calc(100% - 28px), var(--max));
+      margin: 0 auto;
+    }
+
+    .nav {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(7, 5, 8, 0.74);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .nav-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 950;
+      letter-spacing: 0.14em;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--pink);
+      box-shadow: 0 0 18px rgba(255, 47, 125, 0.95);
+    }
+
+    .concept-label {
+      padding: 8px 11px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      color: #e9dce3;
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    main { padding: clamp(48px, 11vw, 86px) 0 44px; }
+
+    .hero {
+      text-align: center;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.72);
+    }
+
+    .eyebrow {
+      margin: 0 0 16px;
+      color: var(--pink-light);
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: 0.19em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: clamp(48px, 14vw, 88px);
+      line-height: 0.9;
+      letter-spacing: -0.065em;
+      text-transform: uppercase;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--pink-light);
+      text-shadow: 0 0 32px rgba(255, 47, 125, 0.36);
+    }
+
+    .hero-copy {
+      max-width: 620px;
+      margin: 22px auto 0;
+      color: #f8eaf1;
+      font-size: clamp(18px, 4.8vw, 24px);
+      font-weight: 760;
+      line-height: 1.4;
+    }
+
+    .price-pill {
+      width: fit-content;
+      margin: 20px auto 0;
+      padding: 10px 15px;
+      border: 1px solid rgba(255, 154, 195, 0.58);
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(255, 47, 125, 0.16);
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .experiment {
+      margin-top: clamp(42px, 9vw, 66px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      background: var(--panel);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .progress {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .progress-bar {
+      width: 25%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--pink), var(--pink-light), var(--blue));
+      box-shadow: 0 0 18px rgba(255, 47, 125, 0.65);
+      transition: width 220ms ease;
+    }
+
+    .step {
+      display: none;
+      padding: clamp(24px, 6vw, 42px);
+    }
+
+    .step.active { display: block; }
+
+    .step-count {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--pink-light);
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(26px, 7vw, 38px);
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .step-intro {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .choices {
+      margin-top: 24px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .choice-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .choice-card {
+      min-height: 84px;
+      padding: 16px 17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.035);
+      cursor: pointer;
+      transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
+    }
+
+    .choice-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 154, 195, 0.52);
+      background: rgba(255, 47, 125, 0.08);
+    }
+
+    .choice-input:focus-visible + .choice-card,
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+
+    .choice-input:checked + .choice-card {
+      border-color: var(--pink-light);
+      background: linear-gradient(135deg, rgba(255, 47, 125, 0.18), rgba(67, 201, 255, 0.06));
+      box-shadow: inset 0 0 0 1px rgba(255, 154, 195, 0.16);
+    }
+
+    .choice-copy { min-width: 0; }
+
+    .choice-title {
+      display: block;
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .choice-detail {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .choice-marker {
+      flex: 0 0 auto;
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 5px transparent;
+    }
+
+    .choice-input:checked + .choice-card .choice-marker {
+      border-color: var(--pink-light);
+      background: var(--pink);
+      box-shadow: inset 0 0 0 5px var(--panel-strong);
+    }
+
+    .fields {
+      margin-top: 23px;
+      display: grid;
+      gap: 15px;
+    }
+
+    .field-label {
+      display: grid;
+      gap: 7px;
+      color: #f3e7ed;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .field,
+    select.field {
+      width: 100%;
+      min-height: 52px;
+      padding: 13px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 13px;
+      color: var(--text);
+      background: rgba(4, 3, 5, 0.56);
+      outline: none;
+    }
+
+    textarea.field {
+      min-height: 92px;
+      resize: vertical;
+      line-height: 1.4;
+    }
+
+    .field::placeholder { color: #857881; }
+
+    .actions {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+    }
+
+    .button {
+      min-height: 52px;
+      padding: 13px 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid transparent;
+      border-radius: 13px;
+      color: #fff;
+      background: linear-gradient(135deg, #ff3b83, #b90c50);
+      box-shadow: 0 12px 30px rgba(255, 47, 125, 0.22);
+      font-weight: 900;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .button:hover { filter: brightness(1.08); }
+
+    .button.secondary {
+      border-color: rgba(255, 255, 255, 0.16);
+      color: #e8dbe2;
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: none;
+    }
+
+    .button:disabled {
+      cursor: not-allowed;
+      filter: grayscale(0.55);
+      opacity: 0.52;
+    }
+
+    .error {
+      min-height: 20px;
+      margin: 10px 0 0;
+      color: #ffb1c9;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .summary {
+      margin-top: 22px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: 104px minmax(0, 1fr);
+      gap: 10px;
+      padding: 7px 0;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .summary-label { color: var(--muted); }
+
+    .sms-button {
+      width: 100%;
+      margin-top: 22px;
+      min-height: 58px;
+      font-size: 16px;
+    }
+
+    .finish-note {
+      margin: 13px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .copy-status {
+      min-height: 20px;
+      margin-top: 10px;
+      color: var(--success);
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .disclosure {
+      margin: 18px 0 0;
+      padding: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      color: #cdbfc6;
+      background: rgba(0, 0, 0, 0.2);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .disclosure strong { color: #fff; }
+
+    footer {
+      padding: 26px 0 0;
+      color: #8e7e87;
+      font-size: 11px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 520px) {
+      body {
+        background-size: 760px auto;
+        background-position: 50% 0;
+      }
+
+      .nav-inner { min-height: 60px; }
+      .concept-label { font-size: 9px; }
+      main { padding-top: 43px; }
+      .step { padding: 23px 18px 25px; }
+      .choice-card { padding: 14px; }
+      .actions { grid-template-columns: 1fr; }
+      .actions .secondary { order: 2; }
+      .summary-row { grid-template-columns: 86px minmax(0, 1fr); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="nav-inner wrap">
+      <a class="brand" href="/" aria-label="D42PE home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>D42PE</span>
+      </a>
+      <span class="concept-label">Concept Test</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow">D42PE Next Up</p>
+      <h1 id="page-title">Austin Chooses <span>The Next Show.</span></h1>
+      <p class="hero-copy">
+        Which rising-artist event would you actually consider attending?
+        Choose a format, see the proposed price, and submit your real answer.
+      </p>
+      <p class="price-pill">Proposed GA • $20</p>
+    </section>
+
+    <section class="experiment" aria-label="D42PE Next Up concept test">
+      <div class="progress" aria-hidden="true">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <form id="mvp-form" novalidate>
+        <section class="step active" data-step="1" aria-labelledby="step-one-title">
+          <span class="step-count">Step 1 of 4</span>
+          <h2 id="step-one-title">Which show would you pick?</h2>
+          <p class="step-intro">Choose the one you would be most likely to attend in Austin.</p>
+
+          <div class="choices">
+            <input class="choice-input" type="radio" name="concept" id="concept-rap" value="Underground Rap Night" />
+            <label class="choice-card" for="concept-rap">
+              <span class="choice-copy">
+                <span class="choice-title">Underground Rap Night</span>
+                <span class="choice-detail">Three rising rap artists and one local opener</span>
+              </span>
+              <span class="choice-marker" aria-hidden="true"></span>
+            </label>
+
+            <input class="choice-input" type="radio" name="concept" id="concept-dj" value="Rising DJ Night" />
+            <label class="choice-card" for="concept-dj">
+              <span class="choice-copy">
+                <span class="choice-title">Rising DJ Night</span>
+                <span class="choice-detail">Three up-and-coming DJs in one night</span>
+              </span>
+              <span class="choice-marker" aria-hidden="true"></span>
+            </label>
+
+            <input class="choice-input" type="radio" name="concept" id="concept-mix" value="Breakout Mix" />
+            <label class="choice-card" for="concept-mix">
+              <span class="choice-copy">
+                <span class="choice-title">Breakout Mix</span>
+                <span class="choice-detail">A rising rap artist, DJ, and local opener</span>
+              </span>
+              <span class="choice-marker" aria-hidden="true"></span>
+            </label>
+          </div>
+
+          <p class="error" id="step-one-error" role="alert"></p>
+          <div class="actions">
+            <button class="button" type="button" data-next="2">Continue</button>
+          </div>
+        </section>
+
+        <section class="step" data-step="2" aria-labelledby="step-two-title">
+          <span class="step-count">Step 2 of 4</span>
+          <h2 id="step-two-title">Now include the price.</h2>
+          <p class="step-intro">
+            If D42PE developed your selected show in Austin and general admission was $20,
+            what would you actually do?
+          </p>
+
+          <div class="choices">
+            <input class="choice-input" type="radio" name="intent" id="intent-yes" value="Join first access at $20" />
+            <label class="choice-card" for="intent-yes">
+              <span class="choice-copy">
+                <span class="choice-title">Join First Access at $20</span>
+                <span class="choice-detail">I would seriously consider buying if this becomes real</span>
+              </span>
+              <span class="choice-marker" aria-hidden="true"></span>
+            </label>
+
+            <input class="choice-input" type="radio" name="intent" id="intent-maybe" value="Maybe, depending on details" />
+            <label class="choice-card" for="intent-maybe">
+              <span class="choice-copy">
+                <span class="choice-title">Maybe — It Depends</span>
+                <span class="choice-detail">The lineup or another detail would decide it</span>
+              </span>
+              <span class="choice-marker" aria-hidden="true"></span>
+            </label>
+
+            <input class="choice-input" type="radio" name="intent" id="intent-no" value="No, not at $20" />
+            <label class="choice-card" for="intent-no">
+              <span class="choice-copy">
+                <span class="choice-title">No — Not at $20</span>
+                <span class="choice-detail">I would not seriously consider buying this concept</span>
+              </span>
+              <span class="choice-marker" aria-hidden="true"></span>
+            </label>
+          </div>
+
+          <p class="error" id="step-two-error" role="alert"></p>
+          <div class="actions">
+            <button class="button" type="button" data-next="3">Continue</button>
+            <button class="button secondary" type="button" data-back="1">Back</button>
+          </div>
+        </section>
+
+        <section class="step" data-step="3" aria-labelledby="step-three-title">
+          <span class="step-count">Step 3 of 4</span>
+          <h2 id="step-three-title">Tell us what drove your answer.</h2>
+          <p class="step-intro">This takes about 20 seconds. Do not include private information.</p>
+
+          <div class="fields">
+            <label class="field-label" for="audience">
+              Which best describes you?
+              <select class="field" id="audience" name="audience" required>
+                <option value="">Select one</option>
+                <option>High school student</option>
+                <option>College student</option>
+                <option>Neither</option>
+              </select>
+            </label>
+
+            <label class="field-label" for="last-event">
+              When did you last pay for a concert or event?
+              <select class="field" id="last-event" name="lastEvent" required>
+                <option value="">Select one</option>
+                <option>Within the last 3 months</option>
+                <option>3 to 12 months ago</option>
+                <option>More than a year ago</option>
+                <option>I have never paid for one</option>
+              </select>
+            </label>
+
+            <label class="field-label" for="factor">
+              What would matter most before you bought?
+              <select class="field" id="factor" name="factor" required>
+                <option value="">Select one</option>
+                <option>The artist or lineup</option>
+                <option>Friends going</option>
+                <option>The ticket price</option>
+                <option>The venue</option>
+                <option>The date</option>
+                <option>Production and experience</option>
+              </select>
+            </label>
+
+            <label class="field-label" for="artist">
+              Optional: one rising artist or DJ you would want in Austin
+              <input
+                class="field"
+                id="artist"
+                name="artist"
+                type="text"
+                maxlength="60"
+                autocomplete="off"
+                placeholder="Artist or DJ name"
+              />
+            </label>
+
+            <label class="field-label" for="feedback">
+              Optional: what felt unclear, weak, or untrustworthy?
+              <textarea
+                class="field"
+                id="feedback"
+                name="feedback"
+                maxlength="140"
+                placeholder="One honest sentence"
+              ></textarea>
+            </label>
+          </div>
+
+          <p class="error" id="step-three-error" role="alert"></p>
+          <div class="actions">
+            <button class="button" type="button" id="prepare-response">Prepare My Response</button>
+            <button class="button secondary" type="button" data-back="2">Back</button>
+          </div>
+        </section>
+
+        <section class="step" data-step="4" aria-labelledby="step-four-title">
+          <span class="step-count">Step 4 of 4</span>
+          <h2 id="step-four-title">Finish by sending the text.</h2>
+          <p class="step-intro">
+            Your choices are placed into a text to D42PE. Tap the button, review the message,
+            and press send. The message is the completed response.
+          </p>
+
+          <div class="summary" id="response-summary" aria-live="polite"></div>
+
+          <a class="button sms-button" id="sms-response" href="sms:+15126107851">
+            Open My Response in Messages
+          </a>
+          <button class="button secondary sms-button" id="copy-response" type="button">
+            Copy Response Instead
+          </button>
+          <p class="copy-status" id="copy-status" role="status"></p>
+
+          <p class="finish-note">
+            Nothing is submitted until you press send in Messages.
+          </p>
+
+          <div class="actions">
+            <button class="button secondary" type="button" data-back="3">Edit My Answers</button>
+          </div>
+        </section>
+      </form>
+
+      <p class="disclosure">
+        <strong>Concept test only.</strong> No artist, event, date, or venue is confirmed.
+        No payment is collected, and this does not purchase or reserve a ticket.
+        D42PE may reply about this concept, but this response does not enroll you in recurring automated texts.
+      </p>
+    </section>
+
+    <footer>
+      D42PE Next Up • Austin, Texas<br />
+      This page is a market-demand experiment, not an event announcement.
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      const form = document.getElementById("mvp-form");
+      const progressBar = document.getElementById("progress-bar");
+      const prepareButton = document.getElementById("prepare-response");
+      const smsLink = document.getElementById("sms-response");
+      const copyButton = document.getElementById("copy-response");
+      const copyStatus = document.getElementById("copy-status");
+      const responseSummary = document.getElementById("response-summary");
+      const allowedSources = new Set(["instagram", "snapchat", "direct"]);
+      const requestedSource = new URLSearchParams(window.location.search).get("src") || "direct";
+      const source = allowedSources.has(requestedSource.toLowerCase())
+        ? requestedSource.toLowerCase()
+        : "direct";
+      let responseText = "";
+
+      function value(name) {
+        return form.elements[name]?.value?.trim() || "";
+      }
+
+      function radioValue(name) {
+        return form.querySelector(`input[name="${name}"]:checked`)?.value || "";
+      }
+
+      function showStep(stepNumber) {
+        document.querySelectorAll(".step").forEach(step => {
+          step.classList.toggle("active", Number(step.dataset.step) === stepNumber);
+        });
+        progressBar.style.width = `${stepNumber * 25}%`;
+        const activeStep = document.querySelector(`.step[data-step="${stepNumber}"]`);
+        activeStep?.querySelector("h2")?.focus?.();
+        document.querySelector(".experiment").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function validateStep(stepNumber) {
+        const error = document.getElementById(`step-${["one", "two", "three"][stepNumber - 1]}-error`);
+        if (stepNumber === 1 && !radioValue("concept")) {
+          error.textContent = "Choose one event concept to continue.";
+          return false;
+        }
+        if (stepNumber === 2 && !radioValue("intent")) {
+          error.textContent = "Choose the answer that most closely matches what you would do.";
+          return false;
+        }
+        if (stepNumber === 3) {
+          const missing = ["audience", "lastEvent", "factor"].filter(name => !value(name));
+          if (missing.length) {
+            error.textContent = "Complete the three required dropdown questions.";
+            return false;
+          }
+        }
+        if (error) error.textContent = "";
+        return true;
+      }
+
+      function escapeHtml(text) {
+        return text.replace(/[&<>'"]/g, character => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          "'": "&#39;",
+          '"': "&quot;"
+        })[character]);
+      }
+
+      function buildResponse() {
+        const answers = {
+          source,
+          concept: radioValue("concept"),
+          intent: radioValue("intent"),
+          audience: value("audience"),
+          lastEvent: value("lastEvent"),
+          factor: value("factor"),
+          artist: value("artist") || "No suggestion",
+          feedback: value("feedback") || "No additional feedback"
+        };
+
+        responseText = [
+          "D42PE NEXT UP — MVP RESPONSE",
+          `Source: ${answers.source}`,
+          `Event choice: ${answers.concept}`,
+          `At $20: ${answers.intent}`,
+          `Audience: ${answers.audience}`,
+          `Last paid event: ${answers.lastEvent}`,
+          `Main factor: ${answers.factor}`,
+          `Artist suggestion: ${answers.artist}`,
+          `Feedback: ${answers.feedback}`
+        ].join("\n");
+
+        const rows = [
+          ["Event", answers.concept],
+          ["At $20", answers.intent],
+          ["Main factor", answers.factor],
+          ["Source", answers.source]
+        ];
+        responseSummary.innerHTML = rows.map(([label, answer]) =>
+          `<div class="summary-row"><span class="summary-label">${label}</span><strong>${escapeHtml(answer)}</strong></div>`
+        ).join("");
+
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+          (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        const separator = isIOS ? "&" : "?";
+        smsLink.href = `sms:+15126107851${separator}body=${encodeURIComponent(responseText)}`;
+      }
+
+      document.querySelectorAll("[data-next]").forEach(button => {
+        button.addEventListener("click", () => {
+          const currentStep = Number(button.closest(".step").dataset.step);
+          if (validateStep(currentStep)) showStep(Number(button.dataset.next));
+        });
+      });
+
+      document.querySelectorAll("[data-back]").forEach(button => {
+        button.addEventListener("click", () => showStep(Number(button.dataset.back)));
+      });
+
+      prepareButton.addEventListener("click", () => {
+        if (!validateStep(3)) return;
+        buildResponse();
+        copyStatus.textContent = "";
+        showStep(4);
+      });
+
+      copyButton.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(responseText);
+          copyStatus.textContent = "Response copied. Send it to D42PE at (512) 610-7851.";
+        } catch {
+          copyStatus.textContent = "Copy was blocked. Use the Messages button instead.";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
