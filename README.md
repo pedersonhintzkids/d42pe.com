@@ -4,8 +4,9 @@ Static website for D42PE events and updates.
 
 ## Alpha MVP route
 
-`/next-up/` is an isolated, no-index artist-intake concept test for D42PE Next Up. It is intended
-to be sent directly to emerging artists and DJs, not posted as a public ticket-interest survey.
+`/next-up/` is a no-index artist-intake concept test for D42PE Next Up. It is linked from the
+homepage as a fallback for artists who type d42pe.com directly and can also be sent to emerging
+artists and DJs. It is not a public ticket-interest survey.
 Applicants share their identity, strongest clip, expected draw, availability, booking terms and
 promotion commitment. Responses are prepared as texts to the existing D42PE number, so the
 GitHub Pages site does not collect or store application data.
