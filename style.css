@@ -209,6 +209,18 @@ svg {
   background: var(--surface-subtle);
 }
 
+.cta-artist {
+  grid-column: 1 / -1;
+  border-color: var(--accent);
+  color: var(--focus);
+  background: rgba(88, 108, 255, 0.08);
+}
+
+.cta-artist:hover {
+  color: var(--text);
+  background: rgba(88, 108, 255, 0.16);
+}
+
 .sms-fallback,
 .subscriber-proof {
   max-width: 37rem;
