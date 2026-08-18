@@ -11,6 +11,7 @@ const htmlPath = path.join(root, "next-up", "index.html");
 const flyerPath = path.join(root, "assets", "next-up", "d42pe-next-up-story.png");
 const backgroundPath = path.join(root, "assets", "next-up", "concert-background.png");
 const html = fs.readFileSync(htmlPath, "utf8");
+const homepage = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const renderSource = fs.readFileSync(path.join(root, "tools", "render-next-up-story.cjs"), "utf8");
 const checks = [];
 
@@ -25,10 +26,10 @@ function pngDimensions(filePath) {
   return { width: data.readUInt32BE(16), height: data.readUInt32BE(20), bytes: data.length };
 }
 
-check("route is isolated and no-indexed", () => {
+check("route is no-indexed and accessible from the homepage", () => {
   assert.match(html, /<meta name="robots" content="noindex,nofollow,noarchive"/);
   assert.match(html, /<link rel="canonical" href="https:\/\/d42pe\.com\/next-up\/"/);
-  assert.doesNotMatch(fs.readFileSync(path.join(root, "index.html"), "utf8"), /\/next-up\//);
+  assert.match(homepage, /<a class="cta cta-artist" href="\/next-up\/">ARTISTS: APPLY TO PERFORM<\/a>/);
 });
 
 check("route is artist-facing and uses the homepage palette", () => {
