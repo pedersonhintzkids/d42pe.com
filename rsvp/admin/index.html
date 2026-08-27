@@ -27,9 +27,9 @@
     <section class="auth-panel" id="auth-panel" aria-labelledby="auth-title">
       <h2 id="auth-title">Enter the organizer secret</h2>
       <p>The secret is checked by the RSVP server and is kept only in this open tab.</p>
-      <form id="auth-form">
+      <form id="auth-form" method="post">
         <label for="admin-secret">ORGANIZER SECRET</label>
-        <input id="admin-secret" name="secret" type="password" autocomplete="current-password" required>
+        <input id="admin-secret" type="password" autocomplete="current-password" required>
         <button class="admin-button primary" id="unlock-admin" type="submit">OPEN RSVP LIST</button>
       </form>
       <p class="message error" id="auth-error" role="alert"></p>

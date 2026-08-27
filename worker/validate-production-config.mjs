@@ -401,6 +401,12 @@ function validateDocs(source, errors, file) {
   if (!source.includes("npm run validate:rsvp-production")) {
     addError(errors, "production_validator_not_documented", file, "Operations docs must require the production configuration validator before deployment.");
   }
+  if (!source.includes("npx wrangler d1 migrations apply d42pe-rsvp --remote")) {
+    addError(errors, "remote_migration_command_missing", file, "Operations docs must name the d42pe-rsvp database and --remote when applying production migrations.");
+  }
+  if (!source.includes("npx wrangler deploy --secrets-file .env.production")) {
+    addError(errors, "first_deploy_secret_command_missing", file, "Operations docs must upload the organizer secret with the first Worker deployment via an ignored secrets file.");
+  }
 }
 
 export function validateConfigurationSet({

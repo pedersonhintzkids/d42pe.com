@@ -58,6 +58,8 @@ test("stored Step 2 and Step 3 state restores only with a valid ID and token", (
   const id = "123e4567-e89b-42d3-a456-426614174000";
   const stepTwo = parseStoredState(JSON.stringify({ version: 1, clientToken: token, rsvpId: id, name: " Their  Name ", step: 2 }));
   assert.deepEqual(stepTwo, { version: 1, clientToken: token, rsvpId: id, name: "Their Name", step: 2 });
+  const stepThree = parseStoredState(JSON.stringify({ version: 1, clientToken: token, rsvpId: id, name: " Confirmed  Guest ", step: 3 }));
+  assert.deepEqual(stepThree, { version: 1, clientToken: token, rsvpId: id, name: "Confirmed Guest", step: 3 });
   assert.equal(parseStoredState(JSON.stringify({ version: 1, clientToken: "bad", rsvpId: id, name: "Their Name", step: 3 })), null);
   assert.equal(parseStoredState("not-json"), null);
 });

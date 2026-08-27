@@ -85,9 +85,12 @@ check("Step 1 order and official host copy are exact", () => {
 });
 
 check("only one attendee field is collected", () => {
+  const form = html.match(/<form\b[^>]*id="rsvp-form"[^>]*>/i)?.[0] || "";
   const inputs = [...html.matchAll(/<input\b[\s\S]*?>/gi)].map(match => match[0]);
   assert.equal(inputs.length, 1);
-  assert.match(inputs[0], /name="name"/);
+  assert.match(form, /method="post"/i);
+  assert.match(inputs[0], /id="rsvp-name"/);
+  assert.doesNotMatch(inputs[0], /\bname=/i);
   assert.doesNotMatch(inputs[0], /type="(?:tel|email|date|number)"/i);
   assert.doesNotMatch(html, /name="(?:phone|email|address|birthday)"/i);
 });
@@ -170,11 +173,15 @@ check("server implementation has durable schema, validation, idempotency, and ra
 });
 
 check("organizer data and CSV are protected server-side", () => {
+  const authForm = adminHtml.match(/<form\b[^>]*id="auth-form"[^>]*>/i)?.[0] || "";
+  const secretInput = adminHtml.match(/<input\b[^>]*id="admin-secret"[^>]*>/i)?.[0] || "";
   assert.match(worker, /isAdminAuthorized/);
   assert.match(worker, /RSVP_ADMIN_SECRET/);
   assert.match(worker, /\/v1\/admin\/rsvps\.csv/);
   assert.match(worker, /Content-Disposition/);
+  assert.match(authForm, /method="post"/i);
   assert.match(adminHtml, /type="password"/);
+  assert.doesNotMatch(secretInput, /\bname=/i);
   assert.match(adminClient, /Authorization: `Bearer \$\{adminSecret\}`/);
   assert.doesNotMatch(`${adminHtml}\n${adminClient}`, /PASSCODE|4287|local-development-organizer-secret/);
   assert.doesNotMatch(adminClient, /localStorage|sessionStorage/);

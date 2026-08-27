@@ -61,7 +61,11 @@ function validateProduction(overrides = {}) {
     publicConfigSource: publicConfig(),
     publicHtmlSource: html(),
     adminHtmlSource: html(),
-    docsSource: "Release gate: npm run validate:rsvp-production. Store with wrangler secret put RSVP_ADMIN_SECRET.",
+    docsSource: [
+      "Release gate: npm run validate:rsvp-production.",
+      "Apply with npx wrangler d1 migrations apply d42pe-rsvp --remote.",
+      "First deploy with npx wrangler deploy --secrets-file .env.production."
+    ].join("\n"),
     production: true,
     ...overrides
   });
@@ -144,6 +148,14 @@ test("requires the safe Wrangler declaration for the encrypted organizer secret"
   const config = JSON.parse(productionWrangler());
   delete config.secrets;
   assert.ok(codes(validateProduction({ wranglerSource: JSON.stringify(config) })).includes("secret_declaration_invalid"));
+});
+
+test("requires explicit remote migration and first-deploy secret commands", () => {
+  const result = validateProduction({
+    docsSource: "Release gate only: npm run validate:rsvp-production."
+  });
+  assert.ok(codes(result).includes("remote_migration_command_missing"));
+  assert.ok(codes(result).includes("first_deploy_secret_command_missing"));
 });
 
 test("rejects production D1 and rate-limit placeholders", async () => {

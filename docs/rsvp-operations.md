@@ -61,28 +61,48 @@ Complete these steps only after the Cloudflare account and new provider resource
    npm run validate:rsvp-production
    ```
 
-6. Create one high-entropy organizer value of at least 32 characters. From `worker/`, store it in
-   Cloudflare's encrypted secret store; never put it in a URL, client file, config file, log,
-   issue, commit, or chat message:
+6. From `worker/`, apply the committed migration to the named remote database. The database name
+   and `--remote` flag are both required so the release cannot silently target local state or the
+   wrong binding:
 
    ```sh
-   wrangler secret put RSVP_ADMIN_SECRET
+   npx wrangler d1 migrations apply d42pe-rsvp --remote
    ```
 
-   The Wrangler config declares the required secret name only; it never contains the value.
-   Current Wrangler will reject deployment if that required encrypted secret has not been set.
+7. Create one high-entropy organizer value of at least 32 characters. A brand-new Worker does not
+   exist yet, so `wrangler secret put` cannot initialize its first secret. Instead, create the
+   ignored `worker/.env.production` with owner-only permissions, add only
+   `RSVP_ADMIN_SECRET=<APPROVED_HIGH_ENTROPY_VALUE>`, verify Git ignores the file, and upload the
+   secret atomically with the first deployment:
 
-7. From `worker/`, apply `migrations/0001_rsvps.sql` to the remote `d42pe-rsvp` database with
-   `wrangler d1 migrations apply`.
-8. Deploy the Worker. Verify `/healthz` returns `{"ok":true}` without exposing RSVP data.
-9. Rerun the full test suite and browser QA against the production Worker from the local static
-   route. Confirm disallowed origins receive no CORS access.
-10. Only after that succeeds, merge to `main`, wait for the existing GitHub Pages deployment, and
-   verify live attendee creation, refresh restoration, self-confirmation, admin protection, and CSV.
+   ```sh
+   cd worker
+   umask 077
+   touch .env.production
+   git check-ignore --quiet .env.production
+   npx wrangler deploy --secrets-file .env.production
+   ```
+
+   Never put the value in a URL, client file, Wrangler config, shell command, log, issue, commit,
+   or chat message. Delete `.env.production` immediately after the successful deployment. The
+   Wrangler config declares the required secret name only; it never contains the value. For later
+   rotations, after the Worker exists, use `npx wrangler secret put RSVP_ADMIN_SECRET`.
+
+8. Verify `/healthz` returns `{"ok":true}` without exposing RSVP data.
+9. Rerun the full local suite and browser QA against the local adapter. Separately smoke-test the
+   deployed Worker: verify `/healthz`, send direct API requests with `Origin: https://d42pe.com`,
+   and confirm a disallowed origin receives no CORS access. The exact production CORS policy
+   intentionally prevents a page on `127.0.0.1` from calling the deployed Worker.
+10. Only after those checks succeed, merge to `main`, wait for the existing GitHub Pages
+   deployment, and run the complete browser flow on live `https://d42pe.com/rsvp/`: attendee
+   creation, refresh restoration, edit/reopen, self-confirmation, social links, admin protection,
+   and CSV. Roll back the static release if that live end-to-end check fails.
 
 Cloudflare documents [D1 Worker bindings](https://developers.cloudflare.com/d1/worker-api/),
 [versioned D1 migrations](https://developers.cloudflare.com/d1/reference/migrations/), and the
 [Workers Rate Limiting binding](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/).
+Its [Workers secrets guide](https://developers.cloudflare.com/workers/configuration/secrets/)
+documents uploading first-deploy secrets with `--secrets-file`.
 
 ## Organizer use
 
