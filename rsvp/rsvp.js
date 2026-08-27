@@ -6,9 +6,12 @@ import {
   buildSmsUri,
   captureAttribution,
   createEmptyState,
-  normalizeName,
+  editRsvpState,
   parseStoredState,
+  reconcileRsvpState,
+  reopenPreparedSms,
   resolveApiBase,
+  selfConfirmRsvp,
   supportsNativeSms,
   validateName
 } from "./rsvp-core.js";
@@ -239,11 +242,7 @@ elements.confirmButton.addEventListener("click", async () => {
   elements.confirmError.textContent = "";
   setBusy(elements.confirmButton, true, "CONFIRMING…");
   try {
-    const payload = await apiRequest(`/v1/rsvps/${encodeURIComponent(state.rsvpId)}/self-confirm`, {
-      method: "POST",
-      body: {}
-    });
-    state = { ...state, name: payload.rsvp.name, step: 3 };
+    state = await selfConfirmRsvp(state, apiRequest);
     persistState();
     showStep(3, { focus: true });
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -265,8 +264,11 @@ elements.openTextAgain.addEventListener("click", async () => {
 
   setBusy(elements.openTextAgain, true, "OPENING…");
   try {
-    await apiRequest(`/v1/rsvps/${encodeURIComponent(state.rsvpId)}/sms-open`, { method: "POST", body: {} });
-    openPreparedSms();
+    await reopenPreparedSms(state, {
+      request: apiRequest,
+      navigatorLike: navigator,
+      navigate: uri => window.location.assign(uri)
+    });
   } catch (error) {
     elements.confirmError.textContent = error.message;
   } finally {
@@ -277,7 +279,7 @@ elements.openTextAgain.addEventListener("click", async () => {
 elements.editName.addEventListener("click", () => {
   clearErrors();
   elements.name.value = state.name;
-  state.step = 1;
+  state = editRsvpState(state);
   persistState();
   showStep(1, { focus: true });
   window.scrollTo({ top: document.querySelector(".rsvp-form").offsetTop - 20, behavior: "auto" });
@@ -337,9 +339,7 @@ elements.reset.addEventListener("click", () => {
 async function reconcileStoredState() {
   if (!state.rsvpId || state.step === 1 || !apiBase) return;
   try {
-    const payload = await apiRequest(`/v1/rsvps/${encodeURIComponent(state.rsvpId)}`);
-    state.name = normalizeName(payload.rsvp.name);
-    state.step = payload.rsvp.status === "self_confirmed" ? 3 : 2;
+    state = await reconcileRsvpState(state, apiRequest);
     persistState();
     showStep(state.step);
   } catch (error) {

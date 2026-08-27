@@ -126,3 +126,42 @@ export function resolveApiBase(locationLike, config = {}) {
   if (["localhost", "127.0.0.1"].includes(locationLike?.hostname)) return locationLike.origin;
   return "";
 }
+
+function rsvpPath(state, suffix = "") {
+  return `/v1/rsvps/${encodeURIComponent(state.rsvpId)}${suffix}`;
+}
+
+export function editRsvpState(state) {
+  return { ...state, step: 1 };
+}
+
+export async function selfConfirmRsvp(state, request) {
+  const payload = await request(rsvpPath(state, "/self-confirm"), {
+    method: "POST",
+    body: {}
+  });
+  return {
+    ...state,
+    name: normalizeName(payload.rsvp.name),
+    step: 3
+  };
+}
+
+export async function reopenPreparedSms(state, { request, navigatorLike, navigate }) {
+  await request(rsvpPath(state, "/sms-open"), {
+    method: "POST",
+    body: {}
+  });
+  const uri = buildSmsUri(state.name, navigatorLike);
+  navigate(uri);
+  return uri;
+}
+
+export async function reconcileRsvpState(state, request) {
+  const payload = await request(rsvpPath(state));
+  return {
+    ...state,
+    name: normalizeName(payload.rsvp.name),
+    step: payload.rsvp.status === "self_confirmed" ? 3 : 2
+  };
+}

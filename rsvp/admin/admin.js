@@ -1,4 +1,11 @@
 import { resolveApiBase } from "../rsvp-core.js";
+import {
+  applyAdminListResponse,
+  beginAdminListRequest,
+  buildAdminQuery,
+  createAdminListState,
+  invalidateAdminListState
+} from "./admin-core.js";
 
 const elements = {
   authPanel: document.getElementById("auth-panel"),
@@ -24,10 +31,7 @@ const elements = {
 
 let adminSecret = "";
 let apiBase = "";
-let loadedRecords = [];
-let nextCursor = "";
-let activeFilters = { status: "all", search: "" };
-let listGeneration = 0;
+let listState = createAdminListState();
 
 try {
   apiBase = resolveApiBase(window.location, window.D42PE_RSVP_CONFIG || {});
@@ -71,15 +75,6 @@ function currentFilters() {
     status: elements.statusFilter.value,
     search: elements.search.value.trim()
   };
-}
-
-function queryString({ cursor = "", limit = "", filters = activeFilters } = {}) {
-  const params = new URLSearchParams();
-  params.set("status", filters.status);
-  if (filters.search) params.set("search", filters.search);
-  if (limit) params.set("limit", limit);
-  if (cursor) params.set("cursor", cursor);
-  return params.toString();
 }
 
 function formatDate(value) {
@@ -137,40 +132,40 @@ function renderRows(records, pagination) {
 async function loadList({ append = false } = {}) {
   elements.error.textContent = "";
   elements.status.textContent = append ? "Loading more RSVP records…" : "Loading RSVP records…";
-  const generation = append ? listGeneration : ++listGeneration;
+  const started = beginAdminListRequest(listState, {
+    append,
+    filters: currentFilters()
+  });
+  listState = started.state;
+  const request = started.request;
   if (!append) elements.loadMore.hidden = true;
-  const requestedFilters = append ? activeFilters : currentFilters();
-  let response;
+  let payload;
   try {
-    response = await adminRequest(`/v1/admin/rsvps?${queryString({
-      cursor: append ? nextCursor : "",
+    const response = await adminRequest(`/v1/admin/rsvps?${buildAdminQuery({
+      cursor: request.cursor,
       limit: "100",
-      filters: requestedFilters
+      filters: request.filters
     })}`);
+    payload = await response.json();
   } catch (error) {
-    if (generation !== listGeneration) return false;
+    if (request.generation !== listState.generation) return false;
     throw error;
   }
-  const payload = await response.json();
-  if (generation !== listGeneration) return false;
-  elements.confirmed.textContent = String(payload.counts.confirmed);
-  elements.started.textContent = String(payload.counts.started);
-  elements.total.textContent = String(payload.counts.total);
-  if (!append) activeFilters = requestedFilters;
-  loadedRecords = append ? [...loadedRecords, ...payload.records] : payload.records;
-  nextCursor = payload.pagination?.nextCursor || "";
-  renderRows(loadedRecords, payload.pagination);
+  const applied = applyAdminListResponse(listState, request, payload);
+  if (!applied.applied) return false;
+  listState = applied.state;
+  elements.confirmed.textContent = String(listState.counts.confirmed);
+  elements.started.textContent = String(listState.counts.started);
+  elements.total.textContent = String(listState.counts.total);
+  renderRows(listState.loadedRecords, listState.pagination);
   return true;
 }
 
 function lockAdmin() {
-  listGeneration += 1;
+  listState = invalidateAdminListState(listState);
   adminSecret = "";
   elements.secret.value = "";
   elements.rows.replaceChildren();
-  loadedRecords = [];
-  nextCursor = "";
-  activeFilters = { status: "all", search: "" };
   elements.table.hidden = true;
   elements.loadMore.hidden = true;
   elements.listPanel.hidden = true;
@@ -211,7 +206,7 @@ elements.filters.addEventListener("submit", event => {
 });
 
 elements.loadMore.addEventListener("click", async () => {
-  if (!nextCursor) return;
+  if (!listState.nextCursor) return;
   setBusy(elements.loadMore, true, "LOADING…");
   try {
     await loadList({ append: true });
@@ -227,7 +222,7 @@ elements.export.addEventListener("click", async () => {
   elements.error.textContent = "";
   setBusy(elements.export, true, "EXPORTING…");
   try {
-    const response = await adminRequest(`/v1/admin/rsvps.csv?${queryString({ filters: activeFilters })}`, { accept: "text/csv" });
+    const response = await adminRequest(`/v1/admin/rsvps.csv?${buildAdminQuery({ filters: listState.activeFilters })}`, { accept: "text/csv" });
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");

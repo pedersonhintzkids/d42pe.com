@@ -17,6 +17,8 @@ const adminClient = read("rsvp/admin/admin.js");
 const worker = read("worker/src/index.js");
 const migration = read("worker/migrations/0001_rsvps.sql");
 const flyerPath = path.join(root, "assets/rsvp/ritual-x-2016-house-party-flyer-2026-08-29.png");
+const flyerWebp720Path = path.join(root, "assets/rsvp/ritual-x-2016-house-party-flyer-2026-08-29-720w.webp");
+const flyerWebp1138Path = path.join(root, "assets/rsvp/ritual-x-2016-house-party-flyer-2026-08-29-1138w.webp");
 const checks = [];
 
 function check(name, callback) {
@@ -34,12 +36,37 @@ function pngDimensions(filePath) {
   };
 }
 
+function losslessWebpDimensions(filePath) {
+  const data = fs.readFileSync(filePath);
+  assert.equal(data.subarray(0, 4).toString(), "RIFF");
+  assert.equal(data.subarray(8, 12).toString(), "WEBP");
+  assert.equal(data.subarray(12, 16).toString(), "VP8L");
+  assert.equal(data[20], 0x2f);
+  const dimensions = data.readUInt32LE(21);
+  return {
+    data,
+    width: (dimensions & 0x3fff) + 1,
+    height: ((dimensions >>> 14) & 0x3fff) + 1
+  };
+}
+
 check("public route uses the exact supplied flyer without crop-prone markup", () => {
   const flyer = pngDimensions(flyerPath);
+  const flyerWebp720 = losslessWebpDimensions(flyerWebp720Path);
+  const flyerWebp1138 = losslessWebpDimensions(flyerWebp1138Path);
   assert.deepEqual([flyer.width, flyer.height], [1138, 1382]);
   assert.equal(crypto.createHash("sha256").update(flyer.data).digest("hex"), "e10f75de0e26bf7d489d9ea4dbf1ee447605b7b9160672b041b30a722f8381b8");
+  assert.deepEqual([flyerWebp720.width, flyerWebp720.height], [720, 874]);
+  assert.deepEqual([flyerWebp1138.width, flyerWebp1138.height], [1138, 1382]);
+  assert.equal(crypto.createHash("sha256").update(flyerWebp720.data).digest("hex"), "eca82ef50e9db0558d4fd74a2c13e9a44a736624c707b68ae64cf561f72d3cd3");
+  assert.equal(crypto.createHash("sha256").update(flyerWebp1138.data).digest("hex"), "59699b448d1ba5503c5fbddc2e320bbdc06343d14a7653a7ac58eb0b086caeaf");
+  assert.ok(flyerWebp720.data.length < flyer.data.length * 0.4);
+  assert.ok(flyerWebp1138.data.length < flyer.data.length * 0.8);
   assert.match(html, /src="\/assets\/rsvp\/ritual-x-2016-house-party-flyer-2026-08-29\.png"/);
-  assert.match(html, /rel="preload" as="image" href="\/assets\/rsvp\/ritual-x-2016-house-party-flyer-2026-08-29\.png" fetchpriority="high"/);
+  assert.match(html, /<picture>[\s\S]*<source[\s\S]*type="image\/webp"[\s\S]*<img/);
+  assert.match(html, /ritual-x-2016-house-party-flyer-2026-08-29-720w\.webp 720w/);
+  assert.match(html, /ritual-x-2016-house-party-flyer-2026-08-29-1138w\.webp 1138w/);
+  assert.match(html, /rel="preload"[\s\S]*type="image\/webp"[\s\S]*imagesrcset=/);
   assert.match(html, /width="1138"[\s\S]*height="1382"/);
   assert.match(css, /aspect-ratio:\s*569\s*\/\s*691/);
   assert.match(css, /object-fit:\s*contain/);
@@ -87,7 +114,7 @@ check("Step 2 and Step 3 required copy and actions are exact", () => {
     "ADD D42PE ON SNAPCHAT"
   ]) assert.ok(html.includes(text), `missing ${text}`);
   assert.match(client, /localStorage\.setItem\(STORAGE_KEY/);
-  assert.match(client, /self-confirm/);
+  assert.match(`${client}\n${core}`, /self-confirm/);
   assert.match(client, /createOrUpdateStartedRsvp/);
 });
 

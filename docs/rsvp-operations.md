@@ -18,6 +18,12 @@ npm test
 npm run build
 ```
 
+Both commands run the configuration gate. With only the committed example present, it verifies
+that the template contains no provider IDs or secrets. If the ignored `worker/wrangler.jsonc`
+exists, the same gate automatically switches to production mode and rejects placeholders,
+invalid or reused rate-limit namespaces, a missing API origin, a mismatched CSP, and plaintext
+secret-bearing configuration.
+
 Start the integrated local preview:
 
 ```sh
@@ -38,23 +44,40 @@ Verify these routes:
 
 Complete these steps only after the Cloudflare account and new provider resources are approved:
 
-1. Authenticate Wrangler using the approved Cloudflare account.
+1. Use Wrangler 4.36.0 or newer and authenticate it with the approved Cloudflare account.
 2. Create a D1 database named `d42pe-rsvp`.
 3. Copy `worker/wrangler.example.jsonc` to the ignored `worker/wrangler.jsonc` and replace the D1
-   database ID. Keep the binding name `DB`. With Wrangler 4.36.0 or newer, replace both rate-limit
-   namespace placeholders with different unused positive integers for that Cloudflare account;
-   keep the `RSVP_EDGE_RATE_LIMITER` and `RSVP_ACTOR_RATE_LIMITER` binding names unchanged.
-4. Create one high-entropy organizer value of at least 32 characters. Store it with Wrangler as
-   `RSVP_ADMIN_SECRET`; never put it in a URL, client file, log, issue, commit, or chat message.
-5. From `worker/`, apply `migrations/0001_rsvps.sql` to the remote `d42pe-rsvp` database with
+   database UUID. Keep the binding name `DB`. Replace both rate-limit namespace placeholders with
+   different unused positive-integer strings for that Cloudflare account; keep the
+   `RSVP_EDGE_RATE_LIMITER` and `RSVP_ACTOR_RATE_LIMITER` binding names unchanged.
+4. Obtain the exact HTTPS origin the Worker name and approved account subdomain will use (or the
+   approved custom API origin). Put that origin in `rsvp/config.js`, then replace the wildcard in
+   both RSVP HTML `connect-src` directives with that same exact origin. Production must never ship
+   the broad `https://*.workers.dev` source.
+5. Run the credential-free production release gate from the repository root. It must report
+   `"ok": true` before any Worker deployment:
+
+   ```sh
+   npm run validate:rsvp-production
+   ```
+
+6. Create one high-entropy organizer value of at least 32 characters. From `worker/`, store it in
+   Cloudflare's encrypted secret store; never put it in a URL, client file, config file, log,
+   issue, commit, or chat message:
+
+   ```sh
+   wrangler secret put RSVP_ADMIN_SECRET
+   ```
+
+   The Wrangler config declares the required secret name only; it never contains the value.
+   Current Wrangler will reject deployment if that required encrypted secret has not been set.
+
+7. From `worker/`, apply `migrations/0001_rsvps.sql` to the remote `d42pe-rsvp` database with
    `wrangler d1 migrations apply`.
-6. Deploy the Worker. Verify `/healthz` returns `{"ok":true}` without exposing RSVP data.
-7. Put the exact deployed HTTPS Worker origin in `rsvp/config.js`. If a custom API hostname is
-   used instead of `workers.dev`, also narrow the `connect-src` directives in both RSVP HTML files
-   to that exact origin.
-8. Rerun the full test suite and browser QA against the production Worker from the local static
+8. Deploy the Worker. Verify `/healthz` returns `{"ok":true}` without exposing RSVP data.
+9. Rerun the full test suite and browser QA against the production Worker from the local static
    route. Confirm disallowed origins receive no CORS access.
-9. Only after that succeeds, merge to `main`, wait for the existing GitHub Pages deployment, and
+10. Only after that succeeds, merge to `main`, wait for the existing GitHub Pages deployment, and
    verify live attendee creation, refresh restoration, self-confirmation, admin protection, and CSV.
 
 Cloudflare documents [D1 Worker bindings](https://developers.cloudflare.com/d1/worker-api/),

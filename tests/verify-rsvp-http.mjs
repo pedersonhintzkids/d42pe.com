@@ -79,6 +79,11 @@ try {
     assert.match(response.headers.get("content-type") || "", /^text\/html\b/);
   }
 
+  const responsiveFlyer = await fetch(`${baseUrl}/assets/rsvp/ritual-x-2016-house-party-flyer-2026-08-29-720w.webp`);
+  assert.equal(responsiveFlyer.status, 200);
+  assert.equal(responsiveFlyer.headers.get("content-type"), "image/webp");
+  assert.ok((await responsiveFlyer.arrayBuffer()).byteLength > 0);
+
   const createdResponse = await fetch(`${baseUrl}/v1/rsvps`, {
     method: "POST",
     headers: apiHeaders(),

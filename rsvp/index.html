@@ -12,7 +12,15 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/assets/d42pe-brand-logo-512.png" type="image/png" sizes="512x512">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-  <link rel="preload" as="image" href="/assets/rsvp/ritual-x-2016-house-party-flyer-2026-08-29.png" fetchpriority="high">
+  <link
+    rel="preload"
+    as="image"
+    href="/assets/rsvp/ritual-x-2016-house-party-flyer-2026-08-29-1138w.webp"
+    type="image/webp"
+    imagesrcset="/assets/rsvp/ritual-x-2016-house-party-flyer-2026-08-29-720w.webp 720w, /assets/rsvp/ritual-x-2016-house-party-flyer-2026-08-29-1138w.webp 1138w"
+    imagesizes="(max-width: 352px) calc(100vw - 28px), (max-width: 609px) calc(100vw - 40px), 569px"
+    fetchpriority="high"
+  >
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="D42PE">
@@ -41,15 +49,22 @@
 
   <main class="rsvp-shell" id="rsvp-flow">
     <section class="rsvp-step" id="step-one" data-step="1" aria-labelledby="host-before-title">
-      <img
-        class="event-flyer"
-        src="/assets/rsvp/ritual-x-2016-house-party-flyer-2026-08-29.png"
-        width="1138"
-        height="1382"
-        alt="2016 themed house party flyer: RITUAL X, August 29, 2026, sounds by DJ Villa"
-        fetchpriority="high"
-        decoding="async"
-      >
+      <picture>
+        <source
+          type="image/webp"
+          srcset="/assets/rsvp/ritual-x-2016-house-party-flyer-2026-08-29-720w.webp 720w, /assets/rsvp/ritual-x-2016-house-party-flyer-2026-08-29-1138w.webp 1138w"
+          sizes="(max-width: 352px) calc(100vw - 28px), (max-width: 609px) calc(100vw - 40px), 569px"
+        >
+        <img
+          class="event-flyer"
+          src="/assets/rsvp/ritual-x-2016-house-party-flyer-2026-08-29.png"
+          width="1138"
+          height="1382"
+          alt="2016 themed house party flyer: RITUAL X, August 29, 2026, sounds by DJ Villa"
+          fetchpriority="high"
+          decoding="async"
+        >
+      </picture>
 
       <section class="official-host" aria-labelledby="host-before-title">
         <p class="host-label">OFFICIAL HOST</p>

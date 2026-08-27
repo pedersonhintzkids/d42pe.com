@@ -7,6 +7,9 @@
     "RSVP_ALLOWED_ORIGINS": "https://d42pe.com",
     "RSVP_EVENT_ID": "ritual-x-2016-house-party-2026-08-29"
   },
+  "secrets": {
+    "required": ["RSVP_ADMIN_SECRET"]
+  },
   "d1_databases": [
     {
       "binding": "DB",
