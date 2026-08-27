@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+.wrangler/
+worker/.dev.vars
+worker/wrangler.jsonc
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+artifacts/

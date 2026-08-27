@@ -1,0 +1,36 @@
+{
+  "name": "d42pe-rsvp-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-26",
+  "workers_dev": true,
+  "vars": {
+    "RSVP_ALLOWED_ORIGINS": "https://d42pe.com",
+    "RSVP_EVENT_ID": "ritual-x-2016-house-party-2026-08-29"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "d42pe-rsvp",
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "RSVP_EDGE_RATE_LIMITER",
+      "namespace_id": "REPLACE_WITH_UNIQUE_POSITIVE_INTEGER",
+      "simple": {
+        "limit": 120,
+        "period": 60
+      }
+    },
+    {
+      "name": "RSVP_ACTOR_RATE_LIMITER",
+      "namespace_id": "REPLACE_WITH_ANOTHER_UNIQUE_POSITIVE_INTEGER",
+      "simple": {
+        "limit": 30,
+        "period": 60
+      }
+    }
+  ]
+}
