@@ -1,0 +1,17 @@
+{
+  "name": "d42pe.com",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:rsvp": "node tools/rsvp-local-server.mjs",
+    "check": "node --check rsvp/rsvp-core.js && node --check rsvp/rsvp.js && node --check rsvp/admin/admin-core.js && node --check rsvp/admin/admin.js && node --check worker/src/index.js && node --check worker/src/auth.js && node --check worker/src/csv.js && node --check worker/src/validation.js && node --check worker/validate-production-config.mjs",
+    "validate:rsvp-config": "node worker/validate-production-config.mjs",
+    "validate:rsvp-production": "node worker/validate-production-config.mjs --production",
+    "test:rsvp": "node --test worker/test/*.test.mjs tests/rsvp-core.test.mjs && node tests/verify-rsvp.cjs",
+    "test:static": "node tests/verify-update.cjs && node tests/verify-next-up.cjs",
+    "test:http": "node tests/verify-rsvp-http.mjs",
+    "test": "npm run check && npm run validate:rsvp-config && npm run test:rsvp && npm run test:static && npm run test:http",
+    "build": "npm run check && npm run validate:rsvp-config && node tests/verify-rsvp.cjs"
+  }
+}

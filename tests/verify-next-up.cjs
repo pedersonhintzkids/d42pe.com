@@ -26,10 +26,10 @@ function pngDimensions(filePath) {
   return { width: data.readUInt32BE(16), height: data.readUInt32BE(20), bytes: data.length };
 }
 
-check("route is no-indexed and accessible from the homepage", () => {
+check("route is no-indexed and the homepage CTA removal stays preserved", () => {
   assert.match(html, /<meta name="robots" content="noindex,nofollow,noarchive"/);
   assert.match(html, /<link rel="canonical" href="https:\/\/d42pe\.com\/next-up\/"/);
-  assert.match(homepage, /<a class="cta cta-artist" href="\/next-up\/">ARTISTS: APPLY TO PERFORM<\/a>/);
+  assert.doesNotMatch(homepage, /<a class="cta cta-artist" href="\/next-up\/">ARTISTS: APPLY TO PERFORM<\/a>/);
 });
 
 check("route is artist-facing and uses the homepage palette", () => {
