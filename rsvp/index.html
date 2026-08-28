@@ -100,22 +100,25 @@
       <h1 class="step-title" id="step-two-title" tabindex="-1">SEND THE PREPARED TEXT, THEN RETURN HERE</h1>
       <p class="step-detail" id="step-two-name"></p>
 
-      <div class="desktop-fallback" id="desktop-fallback" hidden>
-        <p class="fallback-title">TEXT THIS NUMBER</p>
-        <p class="prepared-value" id="prepared-number">(512) 610-7851</p>
-        <button class="copy-button" id="copy-number" type="button">COPY NUMBER</button>
-        <p class="fallback-title">PREPARED MESSAGE</p>
-        <p class="prepared-value" id="prepared-message"></p>
-        <button class="copy-button" id="copy-message" type="button">COPY MESSAGE</button>
-        <p class="copy-status" id="copy-status" role="status"></p>
-      </div>
-
       <div class="step-actions">
-        <button class="rsvp-button primary-button" id="confirm-rsvp" type="button">I SENT THE TEXT</button>
-        <button class="rsvp-button secondary-button" id="open-text-again" type="button">OPEN TEXT AGAIN</button>
+        <a class="rsvp-button primary-button" id="send-text" href="sms:+15126107851?body=RSVP">SEND THE TEXT</a>
+        <button class="rsvp-button secondary-button" id="confirm-rsvp" type="button">I SENT THE TEXT</button>
         <button class="text-button" id="edit-name" type="button">EDIT NAME</button>
       </div>
       <p class="form-message error-message" id="confirm-error" role="alert"></p>
+
+      <details class="desktop-fallback" id="desktop-fallback">
+        <summary class="fallback-summary">TEXTING DIDN’T OPEN?</summary>
+        <div class="fallback-content">
+          <p class="fallback-title">TEXT THIS NUMBER</p>
+          <p class="prepared-value" id="prepared-number">(512) 610-7851</p>
+          <button class="copy-button" id="copy-number" type="button">COPY NUMBER</button>
+          <p class="fallback-title">PREPARED MESSAGE</p>
+          <p class="prepared-value" id="prepared-message"></p>
+          <button class="copy-button" id="copy-message" type="button">COPY MESSAGE</button>
+          <p class="copy-status" id="copy-status" role="status"></p>
+        </div>
+      </details>
     </section>
 
     <section class="rsvp-step compact-step" id="step-three" data-step="3" aria-labelledby="step-three-title" hidden>

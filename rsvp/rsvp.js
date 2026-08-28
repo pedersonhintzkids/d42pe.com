@@ -9,10 +9,9 @@ import {
   editRsvpState,
   parseStoredState,
   reconcileRsvpState,
-  reopenPreparedSms,
+  recordSmsHandoff,
   resolveApiBase,
   selfConfirmRsvp,
-  supportsNativeSms,
   validateName
 } from "./rsvp-core.js";
 
@@ -33,7 +32,7 @@ const elements = {
   copyStatus: document.getElementById("copy-status"),
   confirmButton: document.getElementById("confirm-rsvp"),
   confirmError: document.getElementById("confirm-error"),
-  openTextAgain: document.getElementById("open-text-again"),
+  sendText: document.getElementById("send-text"),
   editName: document.getElementById("edit-name"),
   stepThreeTitle: document.getElementById("step-three-title"),
   confirmedName: document.getElementById("confirmed-name"),
@@ -58,7 +57,6 @@ function readStoredState() {
 }
 
 let state = readStoredState() || createEmptyState();
-const nativeSms = supportsNativeSms(navigator);
 const attribution = captureAttribution(window.location, document.referrer);
 let apiBase = "";
 
@@ -97,11 +95,13 @@ function clearStoredState() {
 }
 
 function renderPreparedValues() {
+  const message = buildSmsMessage(state.name);
   elements.stepTwoName.textContent = `Prepared for: ${state.name}`;
   elements.preparedNumber.textContent = SMS_DISPLAY_NUMBER;
-  elements.preparedMessage.textContent = buildSmsMessage(state.name);
+  elements.preparedMessage.textContent = message;
+  elements.sendText.href = buildSmsUri(state.name, navigator);
+  elements.sendText.setAttribute("aria-label", `Send ${message} to ${SMS_DISPLAY_NUMBER}`);
   elements.confirmedName.textContent = state.name;
-  elements.fallback.hidden = nativeSms;
 }
 
 function showStep(step, { focus = false } = {}) {
@@ -166,9 +166,7 @@ async function createOrUpdateStartedRsvp(name) {
         method: "PATCH",
         body: { name }
       });
-      if (nativeSms) {
-        await apiRequest(`/v1/rsvps/${encodeURIComponent(state.rsvpId)}/sms-open`, { method: "POST", body: {} });
-      }
+      void recordSmsHandoff({ ...state, rsvpId: payload.rsvp.id }, apiRequest);
       return payload.rsvp;
     } catch (error) {
       if (error.status !== 404) throw error;
@@ -183,7 +181,7 @@ async function createOrUpdateStartedRsvp(name) {
     body: {
       eventId: EVENT_ID,
       name,
-      smsOpened: nativeSms,
+      smsOpened: true,
       ...attribution
     }
   });
@@ -229,8 +227,7 @@ elements.form.addEventListener("submit", async event => {
     if (!persistState()) throw new ApiError("The RSVP was saved, but this browser could not preserve your return step.");
     showStep(2);
     window.scrollTo({ top: 0, behavior: "auto" });
-    if (nativeSms) requestAnimationFrame(openPreparedSms);
-    else elements.copyNumber.focus();
+    openPreparedSms();
   } catch (error) {
     elements.startError.textContent = error.message;
   } finally {
@@ -253,27 +250,10 @@ elements.confirmButton.addEventListener("click", async () => {
   }
 });
 
-elements.openTextAgain.addEventListener("click", async () => {
+elements.sendText.addEventListener("click", () => {
   elements.confirmError.textContent = "";
-  if (!nativeSms) {
-    elements.fallback.hidden = false;
-    elements.copyStatus.textContent = "Use the copy buttons, then send the prepared message from your phone.";
-    elements.copyNumber.focus();
-    return;
-  }
-
-  setBusy(elements.openTextAgain, true, "OPENING…");
-  try {
-    await reopenPreparedSms(state, {
-      request: apiRequest,
-      navigatorLike: navigator,
-      navigate: uri => window.location.assign(uri)
-    });
-  } catch (error) {
-    elements.confirmError.textContent = error.message;
-  } finally {
-    setBusy(elements.openTextAgain, false, "OPENING…");
-  }
+  if (!state.rsvpId || !apiBase) return;
+  void recordSmsHandoff(state, apiRequest);
 });
 
 elements.editName.addEventListener("click", () => {
@@ -330,6 +310,7 @@ elements.reset.addEventListener("click", () => {
   clearStoredState();
   state = createEmptyState();
   elements.name.value = "";
+  elements.fallback.open = false;
   elements.copyStatus.textContent = "";
   clearErrors();
   showStep(1, { focus: true });

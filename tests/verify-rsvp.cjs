@@ -106,8 +106,9 @@ check("SMS destination, exact body, platform separators, and encoding are implem
 check("Step 2 and Step 3 required copy and actions are exact", () => {
   for (const text of [
     "SEND THE PREPARED TEXT, THEN RETURN HERE",
+    "SEND THE TEXT",
     "I SENT THE TEXT",
-    "OPEN TEXT AGAIN",
+    "TEXTING DIDN’T OPEN?",
     "EDIT NAME",
     "YOU’RE ON THE RSVP LIST",
     "RSVP confirmed for:",
@@ -119,6 +120,16 @@ check("Step 2 and Step 3 required copy and actions are exact", () => {
   assert.match(client, /localStorage\.setItem\(STORAGE_KEY/);
   assert.match(`${client}\n${core}`, /self-confirm/);
   assert.match(client, /createOrUpdateStartedRsvp/);
+  const smsAnchor = (html.match(/<a\b[\s\S]*?<\/a>/gi) || []).find(candidate => candidate.includes('id="send-text"'));
+  assert.ok(smsAnchor, "missing the direct send-text link");
+  assert.match(smsAnchor, /href="sms:\+15126107851\?body=RSVP"/);
+  assert.match(client, /elements\.sendText\.href = buildSmsUri\(state\.name, navigator\)/);
+  assert.match(client, /showStep\(2\);[\s\S]*openPreparedSms\(\)/);
+  assert.doesNotMatch(client, /requestAnimationFrame\(openPreparedSms\)/);
+  assert.doesNotMatch(client, /supportsNativeSms|nativeSms/);
+  assert.match(client, /void recordSmsHandoff\(\{ \.\.\.state, rsvpId: payload\.rsvp\.id \}, apiRequest\)/);
+  assert.match(core, /keepalive: true[\s\S]*catch[\s\S]*return false/);
+  assert.match(html, /<details\b[^>]*id="desktop-fallback"/i);
 });
 
 check("all social destinations are exact and secure", () => {

@@ -10,10 +10,9 @@ import {
   editRsvpState,
   parseStoredState,
   reconcileRsvpState,
-  reopenPreparedSms,
+  recordSmsHandoff,
   resolveApiBase,
   selfConfirmRsvp,
-  supportsNativeSms,
   validateName
 } from "../rsvp/rsvp-core.js";
 import {
@@ -50,7 +49,6 @@ test("SMS destination and message are exact on iOS and Android", () => {
     buildSmsUri("Renée & DJ", { userAgent: "Android Mobile", platform: "Linux" }),
     "sms:+15126107851?body=RSVP%20-%20Ren%C3%A9e%20%26%20DJ"
   );
-  assert.equal(supportsNativeSms({ userAgent: "Macintosh", platform: "MacIntel", maxTouchPoints: 0 }), false);
 });
 
 test("stored Step 2 and Step 3 state restores only with a valid ID and token", () => {
@@ -123,33 +121,20 @@ test("self-confirmation changes state only after the exact persistence request s
   assert.equal(attendeeState.step, 2, "a failed confirmation must leave the rendered step unchanged");
 });
 
-test("reopening Messages records the handoff before navigating and never navigates on error", async () => {
-  const order = [];
-  const uri = await reopenPreparedSms(attendeeState, {
-    request: async (path, options) => {
-      order.push({ kind: "request", path, options });
-      return {};
-    },
-    navigatorLike: { userAgent: "Android Mobile", platform: "Linux" },
-    navigate: destination => order.push({ kind: "navigate", destination })
-  });
-  assert.equal(uri, "sms:+15126107851?body=RSVP%20-%20Their%20Name");
-  assert.deepEqual(order, [
-    {
-      kind: "request",
-      path: `/v1/rsvps/${attendeeState.rsvpId}/sms-open`,
-      options: { method: "POST", body: {} }
-    },
-    { kind: "navigate", destination: uri }
-  ]);
+test("SMS handoff tracking is keepalive and never blocks the native text link", async () => {
+  const calls = [];
+  assert.equal(await recordSmsHandoff(attendeeState, async (path, options) => {
+    calls.push({ path, options });
+    return {};
+  }), true);
+  assert.deepEqual(calls, [{
+    path: `/v1/rsvps/${attendeeState.rsvpId}/sms-open`,
+    options: { method: "POST", body: {}, keepalive: true }
+  }]);
 
-  let navigationCount = 0;
-  await assert.rejects(reopenPreparedSms(attendeeState, {
-    request: async () => { throw new Error("not saved"); },
-    navigatorLike: { userAgent: "iPhone" },
-    navigate: () => { navigationCount += 1; }
-  }), /not saved/);
-  assert.equal(navigationCount, 0);
+  assert.equal(await recordSmsHandoff(attendeeState, async () => {
+    throw new Error("analytics unavailable");
+  }), false);
 });
 
 test("admin pagination keeps the submitted filter snapshot and rejects stale responses", () => {

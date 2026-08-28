@@ -38,14 +38,6 @@ export function isIOSLike(navigatorLike = {}) {
     (navigatorLike.platform === "MacIntel" && Number(navigatorLike.maxTouchPoints) > 1);
 }
 
-export function supportsNativeSms(navigatorLike = {}) {
-  if (typeof navigatorLike.userAgentData?.mobile === "boolean") {
-    return navigatorLike.userAgentData.mobile;
-  }
-  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigatorLike.userAgent || "") ||
-    isIOSLike(navigatorLike);
-}
-
 export function buildSmsUri(name, navigatorLike = {}) {
   const separator = isIOSLike(navigatorLike) ? "&" : "?";
   return `sms:${SMS_NUMBER}${separator}body=${encodeURIComponent(buildSmsMessage(name))}`;
@@ -147,14 +139,17 @@ export async function selfConfirmRsvp(state, request) {
   };
 }
 
-export async function reopenPreparedSms(state, { request, navigatorLike, navigate }) {
-  await request(rsvpPath(state, "/sms-open"), {
-    method: "POST",
-    body: {}
-  });
-  const uri = buildSmsUri(state.name, navigatorLike);
-  navigate(uri);
-  return uri;
+export async function recordSmsHandoff(state, request) {
+  try {
+    await request(rsvpPath(state, "/sms-open"), {
+      method: "POST",
+      body: {},
+      keepalive: true
+    });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export async function reconcileRsvpState(state, request) {
