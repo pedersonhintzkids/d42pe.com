@@ -86,7 +86,7 @@ test("parses Wrangler JSONC comments and trailing commas", () => {
   });
 });
 
-test("the committed credential-free template passes safe-template validation", async () => {
+test("the committed credential-free release config passes safe-template validation", async () => {
   const [wranglerSource, publicConfigSource, publicHtmlSource, adminHtmlSource, docsSource] = await Promise.all([
     readFile(path.join(ROOT, "worker/wrangler.example.jsonc"), "utf8"),
     readFile(path.join(ROOT, "rsvp/config.js"), "utf8"),
@@ -104,7 +104,7 @@ test("the committed credential-free template passes safe-template validation", a
   assert.deepEqual(result, {
     ok: true,
     mode: "safe-template",
-    productionApiConfigured: false,
+    productionApiConfigured: true,
     errors: []
   });
 });

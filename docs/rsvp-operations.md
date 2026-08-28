@@ -114,8 +114,9 @@ documents uploading first-deploy secrets with `--secrets-file`.
 
 The list records website state only. `self_confirmed` means the attendee pressed “I SENT THE TEXT.”
 It is not carrier delivery, SimpleTexting recognition, consent verification, or proof of a social
-follow. “SMS opened” records an attempted native SMS-app handoff; it remains blank for the desktop
-copy fallback and is not proof that a message was sent. Click events are outbound clicks only.
+follow. “SMS opened” records an attempted SMS-app handoff from the website on mobile or desktop;
+it is not proof that a message was sent. Opening the collapsed copy fallback does not create a new
+handoff attempt. Click events are outbound clicks only.
 
 ## Recovery and rollback
 

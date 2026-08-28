@@ -198,9 +198,10 @@ check("organizer data and CSV are protected server-side", () => {
   assert.doesNotMatch(adminClient, /localStorage|sessionStorage/);
 });
 
-check("production API configuration cannot silently fall back to GitHub Pages", () => {
-  assert.match(config, /apiBaseUrl:\s*""/);
+check("production API configuration uses the exact deployed Worker and cannot fall back to GitHub Pages", () => {
+  assert.match(config, /apiBaseUrl:\s*"https:\/\/d42pe-rsvp-api\.d42pe\.workers\.dev"/);
   assert.doesNotMatch(config, /localhost|127\.0\.0\.1|REPLACE_WITH/);
+  assert.doesNotMatch(`${html}\n${adminHtml}`, /https:\/\/\*\.workers\.dev/);
   assert.match(core, /\["localhost", "127\.0\.0\.1"\]/);
   assert.match(core, /return "";/);
 });
