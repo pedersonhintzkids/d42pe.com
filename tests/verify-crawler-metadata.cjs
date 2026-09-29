@@ -14,7 +14,8 @@ const routes = [
   {
     path: "/",
     canonical: "https://d42pe.com/",
-    image: "https://d42pe.com/assets/d42pe-home-social-preview-2026-08-04.png"
+    image: "https://d42pe.com/assets/campaigns/social.jpg",
+    mime: "image/jpeg", width: "1254", height: "1254"
   },
   {
     path: "/join/",
@@ -52,9 +53,9 @@ async function main() {
       assert.equal(metaContent(head, "property", "og:url"), route.canonical);
       assert.equal(metaContent(head, "property", "og:image"), route.image);
       assert.equal(metaContent(head, "property", "og:image:secure_url"), route.image);
-      assert.equal(metaContent(head, "property", "og:image:type"), "image/png");
-      assert.equal(metaContent(head, "property", "og:image:width"), "1200");
-      assert.equal(metaContent(head, "property", "og:image:height"), "630");
+      assert.equal(metaContent(head, "property", "og:image:type"), route.mime || "image/png");
+      assert.equal(metaContent(head, "property", "og:image:width"), route.width || "1200");
+      assert.equal(metaContent(head, "property", "og:image:height"), route.height || "630");
       assert.ok(metaContent(head, "property", "og:image:alt"));
       assert.equal(metaContent(head, "property", "og:site_name"), "D42PE");
       assert.equal(metaContent(head, "property", "og:locale"), "en_US");
@@ -74,11 +75,16 @@ async function main() {
   for (const route of routes) {
     const assetUrl = new URL(new URL(route.image).pathname, baseUrl);
     const response = await fetchRaw(assetUrl, userAgents[0]);
-    assert.match(response.headers.get("content-type") || "", /^image\/png\b/i);
+    assert.ok((response.headers.get("content-type") || "").startsWith(route.mime || "image/png"));
     const data = Buffer.from(await response.arrayBuffer());
-    assert.equal(data.subarray(1, 4).toString(), "PNG");
-    assert.equal(data.readUInt32BE(16), 1200);
-    assert.equal(data.readUInt32BE(20), 630);
+    assert.ok(data.length > 1000);
+    if (route.mime === "image/jpeg") {
+      assert.equal(data.readUInt16BE(0), 0xffd8);
+    } else {
+      assert.equal(data.subarray(1, 4).toString(), "PNG");
+      assert.equal(data.readUInt32BE(16), 1200);
+      assert.equal(data.readUInt32BE(20), 630);
+    }
   }
 
   for (const assetPath of ["/favicon.svg", "/assets/d42pe-brand-logo-512.png", "/apple-touch-icon.png"]) {

@@ -45,10 +45,11 @@ const routeExpectations = [
   {
     html: home,
     canonical: "https://d42pe.com/",
-    image: "https://d42pe.com/assets/d42pe-home-social-preview-2026-08-04.png",
-    alt: "D42PE — Austin Events — Event Drops, Ticket Links and Updates — d42pe.com",
-    title: "D42PE | Austin Events, Concerts &amp; Event Drops",
-    description: "D42PE produces and promotes live events in Austin. Get ticket drops, event updates and official social links."
+    image: "https://d42pe.com/assets/campaigns/social.jpg",
+    mime: "image/jpeg", width: "1254", height: "1254",
+    alt: "D42PE presents Unofficial ACL After Party — Austin, Texas — October 3 — All ages — 9PM–2AM",
+    title: "Unofficial ACL After Party · Oct 3 | D42PE Austin",
+    description: "D42PE presents an unofficial ACL after party in Austin on October 3. All ages, 9PM–2AM, with 512 Events + Ritual X. Get ticket information and event updates."
   },
   {
     html: join,
@@ -64,7 +65,7 @@ check("homepage Past Events section removed", () => {
   for (const text of ["past-events-title", "Austin concerts and events", "PAST EVENTS", "Winter Blackout", "July 24 Promotion", "Lil Xan at Empire ATX"]) {
     assert.ok(!home.includes(text), `homepage must not contain ${text}`);
   }
-  assert.ok(home.includes("FOLLOW D42PE"));
+  assert.ok(join.includes("STAY TAPPED IN"));
   assert.ok(portfolio.includes("Winter Blackout"));
   assert.ok(portfolio.includes("JULY 24 PROMOTION"));
   assert.ok(portfolio.includes("LIL XAN AT EMPIRE ATX"));
@@ -86,10 +87,10 @@ check("Snapchat corrected without touching Instagram", () => {
   const oldUrl = "snapchat.com/add/d42pe." + "events";
   assert.ok(!new RegExp(`${escapeRegExp(oldHandle)}(?!_atx)`).test(publicSource));
   assert.ok(!publicSource.includes(oldUrl));
-  assert.equal((publicSource.match(/@d42pe\.atx/g) || []).length, 2);
-  assert.equal((publicSource.match(/https:\/\/www\.snapchat\.com\/add\/d42pe\.atx/g) || []).length, 3);
-  assert.equal((publicSource.match(/@d42pe\.events_atx/g) || []).length, 2);
-  assert.equal((publicSource.match(/https:\/\/www\.instagram\.com\/d42pe\.events_atx\//g) || []).length, 3);
+  assert.equal((publicSource.match(/@d42pe\.atx/g) || []).length, 1);
+  assert.equal((publicSource.match(/https:\/\/www\.snapchat\.com\/add\/d42pe\.atx/g) || []).length, 2);
+  assert.equal((publicSource.match(/@d42pe\.events_atx/g) || []).length, 1);
+  assert.equal((publicSource.match(/https:\/\/www\.instagram\.com\/d42pe\.events_atx\//g) || []).length, 2);
 });
 
 for (const route of routeExpectations) {
@@ -103,9 +104,9 @@ for (const route of routeExpectations) {
     assert.equal(metaContent(route.html, "property", "og:description"), route.description);
     assert.equal(metaContent(route.html, "property", "og:image"), route.image);
     assert.equal(metaContent(route.html, "property", "og:image:secure_url"), route.image);
-    assert.equal(metaContent(route.html, "property", "og:image:type"), "image/png");
-    assert.equal(metaContent(route.html, "property", "og:image:width"), "1200");
-    assert.equal(metaContent(route.html, "property", "og:image:height"), "630");
+    assert.equal(metaContent(route.html, "property", "og:image:type"), route.mime || "image/png");
+    assert.equal(metaContent(route.html, "property", "og:image:width"), route.width || "1200");
+    assert.equal(metaContent(route.html, "property", "og:image:height"), route.height || "630");
     assert.equal(metaContent(route.html, "property", "og:image:alt"), route.alt);
     assert.equal(metaContent(route.html, "name", "twitter:card"), "summary_large_image");
     assert.equal(metaContent(route.html, "name", "twitter:title"), route.title);
@@ -119,7 +120,8 @@ for (const route of routeExpectations) {
     const body = route.html.split(/<body[^>]*>/i)[1];
     assert.ok(body);
     assert.ok(!body.includes("social-preview"));
-    assert.ok(!/<img\b|<picture\b|<video\b/i.test(body));
+    if (route.html !== home) assert.ok(!/<img\b|<picture\b|<video\b/i.test(body));
+    assert.ok(!body.includes(route.image));
     assert.ok(!/rel="preload"/i.test(route.html));
   });
 }
@@ -195,7 +197,11 @@ check("no remote visible media or fonts", () => {
   assert.ok(!/@import|@font-face|url\(/i.test(css));
   for (const html of [home, join, portfolio]) {
     assert.ok(!/<script[^>]+src=/i.test(html));
-    assert.ok(!/<(?:img|picture|video|audio|iframe|object)\b/i.test(html));
+    assert.ok(!/<(?:video|audio|iframe|object)\b/i.test(html));
+    if (html !== home) assert.ok(!/<(?:img|picture)\b/i.test(html));
+    for (const src of html.matchAll(/<img[^>]+src="([^"]+)"/gi)) {
+      assert.ok(src[1].startsWith("/assets/campaigns/"), "campaign images must be locally hosted");
+    }
   }
 });
 

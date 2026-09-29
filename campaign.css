@@ -1,0 +1,50 @@
+.campaign-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  color: #f5f7fc;
+  background: #06101f;
+}
+
+.campaign-header { display: flex; justify-content: center; align-items: center; min-height: 64px; padding-inline: 1.25rem; }
+.campaign-header .wordmark { font-size: 1.1rem; font-weight: 900; letter-spacing: -.05em; }
+.campaign-main { flex: 1; display: grid; }
+.campaign-hero { position: relative; isolation: isolate; display: grid; place-items: center; min-height: calc(100svh - 100px); padding: 3rem 1.25rem; overflow: hidden; }
+.campaign-hero-image, .campaign-hero-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+.campaign-hero-image { z-index: -3; object-fit: cover; object-position: center 60%; }
+.campaign-hero-shade { z-index: -2; background: linear-gradient(180deg, #06101f 0%, rgba(3,10,25,.55) 22%, rgba(3,10,25,.6) 64%, #06101f 100%); }
+.campaign-hero-copy { width: min(100%, 52rem); text-align: center; }
+.campaign-city { margin: 0 0 1.8rem; color: #e2ebfa; font-size: .75rem; font-weight: 750; letter-spacing: .2em; text-transform: uppercase; }
+.campaign-label { margin: 0 0 .65rem; color: #b6ceff; font-size: .64rem; font-weight: 750; letter-spacing: .24em; text-transform: uppercase; }
+.campaign-title { display: grid; gap: .12em; margin: 0; font-weight: 950; letter-spacing: -.065em; line-height: .87; text-transform: uppercase; }
+.campaign-title span:first-child { font-size: clamp(6rem, 15vw, 10rem); }
+.campaign-title span:last-child { font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: 1; letter-spacing: -.055em; }
+.campaign-facts { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: .65rem; margin: 1.8rem 0; color: #e0e8f5; font-size: .83rem; font-weight: 600; }
+.campaign-facts > span[aria-hidden] { color: #8298b8; }
+.campaign-primary { display: inline-flex; gap: 2.5rem; width: min(100%, 17rem); min-height: 56px; border: 1px solid #7399ff; border-radius: 3px; background: #3868ff; color: #fff; font-size: .78rem; letter-spacing: .08em; }
+.campaign-primary:hover { background: #2451d4; border-color: #a9c7ff; }
+.campaign-collaborators { margin: 1.35rem 0 0; color: #b7c3d4; font-size: .65rem; letter-spacing: .05em; }
+.campaign-footer { min-height: 36px; display: grid; place-items: center; padding: .5rem 1.25rem; color: #8090a6; font-size: .6rem; letter-spacing: .06em; }
+
+.ticket-main { flex: 1; display: grid; place-items: center; padding: 2.5rem 1.25rem; }
+.ticket-content { width: min(100%, 26rem); text-align: center; }
+.ticket-heading { margin: 0; font-size: clamp(2.5rem, 7vw, 3.8rem); font-weight: 950; line-height: .98; letter-spacing: -.06em; text-transform: uppercase; }
+.ticket-status { margin-top: 2rem; padding-block: 1.6rem; border-block: 1px solid #2a3d57; }
+.ticket-status h2 { margin: 0; font-size: 1.2rem; font-weight: 750; letter-spacing: -.025em; }
+.ticket-status p { margin: .5rem 0 0; color: #b7c3d4; font-size: .84rem; }
+.ticket-policy { margin-top: 1.7rem; }
+.ticket-policy h2 { margin: 0; color: #d7e2f5; font-size: .7rem; font-weight: 750; }
+.ticket-policy p { margin: .4rem auto 0; color: #a8b8cd; font-size: .72rem; line-height: 1.55; max-width: 23rem; }
+
+@media (max-width: 28rem) {
+  .campaign-facts { gap: .5rem; font-size: .75rem; }
+  .campaign-city { font-size: .7rem; }
+}
+@media (max-height: 650px) {
+  .campaign-hero { padding-block: 1.5rem; }
+  .campaign-city { margin-bottom: 1rem; }
+  .campaign-title span:first-child { font-size: 5rem; }
+  .campaign-title span:last-child { font-size: 2.5rem; }
+  .campaign-facts { margin-block: 1.2rem; }
+  .campaign-collaborators { margin-top: 1rem; }
+}

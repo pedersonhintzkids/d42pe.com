@@ -16,7 +16,8 @@ const baseUrl = process.env.D42PE_BASE_URL || "http://127.0.0.1:4173";
 const reportPath = process.env.D42PE_RESPONSIVE_REPORT || "/tmp/d42pe-responsive-update.json";
 const widths = [320, 375, 390, 768, 1024, 1440];
 const routes = [
-  { path: "/", h1: "NEXT EVENT COMING SOON." },
+  { path: "/", h1: "ACL After Party", images: 1 },
+  { path: "/tickets/", h1: "ACL After Party", images: 0 },
   { path: "/join/", h1: "STAY TAPPED IN" },
   { path: "/portfolio/", h1: "SELECTED WORK" }
 ];
@@ -48,6 +49,10 @@ async function inspect(engineName, engine, width, route) {
   });
 
   const response = await page.goto(`${baseUrl}${route.path}`, { waitUntil: "load" });
+  await page.locator("img").evaluateAll(images => Promise.all(images.map(image => {
+    image.loading = "eager";
+    return image.decode().catch(() => {});
+  })));
   const result = await page.evaluate(expectedH1 => {
     const root = document.documentElement;
     const h1 = document.querySelector("h1");
@@ -66,7 +71,7 @@ async function inspect(engineName, engine, width, route) {
       });
     return {
       title: document.title,
-      h1: h1.textContent.trim(),
+      h1: h1.textContent.trim().replace(/\s+/g, " "),
       expectedH1,
       h1Clipped: h1Rect.left < -0.5 || h1Rect.right > root.clientWidth + 0.5 || h1.scrollWidth > h1.clientWidth + 1,
       clientWidth: root.clientWidth,
@@ -77,6 +82,7 @@ async function inspect(engineName, engine, width, route) {
       footerInsideMain: Boolean(document.querySelector("main footer")),
       images: document.images.length,
       videos: document.querySelectorAll("video").length,
+      brokenImages: [...document.images].filter(image => !image.complete || image.naturalWidth === 0).map(image => image.currentSrc),
       portfolioLinks: document.querySelectorAll('a[href*="/portfolio/"]').length,
       robots: document.querySelector('meta[name="robots"]')?.content || null,
       tableOverflows: [...document.querySelectorAll(".data-table-wrap")]
@@ -110,7 +116,8 @@ async function inspect(engineName, engine, width, route) {
     result.unnamed.length === 0 &&
     !result.footerFixed &&
     !result.footerInsideMain &&
-    result.images === 0 &&
+    result.images === (route.images || 0) &&
+    result.brokenImages.length === 0 &&
     result.videos === 0 &&
     result.tableOverflows === 0 &&
     consoleErrors.length === 0 &&
@@ -141,15 +148,16 @@ async function inspect(engineName, engine, width, route) {
 async function navigationCheck(engineName, engine) {
   const browser = await engine.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  await page.goto(`${baseUrl}/`, { waitUntil: "load" });
-  await page.getByRole("link", { name: "View Socials", exact: true }).click();
-  await page.waitForURL(/\/join\/$/);
-  const joinH1 = await page.locator("h1").innerText();
-  await page.getByRole("link", { name: "Home", exact: true }).click();
+  await page.goto(`${baseUrl}/tickets/`, { waitUntil: "load" });
+  const ticketsH1 = await page.locator("h1").innerText();
+  const ticketsHref = await page.getByRole("link", { name: "Get Tickets" }).getAttribute("href");
+  await page.getByRole("link", { name: "D42PE home", exact: true }).click();
   await page.waitForURL(url => url.pathname === "/");
   const homeH1 = await page.locator("h1").innerText();
+  const homeHref = await page.getByRole("link", { name: "Get Tickets" }).getAttribute("href");
   await browser.close();
-  return { engine: engineName, pass: joinH1 === "STAY TAPPED IN" && homeH1 === "NEXT EVENT COMING SOON.", joinH1, homeH1 };
+  const expectedHref = "https://www.universe.com/events/unofficial-acl-after-party-d42pe-512-events-ritual-x-d42pe-com-tickets-H4RP5M?ref=Website";
+  return { engine: engineName, pass: ticketsH1.replace(/\s+/g, " ") === "ACL After Party" && homeH1.replace(/\s+/g, " ") === "ACL After Party" && ticketsHref === expectedHref && homeHref === expectedHref, ticketsH1, homeH1, ticketsHref, homeHref };
 }
 
 async function main() {

@@ -9,9 +9,9 @@
     "validate:rsvp-config": "node worker/validate-production-config.mjs",
     "validate:rsvp-production": "node worker/validate-production-config.mjs --production",
     "test:rsvp": "node --test worker/test/*.test.mjs tests/rsvp-core.test.mjs && node tests/verify-rsvp.cjs",
-    "test:static": "node tests/verify-update.cjs && node tests/verify-next-up.cjs",
+    "test:static": "node tests/verify-update.cjs && node tests/verify-next-up.cjs && node tests/verify-campaign.cjs",
     "test:http": "node tests/verify-rsvp-http.mjs",
     "test": "npm run check && npm run validate:rsvp-config && npm run test:rsvp && npm run test:static && npm run test:http",
-    "build": "npm run check && npm run validate:rsvp-config && node tests/verify-rsvp.cjs"
+    "build": "npm run check && npm run validate:rsvp-config && node tests/verify-rsvp.cjs && node tests/verify-campaign.cjs"
   }
 }
