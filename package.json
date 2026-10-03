@@ -5,14 +5,15 @@
   "type": "module",
   "scripts": {
     "dev:rsvp": "node tools/rsvp-local-server.mjs",
-    "check": "node --check rsvp/rsvp-core.js && node --check rsvp/rsvp.js && node --check rsvp/admin/admin-core.js && node --check rsvp/admin/admin.js && node --check worker/src/index.js && node --check worker/src/auth.js && node --check worker/src/csv.js && node --check worker/src/validation.js && node --check worker/validate-production-config.mjs && node --check campaign-launch.js && node --check halloweekend/halloweekend.js",
+    "check": "node --check rsvp/rsvp-core.js && node --check rsvp/rsvp.js && node --check rsvp/admin/admin-core.js && node --check rsvp/admin/admin.js && node --check worker/src/index.js && node --check worker/src/auth.js && node --check worker/src/csv.js && node --check worker/src/validation.js && node --check worker/validate-production-config.mjs && node --check campaign-launch.js && node --check halloweekend/halloweekend.js && node --check vip/vip-core.js && node --check vip/vip.js",
     "validate:rsvp-config": "node worker/validate-production-config.mjs",
     "validate:rsvp-production": "node worker/validate-production-config.mjs --production",
     "test:rsvp": "node --test worker/test/*.test.mjs tests/rsvp-core.test.mjs && node tests/verify-rsvp.cjs",
     "test:static": "node tests/verify-update.cjs && node tests/verify-next-up.cjs && node tests/verify-campaign.cjs",
     "test:http": "node tests/verify-rsvp-http.mjs",
-    "test": "npm run check && npm run validate:rsvp-config && npm run test:rsvp && npm run test:static && npm run test:http && npm run test:halloweekend",
-    "build": "npm run check && npm run validate:rsvp-config && node tests/verify-rsvp.cjs && node tests/verify-campaign.cjs",
-    "test:halloweekend": "node --test tests/campaign-launch.test.mjs"
+    "test": "npm run check && npm run validate:rsvp-config && npm run test:rsvp && npm run test:static && npm run test:http && npm run test:halloweekend && npm run test:vip",
+    "build": "npm run check && npm run validate:rsvp-config && node tests/verify-rsvp.cjs && node tests/verify-campaign.cjs && npm run test:vip",
+    "test:halloweekend": "node --test tests/campaign-launch.test.mjs",
+    "test:vip": "node --test tests/vip.test.mjs"
   }
 }
