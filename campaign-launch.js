@@ -119,7 +119,8 @@ export function getLaunchDestination({ config, location, nowMs }) {
   const live = isCampaignLive(config, nowMs);
   const query = preservedAttribution(location.search);
   if (isHomepage && live) return `/halloweekend/${query}`;
-  if (isHalloweekend && !live && !isLoopbackHost(location.hostname)) return `/${query}`;
+  // Direct visits are public before the homepage handoff; an explicit rollback still applies.
+  if (isHalloweekend && config.launchEnabled === false && !isLoopbackHost(location.hostname)) return `/${query}`;
   return null;
 }
 

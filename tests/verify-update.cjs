@@ -197,7 +197,7 @@ check("no remote visible media or fonts", () => {
   assert.ok(!/@import|@font-face|url\(/i.test(css));
   for (const html of [home, join, portfolio]) {
     for (const script of html.matchAll(/<script[^>]+src="([^"]+)"/gi)) {
-      assert.equal(script[1], "/campaign-launch.js?v=20261003-1", "only the versioned local campaign handoff is allowed");
+      assert.equal(script[1], "/campaign-launch.js?v=20261003-2", "only the versioned local campaign handoff is allowed");
       assert.equal(html, home, "the campaign handoff belongs on the homepage");
     }
     assert.ok(!/<(?:video|audio|iframe|object)\b/i.test(html));

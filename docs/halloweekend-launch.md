@@ -11,11 +11,11 @@ This document describes the release configuration. Confirm production deployment
 | Route | Before launch / disarmed | After enabled launch |
 | --- | --- | --- |
 | `/` and `/index.html` | Existing ACL homepage | Redirects to `/halloweekend/` |
-| `/halloweekend/` | Local preview accessible; public visits redirect to `/` when server time is available | Halloweekend page |
+| `/halloweekend/` | Public while armed, including before 9 PM; explicit disarming redirects public visits to `/` | Halloweekend page |
 | `/acl/` and `/tickets/`, including nested paths | ACL | ACL |
 | Other routes | Unchanged | Unchanged |
 
-The blue ACL flyer remains a separate route from the Halloweekend page. The official Halloweekend flyer is unchanged. The landing page shows only **Austin, Texas**; it does not advertise a venue or street address.
+The user subsequently authorized direct public access to `/halloweekend/` for browser testing before 9 PM. This does not move the homepage handoff deadline. The blue ACL flyer remains a separate route from the Halloweekend page. The official Halloweekend flyer is unchanged. The landing page shows only **Austin, Texas**; it does not advertise a venue or street address.
 
 Both GET TICKETS buttons use Universe's custom direct-checkout link:
 
@@ -35,7 +35,7 @@ Existing open pages refresh configuration roughly every minute and on visibility
 
 ## Timing and failure handling
 
-HTML references versioned JS/CSS (`20261003-1`). JSON requests have a unique query string plus no-store/no-cache settings to avoid stale shared-cache settings. The runtime validates configuration before using it and retains the last valid response on malformed or failed refreshes.
+HTML references versioned JS/CSS (scripts `20261003-2`, stylesheet `20261003-1`). JSON requests have a unique query string plus no-store/no-cache settings to avoid stale shared-cache settings. The runtime validates configuration before using it and retains the last valid response on malformed or failed refreshes.
 
 The browser anchors time to HTTP `Date`, plus `Age` when present, and estimates transit time at half the request duration, capped at two seconds. It advances the observation using `performance.now()` so a phone clock change does not alter an observed deadline. Open pages evaluate at the deadline, refresh every minute, and refresh when resumed. Requests time out after eight seconds.
 

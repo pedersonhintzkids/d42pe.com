@@ -1,4 +1,4 @@
-import { isLoopbackHost, isSafeHttpsUrl, validateCampaignConfig, preservedAttribution, fetchCampaignConfig } from "/campaign-launch.js?v=20261003-1";
+import { isLoopbackHost, isSafeHttpsUrl, validateCampaignConfig, preservedAttribution, fetchCampaignConfig } from "/campaign-launch.js?v=20261003-2";
 
 const localPreview = isLoopbackHost(location.hostname);
 const defaults = {

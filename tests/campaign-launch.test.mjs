@@ -91,11 +91,11 @@ test("ACL, existing ticket, and unrelated routes are never redirected", () => {
   }
 });
 
-test("the public Halloweekend route is closed before launch or while disarmed", () => {
+test("direct Halloweekend visits are public before launch, while explicit rollback still works", () => {
   for (const pathname of ["/halloweekend", "/halloweekend/", "/halloweekend/index.html"]) {
     const location = { ...publicLocation, pathname };
     assert.equal(getLaunchDestination({ config: disarmedConfig, location, nowMs: launchAt + 1 }), "/");
-    assert.equal(getLaunchDestination({ config: armedConfig, location, nowMs: launchAt - 1 }), "/");
+    assert.equal(getLaunchDestination({ config: armedConfig, location, nowMs: launchAt - 1 }), null);
     assert.equal(getLaunchDestination({ config: armedConfig, location, nowMs: launchAt }), null);
     for (const unavailableConfig of [null, {}, []]) {
       assert.equal(getLaunchDestination({ config: unavailableConfig, location, nowMs: launchAt }), null);
@@ -105,7 +105,7 @@ test("the public Halloweekend route is closed before launch or while disarmed", 
 
 test("loopback Halloweekend preview works while disarmed without a query override", () => {
   assert.equal(getLaunchDestination({ config: disarmedConfig, location: { hostname: "127.0.0.1", pathname: "/halloweekend/", search: "" }, nowMs: launchAt - 86_400_000 }), null);
-  assert.equal(getLaunchDestination({ config: armedConfig, location: { ...publicLocation, pathname: "/halloweekend/", search: "?preview=true&launch=true&now=9999999999999" }, nowMs: launchAt - 1 }), "/");
+  assert.equal(getLaunchDestination({ config: disarmedConfig, location: { ...publicLocation, pathname: "/halloweekend/", search: "?preview=true&launch=true&now=9999999999999" }, nowMs: launchAt - 1 }), "/");
 });
 
 test("redirects preserve UTM/ref attribution, but remove preview and arbitrary redirect parameters", () => {
