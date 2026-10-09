@@ -54,16 +54,11 @@ test('denied or missing clipboard reveals manual copy and never reports success'
   }
 });
 
-test('entry guide preserves manual validation, genuine free entry, and original artwork', () => {
+test('paused entry page returns visitors to Halloweekend without promoting flyer or tickets', () => {
   const html = readFileSync(new URL('../vip/index.html', import.meta.url), 'utf8');
-  assert.match(html, /We’ll check it and confirm your entry by text/);
-  assert.match(html, /Multiple winning groups/);
-  assert.match(html, /four VIP passes, each valid for both nights/);
-  assert.match(html, /Free entries have the same chance of winning/);
-  assert.match(html, /entering does not sign you up for promotional texts/);
-  assert.match(html, /data-free-sms href="sms:\+15126107851/);
-  assert.match(html, /href="\/assets\/halloweekend\/official-flyer.png" download=/);
-  assert.doesNotMatch(html, /countdown|closing time|priority entry|bottle service/i);
+  assert.match(html, /http-equiv="refresh" content="0;\s*url=\/halloweekend\/"/i);
+  assert.match(html, /href="\/halloweekend\/"/);
+  assert.doesNotMatch(html, /official-flyer|flyer-480|universe\.com|GET TICKETS|data-entry-sms|data-free-sms|vip\.js/i);
   assert.doesNotMatch(html, /<form\b|tracking-pixel|gtag\(/);
   for (const match of html.matchAll(/(?:src|href)="(\/[^"?#]+)(?:\?[^"#]*)?"/g)) {
     let target = match[1];

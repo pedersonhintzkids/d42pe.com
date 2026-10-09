@@ -14,8 +14,7 @@ const routes = [
   {
     path: "/",
     canonical: "https://d42pe.com/",
-    image: "https://d42pe.com/assets/campaigns/social.jpg",
-    mime: "image/jpeg", width: "1254", height: "1254"
+    image: "https://d42pe.com/assets/d42pe-home-social-preview-2026-08-04.png"
   },
   {
     path: "/join/",

@@ -45,11 +45,10 @@ const routeExpectations = [
   {
     html: home,
     canonical: "https://d42pe.com/",
-    image: "https://d42pe.com/assets/campaigns/social.jpg",
-    mime: "image/jpeg", width: "1254", height: "1254",
-    alt: "D42PE presents Unofficial ACL After Party — Austin, Texas — October 3 — All ages — 9PM–2AM",
-    title: "Unofficial ACL After Party · Oct 3 | D42PE Austin",
-    description: "D42PE presents an unofficial ACL after party in Austin on October 3. All ages, 9PM–2AM, with 512 Events + Ritual X. Get ticket information and event updates."
+    image: "https://d42pe.com/assets/d42pe-home-social-preview-2026-08-04.png",
+    alt: "D42PE — Austin Events — d42pe.com",
+    title: "Halloweekend · Oct 30 + 31 · Austin | D42PE",
+    description: "Halloweekend in Austin, Texas. Follow D42PE and get text updates for October 30 + 31."
   },
   {
     html: join,
@@ -88,9 +87,9 @@ check("Snapchat corrected without touching Instagram", () => {
   assert.ok(!new RegExp(`${escapeRegExp(oldHandle)}(?!_atx)`).test(publicSource));
   assert.ok(!publicSource.includes(oldUrl));
   assert.equal((publicSource.match(/@d42pe\.atx/g) || []).length, 1);
-  assert.equal((publicSource.match(/https:\/\/www\.snapchat\.com\/add\/d42pe\.atx/g) || []).length, 2);
+  assert.equal((publicSource.match(/https:\/\/www\.snapchat\.com\/add\/d42pe\.atx/g) || []).length, 3);
   assert.equal((publicSource.match(/@d42pe\.events_atx/g) || []).length, 1);
-  assert.equal((publicSource.match(/https:\/\/www\.instagram\.com\/d42pe\.events_atx\//g) || []).length, 2);
+  assert.equal((publicSource.match(/https:\/\/www\.instagram\.com\/d42pe\.events_atx\//g) || []).length, 3);
 });
 
 for (const route of routeExpectations) {
@@ -197,13 +196,13 @@ check("no remote visible media or fonts", () => {
   assert.ok(!/@import|@font-face|url\(/i.test(css));
   for (const html of [home, join, portfolio]) {
     for (const script of html.matchAll(/<script[^>]+src="([^"]+)"/gi)) {
-      assert.equal(script[1], "/campaign-launch.js?v=20261003-2", "only the versioned local campaign handoff is allowed");
-      assert.equal(html, home, "the campaign handoff belongs on the homepage");
+      assert.equal(script[1], "/halloweekend/updates.js?v=20261009-1", "only the versioned local text-update helper is allowed");
+      assert.equal(html, home, "the text-update helper belongs on the homepage");
     }
     assert.ok(!/<(?:video|audio|iframe|object)\b/i.test(html));
     if (html !== home) assert.ok(!/<(?:img|picture)\b/i.test(html));
     for (const src of html.matchAll(/<img[^>]+src="([^"]+)"/gi)) {
-      assert.ok(src[1].startsWith("/assets/campaigns/"), "campaign images must be locally hosted");
+      assert.ok(src[1].startsWith("/assets/halloweekend/"), "campaign images must be locally hosted");
     }
   }
 });

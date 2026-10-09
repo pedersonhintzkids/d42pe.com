@@ -19,22 +19,27 @@ import {
 
 const savedConfig = JSON.parse(await readFile(new URL("../campaign-config.json", import.meta.url), "utf8"));
 const launchAt = Date.parse("2026-10-04T02:00:00.000Z");
-const armedConfig = { ...savedConfig, launchEnabled: true };
+const armedConfig = { ...savedConfig, launchEnabled: true, ticketUrl: RELEASE_CAMPAIGN_CONFIG.ticketUrl };
 const disarmedConfig = { ...savedConfig, launchEnabled: false };
 const publicLocation = { hostname: "d42pe.com", pathname: "/", search: "" };
 
-test("the checked-in release is armed with supplied ticket and profile destinations", () => {
-  assert.equal(savedConfig.launchEnabled, true);
-  assert.equal(isSafeHttpsUrl(savedConfig.ticketUrl), true);
+test("the checked-in campaign is paused while profile destinations remain available", async () => {
+  assert.equal(savedConfig.launchEnabled, false);
+  assert.equal(savedConfig.ticketUrl, null);
+  assert.equal(savedConfig.flyerUrl, null);
+  assert.equal(savedConfig.aclUrl, null);
   assert.ok(savedConfig.instagramPostUrl === null || isSafeHttpsUrl(savedConfig.instagramPostUrl));
   assert.equal(isSafeHttpsUrl(savedConfig.instagram512Url), true);
   assert.equal(isSafeHttpsUrl(savedConfig.snapchatAtxUrl), true);
   assert.equal(savedConfig.launchAt, "2026-10-03T21:00:00-05:00");
   assert.equal(validateCampaignConfig(savedConfig).ok, true);
-  assert.equal(validateCampaignConfig(savedConfig).canLaunch, true);
+  assert.equal(validateCampaignConfig(savedConfig).canLaunch, false);
   assert.equal(validateCampaignConfig(RELEASE_CAMPAIGN_CONFIG).canLaunch, true);
   assert.equal(RELEASE_CAMPAIGN_CONFIG.launchAt, savedConfig.launchAt);
-  assert.equal(RELEASE_CAMPAIGN_CONFIG.ticketUrl, savedConfig.ticketUrl);
+  for (const route of ["index.html", "halloweekend/index.html", "acl/index.html", "tickets/index.html", "vip/index.html"]) {
+    const html = await readFile(new URL(`../${route}`, import.meta.url), "utf8");
+    assert.doesNotMatch(html, /<script[^>]+src="[^\"]*(?:campaign-launch|halloweekend\.js|vip\.js)/);
+  }
 });
 
 test("October 3 at 9 PM Austin CDT is exactly October 4 at 02:00 UTC", () => {

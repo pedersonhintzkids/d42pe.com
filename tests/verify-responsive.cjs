@@ -16,8 +16,8 @@ const baseUrl = process.env.D42PE_BASE_URL || "http://127.0.0.1:4173";
 const reportPath = process.env.D42PE_RESPONSIVE_REPORT || "/tmp/d42pe-responsive-update.json";
 const widths = [320, 375, 390, 768, 1024, 1440];
 const routes = [
-  { path: "/", h1: "ACL After Party", images: 1 },
-  { path: "/tickets/", h1: "ACL After Party", images: 0 },
+  { path: "/", h1: "Halloweekend", images: 11 },
+  { path: "/halloweekend/", h1: "Halloweekend", images: 11 },
   { path: "/join/", h1: "STAY TAPPED IN" },
   { path: "/portfolio/", h1: "SELECTED WORK" }
 ];
@@ -71,7 +71,7 @@ async function inspect(engineName, engine, width, route) {
       });
     return {
       title: document.title,
-      h1: h1.textContent.trim().replace(/\s+/g, " "),
+      h1: h1.textContent.trim().replace(/\s+/g, " ") || h1.querySelector("img")?.alt || "",
       expectedH1,
       h1Clipped: h1Rect.left < -0.5 || h1Rect.right > root.clientWidth + 0.5 || h1.scrollWidth > h1.clientWidth + 1,
       clientWidth: root.clientWidth,
@@ -148,16 +148,19 @@ async function inspect(engineName, engine, width, route) {
 async function navigationCheck(engineName, engine) {
   const browser = await engine.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  await page.goto(`${baseUrl}/tickets/`, { waitUntil: "load" });
-  const ticketsH1 = await page.locator("h1").innerText();
-  const ticketsHref = await page.getByRole("link", { name: "Get Tickets" }).getAttribute("href");
+  const redirects = [];
+  for (const route of ["/tickets/", "/acl/", "/vip/"]) {
+    await page.goto(`${baseUrl}${route}`, { waitUntil: "load" });
+    await page.waitForURL(url => url.pathname === "/halloweekend/");
+    redirects.push({ route, destination: new URL(page.url()).pathname, heading: await page.getByRole("heading", { name: "Halloweekend", exact: true }).count() });
+  }
   await page.getByRole("link", { name: "D42PE home", exact: true }).click();
   await page.waitForURL(url => url.pathname === "/");
-  const homeH1 = await page.locator("h1").innerText();
-  const homeHref = await page.getByRole("link", { name: "Get Tickets" }).getAttribute("href");
+  const homeH1 = await page.getByRole("heading", { name: "Halloweekend", exact: true }).count();
+  const textHref = await page.getByRole("link", { name: "Get text updates" }).getAttribute("href");
+  const ticketLinks = await page.locator('a[href*="universe.com"], [data-ticket]').count();
   await browser.close();
-  const expectedHref = "https://www.universe.com/events/unofficial-acl-after-party-d42pe-512-events-ritual-x-d42pe-com-tickets-H4RP5M?ref=Website";
-  return { engine: engineName, pass: ticketsH1.replace(/\s+/g, " ") === "ACL After Party" && homeH1.replace(/\s+/g, " ") === "ACL After Party" && ticketsHref === expectedHref && homeHref === expectedHref, ticketsH1, homeH1, ticketsHref, homeHref };
+  return { engine: engineName, pass: redirects.every(item => item.destination === "/halloweekend/" && item.heading === 1) && homeH1 === 1 && /^sms:\+15126107851[?&]body=D42PE$/.test(textHref) && ticketLinks === 0, redirects, homeH1, textHref, ticketLinks };
 }
 
 async function main() {

@@ -185,3 +185,10 @@ dialog .button { width: 100%; margin-top: 10px; font-size: 12px; letter-spacing:
   *, *::before, *::after { transition: none !important; animation: none !important; }
   .button:hover, .button:active { transform: none; }
 }
+
+/* Keep the existing campaign design balanced while the flyer and sales are paused. */
+.updates-only main.shell { max-width: 650px; }
+.updates-only .hero { display: block; }
+.updates-only .hero-copy { padding-top: 0; }
+.updates-only .event-wordmark { max-width: 540px; }
+.updates-only .brand { display: inline-flex; align-items: center; min-height: 44px; }
