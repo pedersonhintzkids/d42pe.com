@@ -28,7 +28,8 @@
   <meta name="twitter:image" content="https://d42pe.com/assets/d42pe-home-social-preview-2026-08-04.png">
   <meta name="twitter:image:alt" content="D42PE — Austin Events — d42pe.com">
   <link rel="stylesheet" href="/halloweekend/halloweekend.css?v=20261009-1">
-  <script src="/halloweekend/updates.js?v=20261009-1" defer></script>
+  <link rel="stylesheet" href="/halloweekend/drop.css?v=20261015-1">
+  <script type="module" src="/halloweekend/drop.js?v=20261015-1"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -62,11 +63,12 @@
   }
   </script>
 </head>
-<body class="updates-only">
+<body class="updates-only drop-page" data-phase="checking">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="header-inner shell">
       <a class="brand" href="/" aria-label="D42PE home">D42PE</a>
+      <span class="header-note">AUSTIN, TEXAS</span>
     </div>
   </header>
 
@@ -79,11 +81,48 @@
           <div><span class="detail-label">THE WEEKEND</span><strong><time datetime="2026-10-30">OCT 30</time> <span class="date-plus">+</span> <time datetime="2026-10-31">31</time></strong></div>
           <div><span class="detail-label">THE CITY</span><strong>AUSTIN, TEXAS</strong></div>
         </div>
+        <div class="drop-panel" data-before-drop>
+          <p class="drop-eyebrow">FLYER + TICKETS DROP</p>
+          <p class="drop-date"><time datetime="2026-10-15T16:00:00-05:00">THU OCT 15 · 4 PM AUSTIN TIME</time></p>
+          <div class="countdown" data-countdown role="timer" aria-label="Checking time until the drop">
+            <span><b data-hours>--</b><small>HOURS</small></span><i aria-hidden="true">:</i>
+            <span><b data-minutes>--</b><small>MINUTES</small></span><i aria-hidden="true">:</i>
+            <span><b data-seconds>--</b><small>SECONDS</small></span>
+          </div>
+          <div class="hero-actions" data-primary-before>
+            <button class="button button-ticket" type="button" data-share-drop>SHARE THE DROP <span aria-hidden="true">↗</span></button>
+            <button class="button-copy" type="button" data-copy-link>Copy website link</button>
+          </div>
+        </div>
+        <div class="hero-actions live-actions" data-after-drop data-primary-after hidden>
+          <p class="live-label">THE DROP IS LIVE</p>
+          <a class="button button-ticket" data-ticket>GET TICKETS <span aria-hidden="true">↗</span></a>
+          <div class="secondary-actions">
+            <button class="button button-secondary" type="button" data-share-flyer>Share flyer ↗</button>
+            <button class="button button-secondary" type="button" data-copy-link>Copy website link</button>
+          </div>
+        </div>
+        <a class="text-signup" data-text-signup href="sms:+15126107851?body=D42PE"><img class="icon " src="/assets/halloweekend/icons/message.svg" width="20" height="20" alt="" aria-hidden="true"><span>Get text updates</span><img class="icon external" src="/assets/halloweekend/icons/arrow-up-right.svg" width="20" height="20" alt="" aria-hidden="true"></a>
+        <a class="scroll-cue" href="#socials" data-scroll-cue>Socials &amp; updates <span aria-hidden="true">↓</span></a>
+        <noscript><p class="noscript-note">Flyer + tickets drop October 15 at 4 PM Austin time. Enable JavaScript for the countdown and ticket link. You can still join the text list and follow below.</p></noscript>
+      </div>
+      <div id="flyer" class="poster-stage" data-after-drop hidden>
+        <div class="poster-topline"><h2>Post on your story</h2><a href="/assets/halloweekend/official-flyer.png" target="_blank" rel="noopener">Open full size ↗</a></div>
+        <a class="poster-frame" href="/assets/halloweekend/official-flyer.png" target="_blank" rel="noopener" aria-label="Open the official Halloweekend flyer">
+          <picture>
+            <source type="image/webp" data-srcset="/assets/halloweekend/flyer-480.webp 480w, /assets/halloweekend/flyer-840.webp 840w" sizes="(max-width: 600px) calc(100vw - 40px), 560px">
+            <img data-flyer-image data-src="/assets/halloweekend/official-flyer.png" width="1122" height="1402" alt="Official Halloweekend flyer. October 30 + 31 in Austin, Texas. D42PE with 512 Events + Ritual X.">
+          </picture>
+        </a>
+        <div class="poster-actions">
+          <a href="/assets/halloweekend/official-flyer.png" download="D42PE-Halloweekend-Official.png">Download flyer ↓</a>
+          <button type="button" data-story-help>Post on your story ↗</button>
+        </div>
       </div>
     </section>
 
-    <section class="follow-section" aria-label="Social accounts and text updates">
-      <a class="text-signup" data-text-signup href="sms:+15126107851?body=D42PE"><img class="icon " src="/assets/halloweekend/icons/message.svg" width="20" height="20" alt="" aria-hidden="true"><span>Get text updates</span><img class="icon external" src="/assets/halloweekend/icons/arrow-up-right.svg" width="20" height="20" alt="" aria-hidden="true"></a>
+    <section id="socials" class="follow-section" aria-label="Social accounts and text updates">
+      <h2 class="social-heading">Follow the drop</h2>
       <div class="social-links">
         <a class="social-link" data-social="instagramD42peUrl" href="https://www.instagram.com/d42pe.events_atx/" target="_blank" rel="noopener noreferrer"><img class="icon " src="/assets/halloweekend/icons/instagram.svg" width="20" height="20" alt="" aria-hidden="true"><span>D42PE<small>Instagram</small></span><img class="icon external" src="/assets/halloweekend/icons/arrow-up-right.svg" width="20" height="20" alt="" aria-hidden="true"></a>
         <a class="social-link" data-social="instagram512Url" href="https://www.instagram.com/512__events/" target="_blank" rel="noopener noreferrer"><img class="icon " src="/assets/halloweekend/icons/instagram.svg" width="20" height="20" alt="" aria-hidden="true"><span>512 Events<small>Instagram</small></span><img class="icon external" src="/assets/halloweekend/icons/arrow-up-right.svg" width="20" height="20" alt="" aria-hidden="true"></a>
@@ -94,5 +133,25 @@
   </main>
 
   <footer class="site-footer shell"><a class="brand" href="/">D42PE</a><small>© 2026 D42PE</small></footer>
+  <div class="mobile-ticket" data-sticky inert aria-hidden="true">
+    <div><strong>HALLOWEEKEND</strong><span data-sticky-caption>Oct 15 · 4 PM Austin</span></div>
+    <button class="button button-ticket" type="button" data-share-drop data-before-drop>SHARE THE DROP ↗</button>
+    <a class="button button-ticket" data-ticket data-after-drop hidden>GET TICKETS ↗</a>
+  </div>
+  <dialog data-share-dialog aria-labelledby="share-title">
+    <button class="dialog-close" type="button" aria-label="Close sharing options" data-close-dialog>✕</button>
+    <h2 id="share-title">Share the drop</h2>
+    <p class="dialog-copy" data-share-description>Send the countdown to your friends.</p>
+    <button class="button button-ticket" type="button" data-copy-link>Copy website link</button>
+    <div data-after-drop hidden>
+      <button class="button button-secondary native-share" type="button" data-native-flyer disabled>Preparing flyer…</button>
+      <a class="button button-secondary" href="/assets/halloweekend/official-flyer.png" download="D42PE-Halloweekend-Official.png">Download official flyer ↓</a>
+      <p class="share-help">Save the flyer, add it to your story, then add a link sticker with <strong>D42PE.com</strong>. On iPhone, open the full-size flyer and use Share → Save Image.</p>
+    </div>
+    <p class="dialog-status" data-copy-status role="status" hidden></p>
+    <label class="manual-copy" hidden>Copy this link<input data-manual-link readonly value="https://d42pe.com/" aria-label="Website link to copy"></label>
+  </dialog>
+  <p class="toast" role="status" aria-live="polite" data-toast></p>
+  <p class="sr-only" role="status" aria-live="polite" data-launch-status></p>
 </body>
 </html>
