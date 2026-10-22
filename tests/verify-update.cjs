@@ -196,7 +196,7 @@ check("no remote visible media or fonts", () => {
   assert.ok(!/@import|@font-face|url\(/i.test(css));
   for (const html of [home, join, portfolio]) {
     for (const script of html.matchAll(/<script[^>]+src="([^"]+)"/gi)) {
-      assert.equal(script[1], "/halloweekend/drop.js?v=20261022-3", "only the versioned local countdown and reveal module is allowed");
+      assert.equal(script[1], "/halloweekend/drop.js?v=20261022-4", "only the versioned local countdown and reveal module is allowed");
       assert.equal(html, home, "the drop module belongs only on the homepage");
     }
     assert.ok(!/<(?:video|audio|iframe|object)\b/i.test(html));

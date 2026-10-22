@@ -1,4 +1,4 @@
-import { DROP, saleState, nowAt, serverAnchor, smsUrl, ticketUrl } from './drop-core.js?v=20261022-3';
+import { DROP, saleState, nowAt, serverAnchor, smsUrl, ticketUrl } from './drop-core.js?v=20261022-4';
 
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
