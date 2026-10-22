@@ -1,13 +1,20 @@
 // Isolated homepage release. Do not import campaign-launch.js: that legacy
 // module starts an October 3 redirect as a side effect.
 export const DROP = Object.freeze({
-  launchAt: '2026-10-15T16:00:00-05:00',
+  launchAt: '2026-10-22T16:00:00-05:00',
+  endsAt: '2026-10-23T16:00:00-05:00',
   eventUrl: 'https://d42pe.com/',
   ticketUrl: 'https://www.universe.com/events/halloweeknd-tickets-7T6MWX?ref=Website&unii-trigger-open=7T6MWX',
   flyerUrl: '/assets/halloweekend/official-flyer.png',
   clockUrl: '/halloweekend/drop-clock.json',
 });
 export const LAUNCH_MS = Date.parse(DROP.launchAt);
+export const END_MS = Date.parse(DROP.endsAt);
+
+export function saleState(now) {
+  const phase = now < LAUNCH_MS ? 'before' : now < END_MS ? 'live' : 'ended';
+  return { phase, price: phase === 'ended' ? 16 : 8, ...countdown(now, phase === 'before' ? LAUNCH_MS : END_MS) };
+}
 
 export function serverAnchor(dateHeader, receivedAt) {
   const epoch = Date.parse(dateHeader || '');

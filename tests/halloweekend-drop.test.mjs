@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DROP, LAUNCH_MS, serverAnchor, nowAt, countdown, ticketUrl, smsUrl } from '../halloweekend/drop-core.js';
+import { DROP, LAUNCH_MS, END_MS, saleState, serverAnchor, nowAt, countdown, ticketUrl, smsUrl } from '../halloweekend/drop-core.js';
 
-test('drop is October 15 at 4 PM Austin CDT, not browser-local time', () => {
-  assert.equal(new Date(LAUNCH_MS).toISOString(), '2026-10-15T21:00:00.000Z');
+test('drop is October 22 at 4 PM Austin CDT, not browser-local time', () => {
+  assert.equal(new Date(LAUNCH_MS).toISOString(), '2026-10-22T21:00:00.000Z');
   assert.equal(DROP.eventUrl, 'https://d42pe.com/');
 });
 test('closed immediately before boundary, live at boundary and for late visitors', () => {
@@ -13,7 +13,7 @@ test('closed immediately before boundary, live at boundary and for late visitors
   assert.deepEqual(countdown(LAUNCH_MS - 3661000), { live: false, hours: '01', minutes: '01', seconds: '01' });
 });
 test('fresh Pages Date anchors time independently of wrong device clock', () => {
-  const sample = serverAnchor('Thu, 15 Oct 2026 20:59:00 GMT', 100);
+  const sample = serverAnchor('Thu, 22 Oct 2026 20:59:00 GMT', 100);
   assert.equal(countdown(nowAt(sample, 10100, LAUNCH_MS + 86400000)).live, false);
   assert.equal(nowAt(sample, 60100, 0), LAUNCH_MS);
   assert.equal(countdown(nowAt(sample, 60100, 0)).live, true);
@@ -21,7 +21,7 @@ test('fresh Pages Date anchors time independently of wrong device clock', () => 
 test('response Age is not added to refreshed CDN Date', () => {
   // A real Pages response had Date=current time and Age=155; adding that Age
   // would release the campaign early. The new clock only accepts Date.
-  const sample = serverAnchor('Thu, 15 Oct 2026 20:58:00 GMT', 1000);
+  const sample = serverAnchor('Thu, 22 Oct 2026 20:58:00 GMT', 1000);
   assert.equal(sample.epoch, LAUNCH_MS - 120000);
   assert.equal(countdown(nowAt(sample, 1000)).live, false);
 });
@@ -29,7 +29,7 @@ test('unavailable server clock falls back, trusted clock remains independent', (
   assert.equal(serverAnchor(null, 0), null);
   assert.equal(serverAnchor('bad date', 0), null);
   assert.equal(nowAt(null, 900, LAUNCH_MS - 100), LAUNCH_MS - 100);
-  const sample = serverAnchor('Thu, 15 Oct 2026 21:00:00 GMT', 1000);
+  const sample = serverAnchor('Thu, 22 Oct 2026 21:00:00 GMT', 1000);
   assert.equal(nowAt(sample, 900, 0), LAUNCH_MS);
 });
 test('affiliate attribution preserved without allowing ticket endpoint override', () => {
@@ -45,4 +45,28 @@ test('text signup opens composer correctly on iPhone and Android', () => {
   assert.equal(smsUrl('iPhone'), 'sms:+15126107851&body=D42PE');
   assert.equal(smsUrl('Macintosh', 'MacIntel', 5), 'sms:+15126107851&body=D42PE');
   assert.equal(smsUrl('Android'), 'sms:+15126107851?body=D42PE');
+});
+
+
+test('24-hour sale closes at Friday 4 PM Austin, including late arrivals', () => {
+  assert.equal(new Date(END_MS).toISOString(), '2026-10-23T21:00:00.000Z');
+  assert.equal(END_MS - LAUNCH_MS, 86400000);
+  assert.equal(saleState(LAUNCH_MS - 1).phase, 'before');
+  assert.equal(saleState(LAUNCH_MS - 1).seconds, '01');
+  assert.equal(saleState(LAUNCH_MS).phase, 'live');
+  assert.equal(saleState(LAUNCH_MS).hours, '24');
+  assert.equal(saleState(END_MS - 1).phase, 'live');
+  assert.equal(saleState(END_MS - 1).seconds, '01');
+  assert.equal(saleState(END_MS).phase, 'ended');
+  assert.equal(saleState(END_MS).price, 16);
+  assert.equal(saleState(END_MS + 86400000).phase, 'ended');
+});
+test('refreshed time can correct either direction across both boundaries', () => {
+  for (const [date, expected] of [
+    ['Fri, 23 Oct 2026 21:01:00 GMT', 'ended'],
+    ['Thu, 22 Oct 2026 21:01:00 GMT', 'live'],
+    ['Thu, 22 Oct 2026 20:59:00 GMT', 'before'],
+  ]) {
+    assert.equal(saleState(nowAt(serverAnchor(date, 100), 100, END_MS + 86400000)).phase, expected);
+  }
 });

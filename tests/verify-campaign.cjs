@@ -27,36 +27,32 @@ check("the Halloweekend route retains the paused promotion state", () => {
   assert.doesNotMatch(landing, /drop\.js|drop\.css|data-countdown|data-before-drop|data-after-drop/);
 });
 
-check("the homepage loads the isolated October 15 countdown and reveal", () => {
-  assert.match(home, /<body\b[^>]*class="[^"]*\bupdates-only\b[^\"]*\bdrop-page\b[^\"]*"[^>]*data-phase="checking"/);
-  assert.match(home, /<link\b[^>]*href="\/halloweekend\/drop\.css\?v=20261015-1"/);
+check("homepage uses the isolated October 22 flash-sale module", () => {
+  assert.match(home, /<body\b[^>]*data-phase="checking"/);
+  assert.ok(home.includes('/halloweekend/flash.css?v=20261022-1'));
   const scripts = [...home.matchAll(/<script\b([^>]*\bsrc="([^"]+)"[^>]*)>/g)];
-  assert.equal(scripts.length, 1, "root should load only the isolated drop module");
-  assert.equal(scripts[0][2], "/halloweekend/drop.js?v=20261015-1");
+  assert.equal(scripts.length, 1);
+  assert.equal(scripts[0][2], "/halloweekend/drop.js?v=20261022-1");
   assert.match(scripts[0][1], /\btype="module"/);
-  assert.match(home, /\bdata-countdown\b/);
-  assert.match(home, /\bdata-before-drop\b/);
-  const liveSections = [...home.matchAll(/<[^!][^>]*\bdata-after-drop\b[^>]*>/g)];
-  assert.ok(liveSections.length > 0, "root needs a live-only state");
-  for (const [tag] of liveSections) assert.match(tag, /\shidden(?:\s|=|>)/, "live-only sections start hidden");
+  for (const text of ['24-HOUR FLASH SALE', 'THU OCT 22', 'October 23 at 4 PM', 'Buy before the drop']) assert.ok(home.includes(text));
   assert.doesNotMatch(home, /ACL After Party|href="\/vip\//i);
+  assert.doesNotMatch(home, /noindex|Preview only|simulated|mode=before/);
+  const script = read('halloweekend/drop.js');
+  assert.doesNotMatch(script, /get\(['"]mode['"]\)|mock-sms|early-checkout/);
+  assert.ok(script.includes('visibilitychange'));
+  assert.ok(script.includes('pageshow'));
+  assert.ok(script.includes('navigator.share'));
+  assert.ok(script.includes('every paid ticket'));
 });
 
-check("the homepage has no active ticket destination or flyer image before the drop", () => {
-  const ticketAnchors = [...home.matchAll(/<a\b([^>]*\bdata-ticket\b[^>]*)>/g)];
-  assert.ok(ticketAnchors.length > 0, "root needs ticket actions for the live state");
-  for (const [, attrs] of ticketAnchors) assert.doesNotMatch(attrs, /(?:^|\s)href=/, "ticket destinations are assigned only at launch");
-  const flyerImages = [...home.matchAll(/<img\b([^>]*\bdata-flyer-image\b[^>]*)>/g)];
-  assert.equal(flyerImages.length, 1);
-  assert.match(flyerImages[0][1], /\bdata-src="\/assets\/halloweekend\/official-flyer\.png"/);
-  assert.doesNotMatch(flyerImages[0][1], /(?:^|\s)src=/, "flyer image starts unloaded");
+check("flyer and ordinary ticket access remain available before the sale", () => {
+  assert.match(home, /<section[^>]*id="flyer"[^>]*>/);
+  assert.doesNotMatch(home.match(/<section[^>]*id="flyer"[^>]*>/)[0], /hidden/);
+  assert.match(home, /src="\/assets\/halloweekend\/official-flyer\.png"/);
+  assert.match(home, /srcset="[^"]*flyer-480\.webp 480w[^"]*flyer-840\.webp 840w"/);
   assert.match(home, /<a\b[^>]*href="\/assets\/halloweekend\/official-flyer\.png"[^>]*\bdownload(?:[\s=>])/);
-  const sources = [...home.matchAll(/<source\b([^>]*)>/g)];
-  assert.ok(sources.length > 0, "flyer should have responsive web thumbnails");
-  for (const [, attrs] of sources) {
-    assert.doesNotMatch(attrs, /(?:^|\s)srcset=/, "responsive flyer sources start unloaded");
-    assert.match(attrs, /\bdata-srcset="[^"]*\/assets\/halloweekend\/flyer-\d+\.webp/);
-  }
+  assert.match(home, /<noscript>[\s\S]*universe\.com[\s\S]*<\/noscript>/);
+  assert.match(home, /class="early-bonus" hidden/);
 });
 
 check("old event and ticket routes return visitors to Halloweekend", () => {
