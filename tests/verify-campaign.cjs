@@ -29,10 +29,10 @@ check("the Halloweekend route retains the paused promotion state", () => {
 
 check("homepage uses the isolated October 22 flash-sale module", () => {
   assert.match(home, /<body\b[^>]*data-phase="checking"/);
-  assert.ok(home.includes('/halloweekend/flash.css?v=20261022-2'));
+  assert.ok(home.includes('/halloweekend/flash.css?v=20261022-3'));
   const scripts = [...home.matchAll(/<script\b([^>]*\bsrc="([^"]+)"[^>]*)>/g)];
   assert.equal(scripts.length, 1);
-  assert.equal(scripts[0][2], "/halloweekend/drop.js?v=20261022-2");
+  assert.equal(scripts[0][2], "/halloweekend/drop.js?v=20261022-3");
   assert.match(scripts[0][1], /\btype="module"/);
   for (const text of ['24-HOUR FLASH SALE', 'THU OCT 22', 'October 23 at 4 PM', 'Buy before the drop']) assert.ok(home.includes(text));
   assert.doesNotMatch(home, /ACL After Party|href="\/vip\//i);
@@ -48,9 +48,9 @@ check("homepage uses the isolated October 22 flash-sale module", () => {
 check("flyer and ordinary ticket access remain available before the sale", () => {
   assert.match(home, /<section[^>]*id="flyer"[^>]*>/);
   assert.doesNotMatch(home.match(/<section[^>]*id="flyer"[^>]*>/)[0], /hidden/);
-  assert.match(home, /src="\/assets\/halloweekend\/official-flyer\.png"/);
-  assert.match(home, /srcset="[^"]*flyer-480\.webp 480w[^"]*flyer-840\.webp 840w"/);
-  assert.match(home, /<a\b[^>]*href="\/assets\/halloweekend\/official-flyer\.png"[^>]*\bdownload(?:[\s=>])/);
+  assert.match(home, /src="\/assets\/halloweekend\/official-flyer-20261017-qr\.png"/);
+  assert.match(home, /srcset="[^"]*flyer-20261017-qr-480\.webp 480w[^"]*flyer-20261017-qr-840\.webp 840w"/);
+  assert.match(home, /<a\b[^>]*href="\/assets\/halloweekend\/official-flyer-20261017-qr\.png"[^>]*\bdownload(?:[\s=>])/);
   assert.match(home, /<noscript>[\s\S]*universe\.com[\s\S]*<\/noscript>/);
   assert.match(home, /class="early-bonus" hidden/);
 });

@@ -1,4 +1,4 @@
-import { DROP, saleState, nowAt, serverAnchor, smsUrl, ticketUrl } from './drop-core.js?v=20261022-2';
+import { DROP, saleState, nowAt, serverAnchor, smsUrl, ticketUrl } from './drop-core.js?v=20261022-3';
 
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -113,10 +113,6 @@ function action(type) {
   if (type === 'copy') return copyLink();
   if (type === 'share') return shareWebsite();
   if (type === 'native-flyer') return shareFlyer();
-  if (type === 'sms') {
-    openPanel(`<p class="section-eyebrow">GET THE SALE LINK</p><h2 id="panel-title">Join the text list</h2><p class="dialog-copy">Text <strong>D42PE</strong> to</p><p class="sms-number">(512) 610-7851</p><a class="button button-ticket" href="${sms}">OPEN MESSAGES ${icons.arrow}</a><p class="preview-note">Send the prefilled message to join D42PE text updates. Reply STOP to unsubscribe.</p>`, 'sms');
-    return;
-  }
   if (type === 'early-bonus') {
     tick();
     if (currentPhase !== 'before') return;
@@ -144,13 +140,13 @@ function renderPhase(phase) {
   $('#sticky-action').textContent = before ? 'TEXT ME THE DROP' : 'GET TICKETS';
   $('.share-drop').dataset.action = before ? 'share' : 'story';
   $('.share-drop').innerHTML = (before ? 'SHARE THE COUNTDOWN' : 'SHARE THE FLYER') + icons.arrow;
-  $('#action-help').textContent = before ? 'Join the text list for the sale link.' : 'One ticket includes October 30 + 31.';
-  $('.offer-price').textContent = phase === 'ended' ? '$17.59' : '$9.19';
+  $('#action-help').textContent = before ? '600+ active members · Get the drop by text.' : 'One ticket includes October 30 + 31.';
+  $('.offer-price').textContent = phase === 'ended' ? '$17.59' : '$8';
   $('#phase-label').textContent = before ? '24-HOUR FLASH SALE' : phase === 'live' ? 'FLASH SALE IS LIVE' : 'FLASH SALE ENDED';
   $('#deadline').innerHTML = before ? '<span>STARTS</span> THU OCT 22 · 4 PM AUSTIN TIME' : phase === 'live' ? '<span>ENDS IN</span> FRI OCT 23 · 4 PM AUSTIN TIME' : '<span>NEXT UP</span> HALLOWEEKEND · OCT 30 + 31';
   $('#offer-detail').textContent = before ? '100 passes. Ends Friday, October 23 at 4 PM.' : phase === 'live' ? 'While available. $17.59 from Friday at 4 PM.' : 'One pass still includes both nights.';
-  $('.fee-note').textContent = phase === 'ended' ? 'Total includes fees: $16 ticket + $1.59 fees.' : 'Total includes fees: $8 ticket + $1.19 fees.';
-  $('#sticky-title').textContent = phase === 'ended' ? '$17.59 TOTAL' : '$9.19 TOTAL';
+  $('.fee-note').textContent = phase === 'ended' ? 'Total includes fees: $16 ticket + $1.59 fees.' : '$8 ticket + $1.19 fees = $9.19 total.';
+  $('#sticky-title').textContent = phase === 'ended' ? '$17.59 TOTAL' : '$8 FLASH SALE';
   $('#sticky-caption').textContent = before ? 'THU · 4 PM AUSTIN' : phase === 'live' ? 'ENDS FRIDAY · 4 PM' : 'OCT 30 + 31';
   if (panel.open && panel.dataset.kind === 'bonus' && !before) closePanel();
   if (panel.open && panel.dataset.kind === 'share') shareOptions();
@@ -183,7 +179,7 @@ async function synchronize() {
   })();
   return clockRequest;
 }
-$$('[data-primary]').forEach(link => { link.href = sms; });
+$$('[data-primary], [data-text-signup]').forEach(link => { link.href = sms; });
 document.addEventListener('click', event => {
   const button = event.target.closest('[data-action]');
   if (button) action(button.dataset.action);
