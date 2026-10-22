@@ -29,10 +29,10 @@ check("the Halloweekend route retains the paused promotion state", () => {
 
 check("homepage uses the isolated October 22 flash-sale module", () => {
   assert.match(home, /<body\b[^>]*data-phase="checking"/);
-  assert.ok(home.includes('/halloweekend/flash.css?v=20261022-1'));
+  assert.ok(home.includes('/halloweekend/flash.css?v=20261022-2'));
   const scripts = [...home.matchAll(/<script\b([^>]*\bsrc="([^"]+)"[^>]*)>/g)];
   assert.equal(scripts.length, 1);
-  assert.equal(scripts[0][2], "/halloweekend/drop.js?v=20261022-1");
+  assert.equal(scripts[0][2], "/halloweekend/drop.js?v=20261022-2");
   assert.match(scripts[0][1], /\btype="module"/);
   for (const text of ['24-HOUR FLASH SALE', 'THU OCT 22', 'October 23 at 4 PM', 'Buy before the drop']) assert.ok(home.includes(text));
   assert.doesNotMatch(home, /ACL After Party|href="\/vip\//i);

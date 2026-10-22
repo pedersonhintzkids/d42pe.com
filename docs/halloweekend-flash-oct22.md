@@ -4,9 +4,9 @@ Approved homepage design: mobile preview at localhost:4192. This release changes
 
 - Countdown starts the sale at October 22, 2026, 4 PM America/Chicago (21:00 UTC).
 - Sale ends October 23, 2026, 4 PM America/Chicago (21:00 UTC).
-- Before: $8 offer, SMS signup, countdown sharing, early-buyer bonus details.
-- During: $8 ticket CTA and remaining sale time. Limited to 100 passes; fees additional.
-- After: $16 ticket CTA. Universe inventory and schedules must be configured separately.
+- Before: $9.19 total offer ($8 ticket + $1.19 fees), SMS signup, countdown sharing, early-buyer bonus details.
+- During: $9.19 total ticket CTA and remaining sale time. Limited to 100 passes.
+- After: $17.59 total ticket CTA ($16 ticket + $1.59 fees). Universe inventory and schedules must be configured separately.
 - All paid tickets purchased before the opening cutoff qualify for one free friend pass per paid ticket, covering both nights. Includes earlier purchases, excludes refunded/complimentary tickets. Delivery to the original purchase email is after the sale ends. The website does not issue or email passes.
 
 The server Date header anchors a monotonic clock; synchronization repeats every minute and on resume/online. A five-second timeout preserves the last anchor or falls back to device time on first load. There are no production preview/time overrides.
