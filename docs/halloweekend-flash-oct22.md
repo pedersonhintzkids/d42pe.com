@@ -18,3 +18,9 @@ Original October 22 release verification: complete npm test and build passed, in
 October 23 deadline update verification: `npm test`, `npm run build`, and `git diff --check` passed locally. The 47 campaign/drop tests include the old Friday 4 PM cutoff remaining live, the exact midnight boundary in CDT and UTC, the server clock crossing midnight despite an incorrect device clock, and matching clock metadata. These local results do not confirm production publication or Universe scheduling.
 
 Publishing uses GitHub Pages from main at repository root. Pre-release baseline: aa5f670. Roll back by reverting this release commit and pushing the revert to main; that does not roll back Universe changes. Private buyer exports are stored outside the repository and never deployed. Refresh the eligibility roster after the opening cutoff using purchase timestamps strictly before 4 PM, then reconcile refunds before any issuance.
+
+## October 23 event URL repair
+
+`/halloweekend/` now redirects to `/`, which is the single source for the current event experience. The redirect preserves the incoming query string and hash, including referral codes and `#flyer`. The homepage, flyer, ticket controller, sale schedule, pricing, and early-buyer terms are unchanged. JavaScript-disabled visitors receive an immediate homepage redirect and a visible continuation link; the homepage retains its existing no-JavaScript Universe ticket link. This replaces the outdated text-updates-only teaser without duplicating the homepage HTML.
+
+The route regression check executes the redirect with plain, referral, encoded query, and anchor URLs, verifies same-origin root destinations and that the homepage cannot redirect back, and checks the non-JavaScript fallback. Production verification must confirm the published URL opens the current event and ticket flow.

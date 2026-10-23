@@ -10,7 +10,7 @@ const landing = read("halloweekend/index.html");
 let checks = 0;
 function check(name, run) { run(); checks++; }
 
-for (const [route, html] of [["home", home], ["halloweekend", landing]]) {
+for (const [route, html] of [["home", home]]) {
   check(`${route}: Halloweekend identity and accessible structure remain intact`, () => {
     for (const copy of ["D42PE", "Halloweekend", "AUSTIN, TEXAS", "2026-10-30", "2026-10-31", "512 EVENTS", "RITUAL"]) {
       assert.ok(html.includes(copy), `${route} must contain ${copy}`);
@@ -22,9 +22,32 @@ for (const [route, html] of [["home", home], ["halloweekend", landing]]) {
   });
 }
 
-check("the Halloweekend route retains the paused promotion state", () => {
-  assert.doesNotMatch(landing, /universe\.com|ACL After Party|official-flyer|flyer-480|flyer-840|data-ticket|data-share|data-download|data-open-flyer|mobile-ticket|href="\/vip\//i);
-  assert.doesNotMatch(landing, /drop\.js|drop\.css|data-countdown|data-before-drop|data-after-drop/);
+check("the Halloweekend URL uses the homepage as its only event experience", () => {
+  assert.match(landing, /<noscript><meta http-equiv="refresh" content="0;url=\/"><\/noscript>/);
+  assert.match(landing, /href="\/">Continue to Halloweekend tickets/);
+  assert.match(landing, /<link rel="canonical" href="https:\/\/d42pe\.com\/">/);
+  assert.doesNotMatch(landing, /updates-only|updates\.js|data-phase|offer-price|official-flyer/);
+  assert.doesNotMatch(home, /location\.(?:replace|assign)\s*\(|http-equiv="refresh"/);
+
+  const redirects = [...landing.matchAll(/<script>([\s\S]*?)<\/script>/g)];
+  assert.equal(redirects.length, 1);
+  for (const [search, hash] of [
+    ["", ""],
+    ["?ref=RitualX&utm_source=instagram&utm_campaign=oct23", "#flyer"],
+    ["?ref=two%20words&ref=second&fbclid=test%2Bcode", "#socials"],
+    ["?next=https%3A%2F%2Fexample.com", "#main"]
+  ]) {
+    const destinations = [];
+    vm.runInNewContext(redirects[0][1], { window: { location: {
+      search, hash, replace: destination => destinations.push(destination)
+    } } });
+    assert.deepEqual(destinations, ["/" + search + hash]);
+    const destination = new URL(destinations[0], "https://d42pe.com/halloweekend/");
+    assert.equal(destination.origin, "https://d42pe.com");
+    assert.equal(destination.pathname, "/");
+    assert.equal(destination.search, search);
+    assert.equal(destination.hash, hash);
+  }
 });
 
 check("homepage uses the isolated October 22 flash-sale module", () => {
@@ -66,7 +89,7 @@ check("old event and ticket routes return visitors to Halloweekend", () => {
 });
 
 check("retained campaign media are local and match intrinsic dimensions", () => {
-  for (const html of [home, landing]) {
+  for (const html of [home]) {
     for (const match of html.matchAll(/<img\b([^>]+)>/g)) {
       const attrs = match[1];
       const src = attrs.match(/(?:^|\s)src="([^"]+)"/)?.[1]
@@ -91,7 +114,7 @@ check("retained campaign media are local and match intrinsic dimensions", () => 
   }
 });
 
-check("both landing pages retain text updates and all social destinations", () => {
+check("the shared homepage retains text updates and all social destinations", () => {
   const retainedDestinations = [
     "sms:+15126107851?body=D42PE",
     "https://www.instagram.com/d42pe.events_atx/",
@@ -99,14 +122,10 @@ check("both landing pages retain text updates and all social destinations", () =
     "https://www.snapchat.com/add/d42pe.atx",
     "https://www.snapchat.com/@atxpartys"
   ];
-  for (const html of [home, landing]) {
+  for (const html of [home]) {
     const body = html.split(/<body[^>]*>/)[1];
     for (const destination of retainedDestinations) assert.ok(body.includes(`href="${destination}"`), destination);
     assert.match(body, /Get text updates/);
-    if (html === landing) {
-      assert.equal((body.match(/<section\b/g) || []).length, 2);
-      assert.doesNotMatch(body, /GET TICKETS|Share flyer|Save flyer|Post on your story|Win VIP/i);
-    }
   }
 });
 
