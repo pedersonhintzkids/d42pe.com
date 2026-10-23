@@ -32,9 +32,9 @@ check("homepage uses the isolated October 22 flash-sale module", () => {
   assert.ok(home.includes('/halloweekend/flash.css?v=20261022-3'));
   const scripts = [...home.matchAll(/<script\b([^>]*\bsrc="([^"]+)"[^>]*)>/g)];
   assert.equal(scripts.length, 1);
-  assert.equal(scripts[0][2], "/halloweekend/drop.js?v=20261022-4");
+  assert.equal(scripts[0][2], "/halloweekend/drop.js?v=20261023-1");
   assert.match(scripts[0][1], /\btype="module"/);
-  for (const text of ['24-HOUR FLASH SALE', 'THU OCT 22', 'October 23 at 4 PM', 'Buy before the drop']) assert.ok(home.includes(text));
+  for (const text of ['FLASH SALE', 'THU OCT 22', 'Until midnight Friday, October 23. Then price doubles.', 'Buy before the drop']) assert.ok(home.includes(text));
   assert.doesNotMatch(home, /ACL After Party|href="\/vip\//i);
   assert.doesNotMatch(home, /noindex|Preview only|simulated|mode=before/);
   const script = read('halloweekend/drop.js');

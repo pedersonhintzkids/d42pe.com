@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { DROP, LAUNCH_MS, END_MS, saleState, serverAnchor, nowAt, countdown, ticketUrl, smsUrl } from '../halloweekend/drop-core.js';
 
 test('drop is October 22 at 4 PM Austin CDT, not browser-local time', () => {
@@ -48,22 +49,51 @@ test('text signup opens composer correctly on iPhone and Android', () => {
 });
 
 
-test('24-hour sale closes at Friday 4 PM Austin, including late arrivals', () => {
-  assert.equal(new Date(END_MS).toISOString(), '2026-10-23T21:00:00.000Z');
-  assert.equal(END_MS - LAUNCH_MS, 86400000);
+test('sale closes at midnight Friday night Austin, including late arrivals', () => {
+  assert.equal(new Date(END_MS).toISOString(), '2026-10-24T05:00:00.000Z');
+  assert.equal(END_MS - LAUNCH_MS, 32 * 60 * 60 * 1000);
   assert.equal(saleState(LAUNCH_MS - 1).phase, 'before');
   assert.equal(saleState(LAUNCH_MS - 1).seconds, '01');
   assert.equal(saleState(LAUNCH_MS).phase, 'live');
-  assert.equal(saleState(LAUNCH_MS).hours, '24');
+  assert.equal(saleState(LAUNCH_MS).hours, '32');
   assert.equal(saleState(END_MS - 1).phase, 'live');
   assert.equal(saleState(END_MS - 1).seconds, '01');
   assert.equal(saleState(END_MS).phase, 'ended');
   assert.equal(saleState(END_MS).price, 16);
   assert.equal(saleState(END_MS + 86400000).phase, 'ended');
 });
+test('Friday 4 PM and the rest of Friday evening retain the $8 sale', () => {
+  const oldCutoff = Date.parse('2026-10-23T16:00:00-05:00');
+  for (const now of [oldCutoff - 1, oldCutoff, oldCutoff + 1, Date.parse('2026-10-23T23:59:59.999-05:00')]) {
+    assert.equal(saleState(now).phase, 'live');
+    assert.equal(saleState(now).price, 8);
+  }
+  assert.equal(saleState(oldCutoff).hours, '08');
+});
+test('the UTC boundary is 05:00 Saturday and doubles the base price exactly then', () => {
+  const before = saleState(Date.parse('2026-10-24T04:59:59.999Z'));
+  assert.equal(before.phase, 'live');
+  assert.equal(before.price, 8);
+  assert.equal(before.seconds, '01');
+  const midnight = saleState(Date.parse('2026-10-24T05:00:00.000Z'));
+  assert.equal(midnight.phase, 'ended');
+  assert.equal(midnight.price, before.price * 2);
+  assert.equal(midnight.seconds, '00');
+});
+test('an open page reaches midnight using server time despite a wrong device clock', () => {
+  const sample = serverAnchor('Sat, 24 Oct 2026 04:59:59 GMT', 100);
+  assert.equal(saleState(nowAt(sample, 1099, LAUNCH_MS)).phase, 'live');
+  assert.equal(saleState(nowAt(sample, 1100, LAUNCH_MS)).phase, 'ended');
+});
+test('clock metadata matches the unchanged launch and midnight sale cutoff', () => {
+  const clock = JSON.parse(readFileSync(new URL('../halloweekend/drop-clock.json', import.meta.url), 'utf8'));
+  assert.equal(clock.launchAt, DROP.launchAt);
+  assert.equal(clock.endsAt, DROP.endsAt);
+});
 test('refreshed time can correct either direction across both boundaries', () => {
   for (const [date, expected] of [
-    ['Fri, 23 Oct 2026 21:01:00 GMT', 'ended'],
+    ['Sat, 24 Oct 2026 05:01:00 GMT', 'ended'],
+    ['Fri, 23 Oct 2026 21:01:00 GMT', 'live'],
     ['Thu, 22 Oct 2026 21:01:00 GMT', 'live'],
     ['Thu, 22 Oct 2026 20:59:00 GMT', 'before'],
   ]) {

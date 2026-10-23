@@ -2,7 +2,7 @@
 // module starts an October 3 redirect as a side effect.
 export const DROP = Object.freeze({
   launchAt: '2026-10-22T16:00:00-05:00',
-  endsAt: '2026-10-23T16:00:00-05:00',
+  endsAt: '2026-10-24T00:00:00-05:00',
   eventUrl: 'https://d42pe.com/',
   ticketUrl: 'https://www.universe.com/events/halloweeknd-tickets-7T6MWX?ref=Website&unii-trigger-open=7T6MWX',
   flyerUrl: '/assets/halloweekend/official-flyer-20261022-flash-qr.png',

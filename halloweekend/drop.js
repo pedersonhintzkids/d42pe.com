@@ -1,4 +1,4 @@
-import { DROP, saleState, nowAt, serverAnchor, smsUrl, ticketUrl } from './drop-core.js?v=20261022-4';
+import { DROP, saleState, nowAt, serverAnchor, smsUrl, ticketUrl } from './drop-core.js?v=20261023-1';
 
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -116,7 +116,7 @@ function action(type) {
   if (type === 'early-bonus') {
     tick();
     if (currentPhase !== 'before') return;
-    openPanel(`<p class="section-eyebrow">EARLY-BUYER BONUS</p><h2 id="panel-title">Bring a friend.<br>On us.</h2><p class="dialog-copy">Buy a paid ticket before <strong>Thursday, October 22 at 4 PM Austin time</strong> and get <strong>one free friend pass for every paid ticket</strong>. Each friend pass covers both October 30 and 31.</p><div class="bonus-included"><strong>Already bought your ticket?</strong><span>You’re included too.</span></div><a class="button button-ticket" data-early-purchase href="${checkout}">BUY BEFORE THE DROP ${icons.arrow}</a><p class="preview-note">Free passes will be emailed to the original buyer’s purchase email after the flash sale ends Friday, October 23 at 4 PM Austin time. Refunded and complimentary tickets do not qualify.</p>`, 'bonus');
+    openPanel(`<p class="section-eyebrow">EARLY-BUYER BONUS</p><h2 id="panel-title">Bring a friend.<br>On us.</h2><p class="dialog-copy">Buy a paid ticket before <strong>Thursday, October 22 at 4 PM Austin time</strong> and get <strong>one free friend pass for every paid ticket</strong>. Each friend pass covers both October 30 and 31.</p><div class="bonus-included"><strong>Already bought your ticket?</strong><span>You’re included too.</span></div><a class="button button-ticket" data-early-purchase href="${checkout}">BUY BEFORE THE DROP ${icons.arrow}</a><p class="preview-note">Free passes will be emailed to the original buyer’s purchase email after the flash sale ends Friday, October 23 at midnight Austin time. Refunded and complimentary tickets do not qualify.</p>`, 'bonus');
     return;
   }
   if (type === 'story') {
@@ -142,12 +142,12 @@ function renderPhase(phase) {
   $('.share-drop').innerHTML = (before ? 'SHARE THE COUNTDOWN' : 'SHARE THE FLYER') + icons.arrow;
   $('#action-help').textContent = before ? '600+ active members · Get the drop by text.' : 'One ticket includes October 30 + 31.';
   $('.offer-price').textContent = phase === 'ended' ? '$17.59' : '$8';
-  $('#phase-label').textContent = before ? '24-HOUR FLASH SALE' : phase === 'live' ? 'FLASH SALE IS LIVE' : 'FLASH SALE ENDED';
-  $('#deadline').innerHTML = before ? '<span>STARTS</span> THU OCT 22 · 4 PM AUSTIN TIME' : phase === 'live' ? '<span>ENDS IN</span> FRI OCT 23 · 4 PM AUSTIN TIME' : '<span>NEXT UP</span> HALLOWEEKEND · OCT 30 + 31';
-  $('#offer-detail').textContent = before ? '100 passes. Ends Friday, October 23 at 4 PM.' : phase === 'live' ? 'While available. $17.59 from Friday at 4 PM.' : 'One pass still includes both nights.';
+  $('#phase-label').textContent = before ? 'FLASH SALE' : phase === 'live' ? 'FLASH SALE IS LIVE' : 'FLASH SALE ENDED';
+  $('#deadline').innerHTML = before ? '<span>STARTS</span> THU OCT 22 · 4 PM AUSTIN TIME' : phase === 'live' ? '<span>ENDS IN</span> FRI OCT 23 · MIDNIGHT AUSTIN TIME' : '<span>NEXT UP</span> HALLOWEEKEND · OCT 30 + 31';
+  $('#offer-detail').textContent = before ? '100 passes. Until midnight Friday, October 23. Then price doubles.' : phase === 'live' ? 'Until midnight. Then ticket price doubles to $16 + fees.' : 'One pass still includes both nights.';
   $('.fee-note').textContent = phase === 'ended' ? 'Total includes fees: $16 ticket + $1.59 fees.' : '$8 ticket + $1.19 fees = $9.19 total.';
   $('#sticky-title').textContent = phase === 'ended' ? '$17.59 TOTAL' : '$8 FLASH SALE';
-  $('#sticky-caption').textContent = before ? 'THU · 4 PM AUSTIN' : phase === 'live' ? 'ENDS FRIDAY · 4 PM' : 'OCT 30 + 31';
+  $('#sticky-caption').textContent = before ? 'THU · 4 PM AUSTIN' : phase === 'live' ? 'UNTIL MIDNIGHT · THEN PRICE DOUBLES' : 'OCT 30 + 31';
   if (panel.open && panel.dataset.kind === 'bonus' && !before) closePanel();
   if (panel.open && panel.dataset.kind === 'share') shareOptions();
 }
