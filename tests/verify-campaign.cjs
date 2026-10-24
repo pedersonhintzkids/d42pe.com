@@ -50,32 +50,33 @@ check("the Halloweekend URL uses the homepage as its only event experience", () 
   }
 });
 
-check("homepage uses the isolated October 22 flash-sale module", () => {
-  assert.match(home, /<body\b[^>]*data-phase="checking"/);
-  assert.ok(home.includes('/halloweekend/flash.css?v=20261022-3'));
+check("homepage uses the approved simple layout without an expired offer", () => {
+  assert.ok(home.includes('/halloweekend/simple.css?v=20261024-1'));
   const scripts = [...home.matchAll(/<script\b([^>]*\bsrc="([^"]+)"[^>]*)>/g)];
   assert.equal(scripts.length, 1);
-  assert.equal(scripts[0][2], "/halloweekend/drop.js?v=20261023-1");
+  assert.equal(scripts[0][2], "/halloweekend/simple.js?v=20261024-1");
   assert.match(scripts[0][1], /\btype="module"/);
-  for (const text of ['FLASH SALE', 'THU OCT 22', 'Until midnight Friday, October 23. Then price doubles.', 'Buy before the drop']) assert.ok(home.includes(text));
+  for (const text of ['GET TICKETS', 'JOIN TEXT LIST', 'Post on your story']) assert.ok(home.includes(text));
+  assert.doesNotMatch(home, /FLASH SALE|offer-price|class="timer"|\$8|\$16|Buy before the drop/);
   assert.doesNotMatch(home, /ACL After Party|href="\/vip\//i);
   assert.doesNotMatch(home, /noindex|Preview only|simulated|mode=before/);
-  const script = read('halloweekend/drop.js');
+  const script = read('halloweekend/simple.js');
   assert.doesNotMatch(script, /get\(['"]mode['"]\)|mock-sms|early-checkout/);
-  assert.ok(script.includes('visibilitychange'));
-  assert.ok(script.includes('pageshow'));
+  assert.ok(script.includes('ticketUrl(location.search)'));
+  assert.ok(script.includes('smsUrl(navigator.userAgent, navigator.platform, navigator.maxTouchPoints)'));
   assert.ok(script.includes('navigator.share'));
-  assert.ok(script.includes('every paid ticket'));
+  assert.ok(script.includes('navigator.clipboard'));
+  assert.ok(script.includes('setSelectionRange'));
+  assert.ok(script.includes('/assets/halloweekend/official-flyer-20261024-no-price.png'));
 });
 
-check("flyer and ordinary ticket access remain available before the sale", () => {
+check("flyer and ticket access work without countdowns or JavaScript", () => {
   assert.match(home, /<section[^>]*id="flyer"[^>]*>/);
   assert.doesNotMatch(home.match(/<section[^>]*id="flyer"[^>]*>/)[0], /hidden/);
-  assert.match(home, /src="\/assets\/halloweekend\/official-flyer-20261022-flash-qr\.png"/);
-  assert.match(home, /srcset="[^"]*flyer-20261022-flash-qr-480\.webp 480w[^"]*flyer-20261022-flash-qr-840\.webp 840w"/);
-  assert.match(home, /<a\b[^>]*href="\/assets\/halloweekend\/official-flyer-20261022-flash-qr\.png"[^>]*\bdownload(?:[\s=>])/);
-  assert.match(home, /<noscript>[\s\S]*universe\.com[\s\S]*<\/noscript>/);
-  assert.match(home, /class="early-bonus" hidden/);
+  assert.match(home, /src="\/assets\/halloweekend\/official-flyer-20261024-no-price\.png"/);
+  assert.match(home, /<a\b[^>]*href="\/assets\/halloweekend\/official-flyer-20261024-no-price\.png"[^>]*\bdownload(?:[\s=>])/);
+  assert.match(home, /<a\b[^>]*data-ticket[^>]*href="https:\/\/www\.universe\.com\/events\/halloweeknd-tickets-7T6MWX\?ref=Website&amp;unii-trigger-open=7T6MWX"/);
+  assert.ok(home.includes('id="socials"'));
 });
 
 check("old event and ticket routes return visitors to Halloweekend", () => {
@@ -125,7 +126,7 @@ check("the shared homepage retains text updates and all social destinations", ()
   for (const html of [home]) {
     const body = html.split(/<body[^>]*>/)[1];
     for (const destination of retainedDestinations) assert.ok(body.includes(`href="${destination}"`), destination);
-    assert.match(body, /Get text updates/);
+    assert.match(body, /JOIN TEXT LIST/);
   }
 });
 
