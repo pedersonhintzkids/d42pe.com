@@ -47,8 +47,8 @@ const routeExpectations = [
     canonical: "https://d42pe.com/",
     image: "https://d42pe.com/assets/d42pe-home-social-preview-2026-08-04.png",
     alt: "D42PE — Austin Events — d42pe.com",
-    title: "Halloweekend · Oct 30 + 31 · Austin | D42PE",
-    description: "Halloweekend in Austin, Texas. Follow D42PE and get text updates for October 30 + 31."
+    title: "Halloweekend Tonight · October 31 · 25306 Old Ferry Rd | D42PE",
+    description: "HALLOWEEKEND tonight, Saturday October 31, at 25306 Old Ferry Rd. 9 PM–2 AM Texas Time. Bring your existing valid Saturday or two-night ticket."
   },
   {
     html: join,

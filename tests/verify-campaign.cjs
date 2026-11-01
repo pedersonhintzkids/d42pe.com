@@ -12,7 +12,7 @@ function check(name, run) { run(); checks++; }
 
 for (const [route, html] of [["home", home]]) {
   check(`${route}: Halloweekend identity and accessible structure remain intact`, () => {
-    for (const copy of ["D42PE", "Halloweekend", "AUSTIN, TEXAS", "2026-10-30", "2026-10-31", "512 EVENTS", "RITUAL"]) {
+    for (const copy of ["D42PE", "Halloweekend", "AUSTIN, TEXAS", "2026-10-31", "25306 Old Ferry Rd", "9 PM–2 AM", "512 EVENTS", "RITUAL"]) {
       assert.ok(html.includes(copy), `${route} must contain ${copy}`);
     }
     assert.doesNotMatch(html, /<script[^>]+src="[^\"]*(?:campaign-launch|halloweekend\.js|vip\.js)/);
@@ -51,7 +51,7 @@ check("the Halloweekend URL uses the homepage as its only event experience", () 
 });
 
 check("homepage uses the approved simple layout without an expired offer", () => {
-  assert.ok(home.includes('/halloweekend/simple.css?v=20261024-1'));
+  assert.ok(home.includes('/halloweekend/simple.css?v=20261031-1'));
   const scripts = [...home.matchAll(/<script\b([^>]*\bsrc="([^"]+)"[^>]*)>/g)];
   assert.equal(scripts.length, 1);
   assert.equal(scripts[0][2], "/halloweekend/simple.js?v=20261024-1");
