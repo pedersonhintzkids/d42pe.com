@@ -11,8 +11,8 @@ let checks = 0;
 function check(name, run) { run(); checks++; }
 
 for (const [route, html] of [["home", home]]) {
-  check(`${route}: Halloweekend identity and accessible structure remain intact`, () => {
-    for (const copy of ["D42PE", "Halloweekend", "AUSTIN, TEXAS", "2026-10-31", "25306 Old Ferry Rd", "9 PM–2 AM", "512 EVENTS", "RITUAL"]) {
+  check(`${route}: Halloweekend thank-you identity and accessible structure remain intact`, () => {
+    for (const copy of ["D42PE", "Halloweekend", "AUSTIN, TEXAS", "THANKS FOR COMING TO", "Join the text list for more nights like this."]) {
       assert.ok(html.includes(copy), `${route} must contain ${copy}`);
     }
     assert.doesNotMatch(html, /<script[^>]+src="[^\"]*(?:campaign-launch|halloweekend\.js|vip\.js)/);
@@ -22,9 +22,10 @@ for (const [route, html] of [["home", home]]) {
   });
 }
 
-check("the Halloweekend URL uses the homepage as its only event experience", () => {
+check("the Halloweekend URL uses the homepage as its only current experience", () => {
   assert.match(landing, /<noscript><meta http-equiv="refresh" content="0;url=\/"><\/noscript>/);
-  assert.match(landing, /href="\/">Continue to Halloweekend tickets/);
+  assert.match(landing, /href="\/">Join the D42PE text list/);
+  assert.doesNotMatch(landing, /Continue to Halloweekend tickets|Oct 30 \+ 31|October 30 \+ 31|25306 Old Ferry Rd/);
   assert.match(landing, /<link rel="canonical" href="https:\/\/d42pe\.com\/">/);
   assert.doesNotMatch(landing, /updates-only|updates\.js|data-phase|offer-price|official-flyer/);
   assert.doesNotMatch(home, /location\.(?:replace|assign)\s*\(|http-equiv="refresh"/);
@@ -50,13 +51,14 @@ check("the Halloweekend URL uses the homepage as its only event experience", () 
   }
 });
 
-check("homepage uses the approved simple layout without an expired offer", () => {
-  assert.ok(home.includes('/halloweekend/simple.css?v=20261031-1'));
+check("homepage prioritizes text signup without expired event promotion", () => {
+  assert.match(home, /href="\/halloweekend\/simple\.css\?v=[^"]+"/);
   const scripts = [...home.matchAll(/<script\b([^>]*\bsrc="([^"]+)"[^>]*)>/g)];
   assert.equal(scripts.length, 1);
   assert.equal(scripts[0][2], "/halloweekend/simple.js?v=20261024-1");
   assert.match(scripts[0][1], /\btype="module"/);
-  for (const text of ['GET TICKETS', 'JOIN TEXT LIST', 'Post on your story']) assert.ok(home.includes(text));
+  for (const text of ['THANKS FOR COMING TO', 'JOIN THE TEXT LIST', 'SEE YOU AT THE NEXT ONE']) assert.ok(home.includes(text));
+  assert.doesNotMatch(home, /25306 Old Ferry Rd|2026-10-31|TONIGHT|9 PM–2 AM|GET TICKETS|data-ticket|Post on your story|official-flyer|id="flyer"/);
   assert.doesNotMatch(home, /FLASH SALE|offer-price|class="timer"|\$8|\$16|Buy before the drop/);
   assert.doesNotMatch(home, /ACL After Party|href="\/vip\//i);
   assert.doesNotMatch(home, /noindex|Preview only|simulated|mode=before/);
@@ -70,12 +72,14 @@ check("homepage uses the approved simple layout without an expired offer", () =>
   assert.ok(script.includes('/assets/halloweekend/official-flyer-20261024-no-price.png'));
 });
 
-check("flyer and ticket access work without countdowns or JavaScript", () => {
-  assert.match(home, /<section[^>]*id="flyer"[^>]*>/);
-  assert.doesNotMatch(home.match(/<section[^>]*id="flyer"[^>]*>/)[0], /hidden/);
-  assert.match(home, /src="\/assets\/halloweekend\/official-flyer-20261024-no-price\.png"/);
-  assert.match(home, /<a\b[^>]*href="\/assets\/halloweekend\/official-flyer-20261024-no-price\.png"[^>]*\bdownload(?:[\s=>])/);
-  assert.match(home, /<a\b[^>]*data-ticket[^>]*href="https:\/\/www\.universe\.com\/events\/halloweeknd-tickets-7T6MWX\?ref=Website&amp;unii-trigger-open=7T6MWX"/);
+check("primary text signup and its phone fallback work without JavaScript", () => {
+  const primary = home.match(/<a\b[^>]*\bid="primary"[^>]*>([\s\S]*?)<\/a>/);
+  assert.ok(primary, "homepage must have a primary signup link");
+  assert.match(primary[0], /\bclass="button primary text-list-cta"/);
+  assert.match(primary[0], /\bdata-sms(?:[\s=>])/);
+  assert.match(primary[0], /href="sms:\+15126107851\?body=D42PE"/);
+  assert.match(primary[1], /JOIN THE TEXT LIST/);
+  assert.match(home, /Text\s+(?:<[^>]+>)*D42PE(?:<[^>]+>)*\s+to\s+(?:<[^>]+>)*\(512\) 610-7851/);
   assert.ok(home.includes('id="socials"'));
 });
 
@@ -126,8 +130,9 @@ check("the shared homepage retains text updates and all social destinations", ()
   for (const html of [home]) {
     const body = html.split(/<body[^>]*>/)[1];
     for (const destination of retainedDestinations) assert.ok(body.includes(`href="${destination}"`), destination);
-    assert.match(body, /JOIN TEXT LIST/);
+    assert.match(body, /JOIN THE TEXT LIST/);
   }
 });
 
 process.stdout.write(JSON.stringify({ checks, passed: checks, failures: 0 }, null, 2) + "\n");
+

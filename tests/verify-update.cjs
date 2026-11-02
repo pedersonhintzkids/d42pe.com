@@ -47,8 +47,8 @@ const routeExpectations = [
     canonical: "https://d42pe.com/",
     image: "https://d42pe.com/assets/d42pe-home-social-preview-2026-08-04.png",
     alt: "D42PE — Austin Events — d42pe.com",
-    title: "Halloweekend Tonight · October 31 · 25306 Old Ferry Rd | D42PE",
-    description: "HALLOWEEKEND tonight, Saturday October 31, at 25306 Old Ferry Rd. 9 PM–2 AM Texas Time. Bring your existing valid Saturday or two-night ticket."
+    title: "Thanks for Coming to Halloweekend | D42PE",
+    description: "Thanks for coming to Halloweekend. Join the D42PE text list for more Austin events and first access to the next drop."
   },
   {
     html: join,
@@ -208,3 +208,4 @@ check("no remote visible media or fonts", () => {
 });
 
 process.stdout.write(JSON.stringify({ checks: checks.length, passed: checks.length, failures: 0 }, null, 2) + "\n");
+
