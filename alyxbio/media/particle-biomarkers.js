@@ -1052,10 +1052,12 @@
     { name: 'blood', end: cycle },
   ];
   const count = 3500;
+  const detailPerDevice = 1720;
   const turn = Math.PI * 2;
   let cached;
   const drawFrom = new Float32Array(count * 4);
   const drawTo = new Float32Array(count * 4);
+  const drawDetail = new Float32Array(detailPerDevice * 2 * 4);
 
   function sample(source, total) {
     if (!source?.length) return [];
@@ -1100,16 +1102,30 @@
     const rims = rimPoints();
     const saliva = devices.saliva;
     const blood = devices.blood;
-    const revealed = (points, layer) => sample([
-      ...sample(points.filter((point) => point.weight === 3), 280),
-      ...sample(points.filter((point) => point.weight < 3), 480),
-    ], 760).map((point) => ({ ...point, layer }));
+    function reveal(points, layer) {
+      const primary = sample([
+        ...sample(points.filter((point) => point.weight === 3), 280),
+        ...sample(points.filter((point) => point.weight < 3), 480),
+      ], 760);
+      // The primary points carry the morph. Extra surface detail fades out before the next scene.
+      const selected = new Set(primary);
+      const detail = sample(points.filter((point) => !selected.has(point)), detailPerDevice);
+      return {
+        primary: primary.map((point) => ({ ...point, layer })),
+        detail: detail.map((point) => ({ ...point, layer })),
+      };
+    }
+    const salivaReveal = reveal(saliva, 1);
+    const bloodReveal = reveal(blood, 2);
     const opened = [
       ...sample(shell, 1980 - rims.length), ...rims,
-      ...revealed(saliva, 1), ...revealed(blood, 2),
+      ...salivaReveal.primary, ...bloodReveal.primary,
     ];
+    const openingDetail = [...salivaReveal.detail, ...bloodReveal.detail];
     const stages = {
       open: opened,
+      openingDetail,
+      compactOpeningDetail: openingDetail.filter((_, index) => index % 2 === 0),
       saliva: sample(saliva, count),
       blood: sample(blood, count),
       cortisol: sample(molecules.cortisol.map((point) => ({ ...point, size: .92 })), count),
@@ -1117,6 +1133,10 @@
     cached = { shell: field.shell, devices, molecules, stages };
     return stages;
   }
+
+  function deviceTint(tint, depth) { return Math.min(.99, .09 + tint * 1.03 + depth * .55); }
+
+  function deviceOpacity(depth) { return Math.min(1, .90 + depth * .89); }
 
   function project(name, points, local, time, view, ease, output) {
     const phase = time / cycle * turn;
@@ -1180,8 +1200,8 @@
           + (px + point.y * (saliva ? -.16 : .11) * (1 - travel)) * revealedScale;
         y = anchorY + (point.y - pz * .04) * revealedScale
           + Math.sin(stageAngle * 4 + point.layer) * travel * 3.8;
-        tint = Math.min(.99, .11 + tint * 1.02 + pz * .48);
-        alpha = Math.min(1, lift * 3.5) * Math.min(1, .87 + pz * .83);
+        tint = deviceTint(tint, pz);
+        alpha = Math.min(1, lift * 3.5) * deviceOpacity(pz);
         if (travel < .43 && y > rimY + (x - rimX) * rollSin) alpha = 0;
       } else if (opening) {
         const move = point.lid ? lid : 0;
@@ -1198,8 +1218,8 @@
         x = centerX + (px * rollCos - py * rollSin) * scale * perspective;
         y = centerY + (px * rollSin + py * rollCos) * scale * perspective;
         if (device) {
-          tint = Math.min(.99, .09 + tint * 1.03 + pz * .55);
-          alpha = Math.min(1, .90 + pz * .89);
+          tint = deviceTint(tint, pz);
+          alpha = deviceOpacity(pz);
         } else {
           tint = Math.min(.99, .17 + (tint + pz * .1) * .96);
         }
@@ -1233,6 +1253,9 @@
     const accent = mix < .5 ? first : second;
     const foregroundName = mix < .5 ? currentName : nextName;
     const molecularSize = foregroundName === 'cortisol' ? 1.31 : 1;
+    const compact = viewport.small && viewport.height <= 650;
+    const dotScale = viewport.small ? .99 : 1.16;
+    const revealDotScale = dotScale * (compact ? .69 : .80);
     let lastAlpha;
     for (let index = 0, cursor = 0; index < count; index++, cursor += 4) {
       const fromX = drawFrom[cursor];
@@ -1252,9 +1275,28 @@
       }
       const drift = ((index * 67) % 83) / 83 - .5;
       const fleck = ((index * 83) % 71) / 71 - .5;
-      const { color, size } = accent[index];
-      const dot = size * molecularSize * (viewport.small ? .99 : 1.16);
+      const { color, size, layer } = accent[index];
+      const dot = size * molecularSize * (foregroundName === 'open' && layer ? revealDotScale : dotScale);
       paint(x + sweep * drift * 29, y + sweep * fleck * 20, dot, tint, sweep < .50 ? color : null);
+    }
+
+    if (currentName !== 'open' || local < .18) return;
+    const detail = compact ? available.compactOpeningDetail : available.openingDetail;
+    project('open', detail, local, elapsed, viewport, ease, drawDetail);
+    const detailFade = currentOpacity * (1 - mix) * ease((local - .18) / .22);
+    for (let index = 0, cursor = 0; index < detail.length; index++, cursor += 4) {
+      const x = drawDetail[cursor];
+      const y = drawDetail[cursor + 1];
+      const copyFade = viewport.small ? 1 - .48 * ease((y - viewport.copyTop + 6) / 22) : 1;
+      const alpha = drawDetail[cursor + 3] * detailFade * copyFade;
+      if (alpha < .035) continue;
+      const opacity = Math.round(alpha * 20) / 20;
+      if (opacity !== lastAlpha) {
+        context.globalAlpha = opacity;
+        lastAlpha = opacity;
+      }
+      const { size, color } = detail[index];
+      paint(x, y, size * revealDotScale * .83, drawDetail[cursor + 2], color);
     }
   }
 
