@@ -1345,14 +1345,15 @@
     const opening = name === 'open';
     const device = name === 'blood' || name === 'saliva';
     const biomarker = name === 'cortisol';
-    const stageAngle = opening ? Math.min(local, .64) * timeline[0].end / cycle * turn : phase;
+    const stageAngle = opening ? local * timeline[0].end / cycle * turn : phase;
     const lean = opening ? .34 + Math.sin(stageAngle * 3) * .095
       : device ? (name === 'saliva' ? -.43 : .28) + Math.sin(phase * 3) * .047
         : Math.sin(phase * 3) * .075;
     const tilt = .235 + Math.cos(stageAngle * 3) * .052;
     const rollCos = Math.cos(lean);
     const rollSin = Math.sin(lean);
-    const yaw = opening ? -.21 : device ? -.31 + ease(local) * .64 : Math.sin(phase * 3) * .62;
+    const yaw = opening ? -.21 + Math.sin(stageAngle * 3) * .085
+      : device ? -.31 + ease(local) * .64 : Math.sin(phase * 3) * .62;
     const yawCos = Math.cos(yaw);
     const yawSin = Math.sin(yaw);
     const pitch = biomarker ? .21 + Math.cos(phase * 2) * .18 : device ? .12 : .04;
@@ -1378,6 +1379,22 @@
     const revealedY = compactReveal
       ? Math.min(view.height * .225, view.headerBottom + spaceAboveCopy * .56)
       : view.height * .225;
+    const halfRevealHeight = revealedScale * .59;
+    const landingY = mobile ? Math.min(revealedY, Math.max(
+      view.headerBottom + halfRevealHeight + 2,
+      view.copyTop - halfRevealHeight - 12,
+    )) : revealedY;
+    const revealedDevices = opening ? [releaseSaliva, releaseBlood].map((lift, index) => {
+      const travel = ease((lift - .17) / .83);
+      const targetX = mobile
+        ? view.width * (index === 0 ? .27 : .74)
+        : centerX + (index === 0 ? -.65 : .47) * view.scale;
+      const flightY = rimY + revealedScale * (.40 - lift * 1.13);
+      const y = flightY + (landingY - flightY) * travel
+        - Math.sin(travel * Math.PI) * revealedScale * .12
+        + Math.sin(stageAngle * 4 + index + 1) * travel * (mobile ? 2 : 3.8);
+      return { travel, targetX, y, lift };
+    }) : [];
 
     for (let index = 0, cursor = 0; index < points.length; index++, cursor += 4) {
       const point = points[index];
@@ -1386,21 +1403,12 @@
       let tint = point.tint;
       let alpha = 1;
       if (opening && point.layer) {
-        const saliva = point.layer === 1;
-        const lift = saliva ? releaseSaliva : releaseBlood;
-        const travel = ease((lift - .17) / .83);
-        const targetX = mobile
-          ? view.width * (saliva ? .27 : .74)
-          : centerX + (saliva ? -.65 : .47) * view.scale;
-        const flightY = rimY + revealedScale * (.40 - lift * 1.13);
-        const anchorY = flightY + (revealedY - flightY) * travel
-          - Math.sin(travel * Math.PI) * revealedScale * .12;
+        const { travel, targetX, y: anchorY, lift } = revealedDevices[point.layer - 1];
         const px = point.x * yawCos + point.z * yawSin;
         const pz = point.z * yawCos - point.x * yawSin;
         x = rimX + (targetX - rimX) * travel
-          + (px + point.y * (saliva ? -.16 : .11) * (1 - travel)) * revealedScale;
-        y = anchorY + (point.y - pz * .04) * revealedScale
-          + Math.sin(stageAngle * 4 + point.layer) * travel * 3.8;
+          + (px + point.y * (point.layer === 1 ? -.16 : .11) * (1 - travel)) * revealedScale;
+        y = anchorY + (point.y - pz * .04) * revealedScale;
         tint = deviceTint(tint, pz);
         alpha = Math.min(1, lift * 3.5) * deviceOpacity(pz);
         if (travel < .43 && y > rimY + (x - rimX) * rollSin) alpha = 0;
@@ -1496,8 +1504,7 @@
     for (let index = 0, cursor = 0; index < detail.length; index++, cursor += 4) {
       const x = drawDetail[cursor];
       const y = drawDetail[cursor + 1];
-      const copyFade = viewport.small ? 1 - .48 * ease((y - viewport.copyTop + 6) / 22) : 1;
-      const alpha = drawDetail[cursor + 3] * detailFade * copyFade;
+      const alpha = drawDetail[cursor + 3] * detailFade;
       if (alpha < .035) continue;
       const opacity = Math.round(alpha * 20) / 20;
       if (opacity !== lastAlpha) {
