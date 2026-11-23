@@ -1435,7 +1435,7 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
   position: relative;
   display: grid;
   justify-items: center;
-  grid-template-rows: 68px auto;
+  grid-template-rows: 74px auto;
   align-items: center;
   min-height: 70px;
   gap: 4px;
@@ -1470,8 +1470,8 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
 }
 
 .proof-stamp-art[data-proof-mark="clia"] {
-  width: 84px;
-  height: 72px;
+  width: 91px;
+  height: 78px;
 }
 
 @media (max-height: 600px) {
@@ -1505,7 +1505,7 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
 </p>
 <div class="proof-stamps" role="group" aria-label="Laboratory and privacy">
   <button class="proof-stamp" type="button" data-review-open="trust-dialog" aria-haspopup="dialog" aria-controls="trust-dialog">
-    <canvas class="proof-stamp-art" data-proof-mark="clia" width="168" height="144" aria-hidden="true"></canvas>
+    <canvas class="proof-stamp-art" data-proof-mark="clia" width="252" height="216" aria-hidden="true"></canvas>
     <span>CLIA-certified lab</span>
   </button>
   <button class="proof-stamp" type="button" data-review-open="privacy-dialog" aria-haspopup="dialog" aria-controls="privacy-dialog">
@@ -2459,6 +2459,9 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
   const phaseLength = 7200;
   const frameInterval = 1000 / 26;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const sealWidth = 84;
+  const sealHeight = 72;
+  const sealScale = 3;
 
   function point(x, y, index, size) {
     const angle = (index + 1) * goldenAngle;
@@ -2490,10 +2493,10 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
 
   function textPoints(text, font, centerY, spacing, size) {
     const mask = document.createElement('canvas');
-    mask.width = 168;
-    mask.height = 144;
+    mask.width = sealWidth * sealScale;
+    mask.height = sealHeight * sealScale;
     const context = mask.getContext('2d', { willReadFrequently: true });
-    context.scale(2, 2);
+    context.scale(sealScale, sealScale);
     context.font = font;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
@@ -2502,8 +2505,23 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
     const points = [];
     for (let y = centerY - 13; y < centerY + 13; y += spacing) {
       for (let x = 17; x <= 67; x += spacing) {
-        const pixel = Math.round(y * 2) * mask.width + Math.round(x * 2);
+        const pixel = Math.round(y * sealScale) * mask.width + Math.round(x * sealScale);
         if (data[4 * pixel + 3] >= 112) points.push(point(x, y, points.length, size));
+      }
+    }
+    return points;
+  }
+
+  function rimGrain() {
+    const points = [];
+    const spacing = 1.08;
+    for (let row = 0, y = -31; y <= 31; row++, y += spacing * .866) {
+      for (let x = -31 + (row % 2) * spacing / 2; x <= 31; x += spacing) {
+        const radius = Math.hypot(x, y);
+        const tooth = (Math.atan2(x, -y) / fullTurn + 1) * 30;
+        const scallop = 31.3 - 3.8 * (1 - Math.abs(2 * (tooth % 1) - 1));
+        if (radius < 26.7 || radius > scallop) continue;
+        points.push(point(42 + x, 36 + y, points.length, .30));
       }
     }
     return points;
@@ -2520,53 +2538,93 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
     const innerRing = around(120, () => 22.9);
     const beading = around(64, () => 24.4).slice(0, -1);
     return [
-      { color: '#eac567', points: createPoints([rim], 1.49, .57), spread: .68 },
-      { color: '#daa64f', points: createPoints([outerRing], 1.28, .48), spread: .34 },
-      { color: '#ffe1a0', points: beading.map(([x, y], index) => point(x, y, index, .59)), spread: .24 },
-      { color: '#d4a252', points: createPoints([innerRing], 1.5, .43), spread: .20 },
-      { color: '#aed5ff', points: textPoints('CLIA', '900 19px system-ui', 31, 1.03, .53), spread: .13 },
-      { color: '#dcecff', points: textPoints('CERTIFIED', '800 7.7px system-ui', 44, .76, .42), spread: .08 },
+      { color: '#c18e3f', points: rimGrain(), opacity: .61, sheen: true },
+      { color: '#f1ce78', points: createPoints([rim], 1.06, .47), opacity: .86, sheen: true },
+      { color: '#dba656', points: createPoints([outerRing], 1.11, .39), opacity: .78 },
+      { color: '#ffe3ab', points: beading.map(([x, y], index) => point(x, y, index, .52)), opacity: .90, sheen: true },
+      { color: '#c9974a', points: createPoints([innerRing], 1.17, .34), opacity: .76 },
+      { color: '#bae0ff', points: textPoints('CLIA', '900 19px system-ui', 31, .73, .36), opacity: .94 },
+      { color: '#e4f1ff', points: textPoints('CERTIFIED', '800 7.7px system-ui', 44, .63, .29), opacity: .92 },
     ];
   }
 
+  function paintDot(context, x, y, size) {
+    context.beginPath();
+    context.arc(x, y, size, 0, fullTurn);
+    context.fill();
+  }
+
+  function createSealPainter(node, context) {
+    const base = document.createElement('canvas');
+    base.width = node.width;
+    base.height = node.height;
+    const drawing = base.getContext('2d');
+    if (!drawing) return;
+    drawing.scale(sealScale, sealScale);
+    const glints = [];
+    for (const { color, points, opacity, sheen } of cliaSeal()) {
+      drawing.fillStyle = color;
+      for (const [index, particle] of points.entries()) {
+        drawing.globalAlpha = opacity * (.82 + .18 * particle.drift);
+        paintDot(drawing, particle.x, particle.y, particle.size);
+        if (sheen && index % 3 === 0) {
+          glints.push({ ...particle, bearing: Math.atan2(particle.y - 36, particle.x - 42) });
+        }
+      }
+    }
+    return (timestamp, settled) => {
+      context.clearRect(0, 0, sealWidth, sealHeight);
+      context.globalAlpha = 1;
+      context.drawImage(base, 0, 0, sealWidth, sealHeight);
+      if (settled) return;
+      context.fillStyle = '#ffe7af';
+      const light = (timestamp % 10400) / 10400 * fullTurn;
+      for (const { x, y, size, bearing, drift } of glints) {
+        const reflection = Math.max(0, Math.cos(bearing - light)) ** 5;
+        if (reflection < .08) continue;
+        context.globalAlpha = reflection * (.12 + .22 * drift);
+        paintDot(context, x, y, size);
+      }
+    };
+  }
+
+  const seal = home.querySelector('[data-proof-mark="clia"]');
+  const sealContext = seal?.getContext('2d');
+  sealContext?.scale(sealScale, sealScale);
+  const paintSeal = sealContext && createSealPainter(seal, sealContext);
   const marks = [...home.querySelectorAll('[data-proof-mark]')].flatMap((node) => {
+    if (node === seal) return [];
     const context = node.getContext('2d');
     if (!context) return [];
-    const seal = node.dataset.proofMark === 'clia';
     context.scale(2, 2);
-    const layers = seal ? cliaSeal() : [{ color: '#d8e3f1', points: createPoints(lockOutline), spread: 1 }];
-    return [{ context, layers, seal, width: node.width / 2, height: node.height / 2 }];
+    return [{ context, points: createPoints(lockOutline), width: node.width / 2, height: node.height / 2 }];
   });
-  if (!marks.length) return;
+  if (!paintSeal && !marks.length) return;
 
   function draw(timestamp, settled = false) {
-    for (const { context, layers, seal, width, height } of marks) {
-      const time = (timestamp + (seal ? phaseLength / 2 : 1030)) % phaseLength;
+    paintSeal?.(timestamp, settled);
+    for (const { context, points, width, height } of marks) {
+      const time = (timestamp + 1030) % phaseLength;
       const turn = time / phaseLength * fullTurn;
       const dispersal = settled ? 0 : (.5 + .5 * Math.cos(turn)) ** 11;
 
       context.clearRect(0, 0, width, height);
-      context.fillStyle = seal ? '#eac567' : '#d8e3f1';
+      context.fillStyle = '#d8e3f1';
       for (let spark = 0; spark < 22; spark++) {
         const angle = spark * goldenAngle + (settled ? 0 : turn);
-        const orbit = (seal ? 26 : 17) + (spark % 7) * 1.45;
+        const orbit = 17 + (spark % 7) * 1.45;
         const x = width / 2 + Math.cos(angle) * orbit;
-        const y = height / 2 + Math.sin(angle) * orbit * (seal ? .9 : .67);
+        const y = height / 2 + Math.sin(angle) * orbit * .67;
         context.globalAlpha = .055 + (spark % 4) * .09 + dispersal * .12;
         context.fillRect(x, y, .86, .86);
       }
-      for (const { color, points, spread } of layers) {
-        context.fillStyle = color;
-        for (const particle of points) {
-          const travel = spread * dispersal * (1.4 + 10.5 * particle.drift);
-          const glint = settled ? 0 : .21 * Math.sin(particle.angle + turn * 3);
-          const x = particle.x + travel * Math.cos(particle.angle + turn);
-          const y = particle.y + travel * Math.sin(particle.angle + turn) * .62;
-          context.globalAlpha = Math.min(1, .70 + particle.drift * .19 + glint * (1 - dispersal) - .3 * spread * dispersal);
-          context.beginPath();
-          context.arc(x, y, particle.size, 0, fullTurn);
-          context.fill();
-        }
+      for (const particle of points) {
+        const travel = dispersal * (1.4 + 10.5 * particle.drift);
+        const glint = settled ? 0 : .21 * Math.sin(particle.angle + turn * 3);
+        const x = particle.x + travel * Math.cos(particle.angle + turn);
+        const y = particle.y + travel * Math.sin(particle.angle + turn) * .62;
+        context.globalAlpha = Math.min(1, .70 + particle.drift * .19 + glint * (1 - dispersal) - .3 * dispersal);
+        paintDot(context, x, y, particle.size);
       }
     }
   }
