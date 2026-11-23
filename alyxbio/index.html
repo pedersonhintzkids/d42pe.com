@@ -1435,7 +1435,8 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
   position: relative;
   display: grid;
   justify-items: center;
-  align-content: start;
+  grid-template-rows: 68px auto;
+  align-items: center;
   min-height: 70px;
   gap: 4px;
   padding: 0 4px 5px;
@@ -1468,6 +1469,11 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
   height: 50px;
 }
 
+.proof-stamp-art[data-proof-mark="clia"] {
+  width: 84px;
+  height: 72px;
+}
+
 @media (max-height: 600px) {
   html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps { margin-top: 22px; }
 }
@@ -1498,8 +1504,8 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
   <button type="button" data-review-open="privacy-dialog" aria-haspopup="dialog" aria-controls="privacy-dialog">Private results</button>
 </p>
 <div class="proof-stamps" role="group" aria-label="Laboratory and privacy">
-  <button class="proof-stamp" type="button" data-review-open="trust-dialog" aria-haspopup="dialog">
-    <canvas class="proof-stamp-art" data-proof-mark="shield" width="132" height="100" aria-hidden="true"></canvas>
+  <button class="proof-stamp" type="button" data-review-open="trust-dialog" aria-haspopup="dialog" aria-controls="trust-dialog">
+    <canvas class="proof-stamp-art" data-proof-mark="clia" width="168" height="144" aria-hidden="true"></canvas>
     <span>CLIA-certified lab</span>
   </button>
   <button class="proof-stamp" type="button" data-review-open="privacy-dialog" aria-haspopup="dialog" aria-controls="privacy-dialog">
@@ -2443,23 +2449,27 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
   const home = document.querySelector('.home-screen');
   if (!home) return;
 
-  const outlines = {
-    shield: [
-      [[33, 8], [28, 10], [22, 12], [19, 13], [19, 24], [20, 30], [23, 35], [28, 40],
-        [33, 43], [38, 40], [43, 35], [46, 30], [47, 24], [47, 13], [44, 12], [38, 10], [33, 8]],
-      [[26, 25], [31, 30], [41, 20]],
-    ],
-    lock: [
-      [[22, 21], [44, 21], [46, 23], [46, 39], [44, 41], [22, 41], [20, 39], [20, 23], [22, 21]],
-      [[25, 21], [25, 15], [26, 12], [29, 9], [33, 8], [37, 9], [40, 12], [41, 15], [41, 21]],
-      [[33, 28], [32, 29], [33, 30], [34, 29], [33, 28], [33, 35]],
-    ],
-  };
+  const lockOutline = [
+    [[22, 21], [44, 21], [46, 23], [46, 39], [44, 41], [22, 41], [20, 39], [20, 23], [22, 21]],
+    [[25, 21], [25, 15], [26, 12], [29, 9], [33, 8], [37, 9], [40, 12], [41, 15], [41, 21]],
+    [[33, 28], [32, 29], [33, 30], [34, 29], [33, 28], [33, 35]],
+  ];
+  const fullTurn = Math.PI * 2;
+  const goldenAngle = 2.399963;
   const phaseLength = 7200;
   const frameInterval = 1000 / 26;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  function createPoints(paths) {
+  function point(x, y, index, size) {
+    const angle = (index + 1) * goldenAngle;
+    return {
+      x, y, angle,
+      drift: .5 + .5 * Math.cos(angle * 1.62),
+      size: size + .18 * (.5 + .5 * Math.sin(angle * 2.83)),
+    };
+  }
+
+  function createPoints(paths, spacing = 1.42, size = .67) {
     const points = [];
     for (let pathIndex = 0; pathIndex < paths.length; pathIndex++) {
       const path = paths[pathIndex];
@@ -2467,57 +2477,96 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
         const [ax, ay] = path[index - 1];
         const [bx, by] = path[index];
         const length = Math.hypot(bx - ax, by - ay);
-        const samples = Math.max(1, Math.round(length / 1.42));
+        const samples = Math.max(1, Math.round(length / spacing));
         for (let sample = 0; sample < samples; sample++) {
           const ratio = sample / samples;
-          const seed = (points.length + 1) * 2.399963;
-          points.push({
-            x: ax + (bx - ax) * ratio,
-            y: ay + (by - ay) * ratio,
-            angle: seed,
-            drift: .5 + .5 * Math.cos(seed * 1.62),
-            size: .64 + (pathIndex ? .18 : 0) + .25 * (.5 + .5 * Math.sin(seed * 2.83)),
-          });
+          points.push(point(ax + (bx - ax) * ratio, ay + (by - ay) * ratio,
+            points.length, size + (pathIndex ? .18 : 0)));
         }
       }
     }
     return points;
   }
 
+  function textPoints(text, font, centerY, spacing, size) {
+    const mask = document.createElement('canvas');
+    mask.width = 168;
+    mask.height = 144;
+    const context = mask.getContext('2d', { willReadFrequently: true });
+    context.scale(2, 2);
+    context.font = font;
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.fillText(text, 42, centerY);
+    const { data } = context.getImageData(0, 0, mask.width, mask.height);
+    const points = [];
+    for (let y = centerY - 13; y < centerY + 13; y += spacing) {
+      for (let x = 17; x <= 67; x += spacing) {
+        const pixel = Math.round(y * 2) * mask.width + Math.round(x * 2);
+        if (data[4 * pixel + 3] >= 112) points.push(point(x, y, points.length, size));
+      }
+    }
+    return points;
+  }
+
+  function cliaSeal() {
+    const around = (segments, radius) => Array.from({ length: segments + 1 }, (_, index) => {
+      const angle = (index / segments - .25) * fullTurn;
+      const distance = radius(index);
+      return [42 + Math.cos(angle) * distance, 36 + Math.sin(angle) * distance];
+    });
+    const rim = around(60, (index) => index % 2 ? 28.2 : 32);
+    const outerRing = around(144, () => 26.1);
+    const innerRing = around(120, () => 22.9);
+    const beading = around(64, () => 24.4).slice(0, -1);
+    return [
+      { color: '#eac567', points: createPoints([rim], 1.49, .57), spread: .68 },
+      { color: '#daa64f', points: createPoints([outerRing], 1.28, .48), spread: .34 },
+      { color: '#ffe1a0', points: beading.map(([x, y], index) => point(x, y, index, .59)), spread: .24 },
+      { color: '#d4a252', points: createPoints([innerRing], 1.5, .43), spread: .20 },
+      { color: '#aed5ff', points: textPoints('CLIA', '900 19px system-ui', 31, 1.03, .53), spread: .13 },
+      { color: '#dcecff', points: textPoints('CERTIFIED', '800 7.7px system-ui', 44, .76, .42), spread: .08 },
+    ];
+  }
+
   const marks = [...home.querySelectorAll('[data-proof-mark]')].flatMap((node) => {
     const context = node.getContext('2d');
-    const shape = outlines[node.dataset.proofMark];
-    if (!context || !shape) return [];
+    if (!context) return [];
+    const seal = node.dataset.proofMark === 'clia';
     context.scale(2, 2);
-    return [{ context, points: createPoints(shape) }];
+    const layers = seal ? cliaSeal() : [{ color: '#d8e3f1', points: createPoints(lockOutline), spread: 1 }];
+    return [{ context, layers, seal, width: node.width / 2, height: node.height / 2 }];
   });
   if (!marks.length) return;
 
   function draw(timestamp, settled = false) {
-    for (const [index, { context, points }] of marks.entries()) {
-      const time = (timestamp + index * 1030) % phaseLength;
-      const turn = time / phaseLength * Math.PI * 2;
+    for (const { context, layers, seal, width, height } of marks) {
+      const time = (timestamp + (seal ? phaseLength / 2 : 1030)) % phaseLength;
+      const turn = time / phaseLength * fullTurn;
       const dispersal = settled ? 0 : (.5 + .5 * Math.cos(turn)) ** 11;
 
-      context.clearRect(0, 0, 66, 50);
-      context.fillStyle = '#d8e3f1';
+      context.clearRect(0, 0, width, height);
+      context.fillStyle = seal ? '#eac567' : '#d8e3f1';
       for (let spark = 0; spark < 22; spark++) {
-        const angle = spark * 2.399963 + (settled ? 0 : turn);
-        const orbit = 17 + (spark % 7) * 1.45;
-        const x = 33 + Math.cos(angle) * orbit;
-        const y = 25 + Math.sin(angle) * orbit * .67;
+        const angle = spark * goldenAngle + (settled ? 0 : turn);
+        const orbit = (seal ? 26 : 17) + (spark % 7) * 1.45;
+        const x = width / 2 + Math.cos(angle) * orbit;
+        const y = height / 2 + Math.sin(angle) * orbit * (seal ? .9 : .67);
         context.globalAlpha = .055 + (spark % 4) * .09 + dispersal * .12;
         context.fillRect(x, y, .86, .86);
       }
-      for (const point of points) {
-        const spread = dispersal * (1.4 + 10.5 * point.drift);
-        const glint = settled ? 0 : .21 * Math.sin(point.angle + turn * 3);
-        const x = point.x + spread * Math.cos(point.angle + turn);
-        const y = point.y + spread * Math.sin(point.angle + turn) * .62;
-        context.globalAlpha = Math.min(1, .70 + point.drift * .19 + glint * (1 - dispersal) - .3 * dispersal);
-        context.beginPath();
-        context.arc(x, y, point.size, 0, Math.PI * 2);
-        context.fill();
+      for (const { color, points, spread } of layers) {
+        context.fillStyle = color;
+        for (const particle of points) {
+          const travel = spread * dispersal * (1.4 + 10.5 * particle.drift);
+          const glint = settled ? 0 : .21 * Math.sin(particle.angle + turn * 3);
+          const x = particle.x + travel * Math.cos(particle.angle + turn);
+          const y = particle.y + travel * Math.sin(particle.angle + turn) * .62;
+          context.globalAlpha = Math.min(1, .70 + particle.drift * .19 + glint * (1 - dispersal) - .3 * spread * dispersal);
+          context.beginPath();
+          context.arc(x, y, particle.size, 0, fullTurn);
+          context.fill();
+        }
       }
     }
   }
