@@ -2969,6 +2969,13 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
     };
   }
 
+  function positionBiomarkerCopy() {
+    if (theme !== 'biomarkers' || !viewport) return;
+    const screen = panes?.querySelector('[data-screen]:not([hidden])');
+    viewport.copyTop = screen?.querySelector('h1')?.getBoundingClientRect().top ?? viewport.height * .36;
+    viewport.headerBottom = (header?.getBoundingClientRect().bottom ?? 48) + 8;
+  }
+
   function drawDevice(time, phase, state, paint) {
     if (!revealTarget || !field.devices) return;
     const rise = ease((phase - .40) / .18);
@@ -3093,6 +3100,7 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
     canvas.height = Math.round(height * pixelRatio);
     context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     positionReveal();
+    positionBiomarkerCopy();
     draw(reducedMotion.matches ? stillTime() : elapsed);
   }
 
@@ -3153,14 +3161,15 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
       }
       backdrop.append(canvas);
     }
-    if (isUnboxing(theme) || theme === 'biomarkers') {
+    if (isUnboxing(theme)) {
       field.devices = window.alyxParticleDevices;
       if (!field.devices && !deviceScript) deviceScript = loadParticleAsset('media/particle-devices.js?v=398dfebf1ab2');
     }
     if (theme === 'biomarkers' && !window.drawAlyxBiomarkerSequence && !biomarkerScript) {
-      biomarkerScript = loadParticleAsset('media/particle-biomarkers.js?v=77fc604780db');
+      biomarkerScript = loadParticleAsset('media/particle-biomarkers.js?v=77bce0cd24e9');
     }
-    if (theme === 'biomarkers' && !biomarkerReady && window.drawAlyxBiomarkerSequence && field.devices && window.alyxParticleMolecules?.cortisol) {
+    if (theme === 'biomarkers' && !biomarkerReady && window.drawAlyxBiomarkerSequence &&
+        window.alyxParticleDeviceModels && window.alyxParticleMolecules?.cortisol) {
       biomarkerReady = true;
       if (!biomarkerDetail) elapsed = 0;
     }
@@ -3184,6 +3193,7 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
     new MutationObserver(() => {
       if (!context || !viewport) return;
       if (theme === 'biomarkers') {
+        positionBiomarkerCopy();
         const showingDetail = detailScreen?.hidden === false;
         if (showingDetail === biomarkerDetail) return;
         biomarkerDetail = showingDetail;
