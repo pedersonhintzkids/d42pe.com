@@ -2834,6 +2834,8 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
   let biomarkerScript;
   let biomarkerReady = false;
   let biomarkerDetail = false;
+  let copyMask;
+  let copyNeedsMeasure = false;
 
   function randomSource() {
     let state = 0x348bf913;
@@ -2969,11 +2971,107 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
     };
   }
 
+  function textBounds(element) {
+    const text = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+    const range = document.createRange();
+    const bounds = [];
+    for (let node = text.nextNode(); node; node = text.nextNode()) {
+      if (!node.textContent.trim()) continue;
+      range.selectNodeContents(node);
+      bounds.push(...range.getClientRects());
+    }
+    return bounds;
+  }
+
+  function makeCopyMask(regions, width, height) {
+    if (!regions.length) return undefined;
+
+    const feather = 14;
+    const left = Math.max(0, Math.floor(Math.min(...regions.map((rect) => rect.left)) - feather));
+    const top = Math.max(0, Math.floor(Math.min(...regions.map((rect) => rect.top)) - feather));
+    const right = Math.min(width, Math.ceil(Math.max(...regions.map((rect) => rect.right)) + feather));
+    const bottom = Math.min(height, Math.ceil(Math.max(...regions.map((rect) => rect.bottom)) + feather));
+    const mask = copyMask?.mask ?? document.createElement('canvas');
+    const columns = Math.ceil((right - left) * .5);
+    const rows = Math.ceil((bottom - top) * .5);
+    if (!columns || !rows) return undefined;
+    mask.width = columns;
+    mask.height = rows;
+    const matte = mask.getContext('2d');
+    if (!matte) return undefined;
+
+    // Rasterize only the measured areas, then composite a single soft mask per frame.
+    const pixels = matte.createImageData(columns, rows);
+    const stepX = (right - left) / columns;
+    const stepY = (bottom - top) / rows;
+    for (const rect of regions) {
+      const firstColumn = Math.max(0, Math.floor((rect.left - feather - left) / stepX));
+      const lastColumn = Math.min(columns, Math.ceil((rect.right + feather - left) / stepX));
+      const firstRow = Math.max(0, Math.floor((rect.top - feather - top) / stepY));
+      const lastRow = Math.min(rows, Math.ceil((rect.bottom + feather - top) / stepY));
+      for (let row = firstRow; row < lastRow; row++) {
+        const y = top + (row + .5) * stepY;
+        const dy = Math.max(rect.top - y, y - rect.bottom, 0);
+        for (let column = firstColumn; column < lastColumn; column++) {
+          const x = left + (column + .5) * stepX;
+          const dx = Math.max(rect.left - x, x - rect.right, 0);
+          const strength = rect.opacity * (1 - ease(Math.sqrt(dx * dx + dy * dy) / feather));
+          const index = (row * columns + column) * 4 + 3;
+          pixels.data[index] = Math.max(pixels.data[index], Math.round(strength * 255));
+        }
+      }
+    }
+    matte.putImageData(pixels, 0, 0);
+    return { mask, left, top, width: right - left, height: bottom - top };
+  }
+
   function positionBiomarkerCopy() {
     if (theme !== 'biomarkers' || !viewport) return;
+    copyNeedsMeasure = false;
     const screen = panes?.querySelector('[data-screen]:not([hidden])');
-    viewport.copyTop = screen?.querySelector('h1')?.getBoundingClientRect().top ?? viewport.height * .36;
+    const heading = screen?.querySelector('h1');
+    viewport.copyTop = heading?.getBoundingClientRect().top ?? viewport.height * .36;
     viewport.headerBottom = (header?.getBoundingClientRect().bottom ?? 48) + 8;
+    if (!screen) return;
+
+    const regions = [];
+    const add = (box, opacity, clip) => {
+      if (!box.width || !box.height) return;
+      const left = Math.max(0, box.left - 3, clip?.left ?? 0);
+      const top = Math.max(0, box.top - 2, clip?.top ?? 0);
+      const right = Math.min(viewport.width, box.right + 3, clip?.right ?? viewport.width);
+      const bottom = Math.min(viewport.height, box.bottom + 2, clip?.bottom ?? viewport.height);
+      if (left < right && top < bottom) regions.push({ left, top, right, bottom, opacity });
+    };
+    const scrollBounds = screen.querySelector('.detail-scroll')?.getBoundingClientRect();
+    for (const copy of screen.querySelectorAll('h1, .screen-heading p, .detail-copy p')) {
+      for (const line of textBounds(copy)) add(line, .88, scrollBounds);
+    }
+    const controls = '.home-actions button, .step-actions button, .browse-intents, .list-link, #test-search, .detail-action, .detail-kit-toggle';
+    for (const control of screen.querySelectorAll(controls)) {
+      const clip = control.closest('.detail-scroll') ? scrollBounds : undefined;
+      add(control.getBoundingClientRect(), .74, clip);
+    }
+    copyMask = makeCopyMask(regions, viewport.width, viewport.height);
+  }
+
+  function applyCopyMask() {
+    if (!copyMask) return;
+    const { mask, left, top, width, height } = copyMask;
+    context.save();
+    context.globalAlpha = 1;
+    context.globalCompositeOperation = 'destination-out';
+    context.drawImage(mask, left, top, width, height);
+    context.restore();
+  }
+
+  function invalidateBiomarkerCopy() {
+    if (theme !== 'biomarkers' || !viewport) return;
+    copyNeedsMeasure = true;
+    if (reducedMotion.matches && !document.hidden) {
+      positionBiomarkerCopy();
+      draw(stillTime());
+    }
   }
 
   function drawDevice(time, phase, state, paint) {
@@ -3036,6 +3134,7 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
 
     if (biomarkerDetail) {
       window.drawAlyxCortisol?.({ time, viewport, context, paint });
+      applyCopyMask();
       return;
     }
 
@@ -3064,6 +3163,7 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
 
     if (previewBiomarkers) {
       if (biomarkerReady) window.drawAlyxBiomarkerSequence({ time, field, viewport, context, paint, ease });
+      applyCopyMask();
       return;
     }
 
@@ -3120,6 +3220,7 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
       else if (theme === 'biomarkers') cycle = window.alyxBiomarkerCycle ?? duration;
       else if (isUnboxing(theme)) cycle = duration * 2;
       elapsed = (elapsed + delta) % cycle;
+      if (copyNeedsMeasure) positionBiomarkerCopy();
       if (viewport) draw(elapsed);
     }
     frame = window.requestAnimationFrame(render);
@@ -3144,6 +3245,8 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
     }
     if (theme !== root.dataset.theme) {
       theme = root.dataset.theme;
+      copyMask = undefined;
+      copyNeedsMeasure = false;
       field = particleField(theme !== 'particles');
       elapsed = 0;
       biomarkerReady = false;
@@ -3166,7 +3269,7 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
       if (!field.devices && !deviceScript) deviceScript = loadParticleAsset('media/particle-devices.js?v=398dfebf1ab2');
     }
     if (theme === 'biomarkers' && !window.drawAlyxBiomarkerSequence && !biomarkerScript) {
-      biomarkerScript = loadParticleAsset('media/particle-biomarkers.js?v=69c004583a48');
+      biomarkerScript = loadParticleAsset('media/particle-biomarkers.js?v=4d56276c7c80');
     }
     if (theme === 'biomarkers' && !biomarkerReady && window.drawAlyxBiomarkerSequence &&
         window.alyxParticleDeviceModels && window.alyxParticleMolecules?.cortisol) {
@@ -3190,14 +3293,17 @@ window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
 
   new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
   if (panes) {
+    panes.addEventListener('scroll', invalidateBiomarkerCopy, { passive: true, capture: true });
+    panes.addEventListener('animationend', invalidateBiomarkerCopy);
     new MutationObserver(() => {
       if (!context || !viewport) return;
       if (theme === 'biomarkers') {
         positionBiomarkerCopy();
         const showingDetail = detailScreen?.hidden === false;
-        if (showingDetail === biomarkerDetail) return;
-        biomarkerDetail = showingDetail;
-        elapsed = 0;
+        if (showingDetail !== biomarkerDetail) {
+          biomarkerDetail = showingDetail;
+          elapsed = 0;
+        }
       } else if (isUnboxing(theme)) {
         positionReveal();
       } else {
