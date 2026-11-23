@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#040506">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
-<title>Private access · ALYX Bio</title>
+<title>ALYX Bio</title>
 <style>
 :root {
   color-scheme: dark;
@@ -525,6 +525,7 @@ html[data-theme] .backdrop[data-paused]::before { animation-play-state: paused; 
 
 
 .gate-wordmark { display: inline-flex; align-items: center; gap: .45em; }
+.gate-title { min-block-size: 1.98em; }
 .gate-label { text-align: left; color: var(--muted); font-size: .88rem; font-weight: 650; }
 .gate-password {
   width: 100%;
@@ -552,7 +553,7 @@ html[data-theme] .backdrop[data-paused]::before { animation-play-state: paused; 
   </header>
   <main class="panes">
     <section class="screen home-screen" data-screen="home" aria-labelledby="gate-title">
-      <h1 id="gate-title">Private <em>access.</em></h1>
+      <h1 class="gate-title" id="gate-title" aria-label="Unlock ALYX Bio"></h1>
       <form class="home-actions" id="gate-form" method="post" action="https://alyx-password-gate.dorianhintz.chatgpt.site/unlock">
         <label class="gate-label" for="gate-password">Password</label>
         <input class="gate-password" id="gate-password" type="password" name="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" required disabled>
