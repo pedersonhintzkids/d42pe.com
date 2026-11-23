@@ -1,0 +1,3022 @@
+<!doctype html>
+<html lang="en" data-theme="biomarkers" data-public-preview>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090807">
+<meta name="robots" content="noindex, nofollow">
+<title>ALYX Bio · Storefront preview</title>
+<script>
+  (() => {
+    const params = new URLSearchParams(location.search);
+
+    document.documentElement.dataset.flowVariant = params.get('flow') === 'a' ? 'a' : 'b';
+
+  })();
+</script>
+<style>:root {
+  color-scheme: dark;
+  --base: #080808;
+  --paper: var(--base);
+  --surface: #161310;
+  --ink: #f7f1e9;
+  --muted: #c7beb3;
+  --line: #d3bca447;
+  --focus: #f5c992;
+  --accent: #eccaa3;
+  --action: #f0d9bd;
+  --action-ink: #21180f;
+  --serif: Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font: 16px/1.5 var(--sans);
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+html { background: var(--base); -webkit-text-size-adjust: 100%; }
+body { margin: 0; color: var(--ink); overflow: hidden; }
+button, input, a { font: inherit; }
+a { color: inherit; }
+button { color: inherit; cursor: pointer; }
+h1, h2, h3, figure, p { margin: 0; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+img { display: block; width: 100%; }
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 80% 54%, #261a12 0, #100e0d 42%, #080808 78%);
+  pointer-events: none;
+}
+.backdrop::before {
+  position: absolute;
+  inset: -30% -14%;
+  content: "";
+  background: repeating-radial-gradient(ellipse at 80% 81%, transparent 0 19px, #c89c6647 20px, transparent 21px 27px);
+  mask-image: radial-gradient(ellipse 40% 49% at 77% 60%, #000, transparent 90%);
+  transform-origin: 72% 53%;
+  animation: backdrop-orbit 24s ease-in-out infinite;
+  opacity: .46;
+}
+.backdrop::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(100deg, #0808081a 47%, transparent 85%), radial-gradient(ellipse at 47% 49%, #08080866, transparent 76%);
+}
+@keyframes backdrop-orbit {
+  0%, 100% { transform: translate(3%, 3%) rotate(-8deg) scale(1.01); }
+  50% { transform: translate(-3%, -3%) rotate(6deg) scale(1.08); }
+}
+
+.app { height: 100vh; height: 100dvh; display: grid; grid-template-rows: auto minmax(0, 1fr); }
+.app-header {
+  width: min(1120px, calc(100% - 48px));
+  min-height: 68px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+}
+.wordmark, .back-button {
+  min-height: 44px;
+  padding: 5px 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+}
+.wordmark {
+  justify-self: start;
+  font-size: .9rem;
+  font-weight: 790;
+  letter-spacing: .17em;
+  white-space: nowrap;
+}
+.wordmark span { font-weight: 580; color: var(--muted); }
+.back-button { grid-column: 3; justify-self: end; font-size: .86rem; font-weight: 680; }
+.back-button span { margin-right: 4px; }
+.progress { grid-column: 2; display: flex; gap: 5px; }
+.progress span { width: 15px; height: 3px; border-radius: 99px; background: #fff3e83b; }
+.progress span[data-active] { background: var(--accent); }
+.panes {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  overscroll-behavior-y: contain;
+  padding: 8px 24px max(24px, env(safe-area-inset-bottom));
+}
+.screen {
+  flex: 0 0 auto;
+  width: min(100%, 790px);
+  margin: auto;
+  padding-block: 14px;
+  animation: appear .19s ease-out both;
+}
+@keyframes appear {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.screen h1 {
+  font: 500 clamp(2.75rem, 6vw, 5.35rem)/.99 var(--serif);
+  letter-spacing: -.065em;
+  text-wrap: balance;
+}
+.screen h1:focus { outline: none; }
+.home-screen { padding: 8px 0 36px; text-align: center; }
+.home-screen em { display: block; color: var(--accent); font-weight: inherit; }
+.home-actions { display: grid; gap: 9px; width: min(100%, 335px); margin: clamp(24px, 4vh, 36px) auto 0; }
+.button, .secondary-button, .text-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 47px;
+  padding: 10px 15px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: .92rem;
+  font-weight: 730;
+  line-height: 1.25;
+}
+.button { color: var(--action-ink); background: var(--action); }
+.button:not(:disabled):hover { background: #fff1de; }
+.button:disabled { opacity: .54; cursor: default; }
+.secondary-button { color: var(--ink); border-color: #d6bda669; background: #161311cc; }
+.secondary-button:hover { background: #2c2119; }
+.text-button { display: inline-flex; color: var(--ink); background: transparent; text-decoration: underline; text-underline-offset: 4px; }
+.screen-heading { margin-bottom: 16px; }
+.screen-heading h1 { font-size: clamp(2.25rem, 5.1vw, 4.2rem); text-wrap: balance; }
+.screen-heading p { margin-top: 7px; font-size: .94rem; color: var(--muted); }
+.chooser-screen { width: min(100%, 630px); }
+.goal-list { display: grid; gap: 8px; }
+.goal-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #151210e8;
+  text-align: left;
+}
+.goal-button strong, .goal-button small { display: block; }
+.goal-button strong { font-size: .92rem; }
+.goal-button small { margin-top: 3px; color: var(--muted); font-size: .77rem; }
+.goal-mark { display: grid; place-items: center; flex: none; width: 22px; height: 22px; border: 1px solid #d6bda677; border-radius: 5px; }
+.goal-button[aria-pressed="true"] { border-color: var(--accent); background: #2b2118; }
+.goal-button[aria-pressed="true"] .goal-mark { background: var(--accent); color: var(--action-ink); border-color: var(--accent); }
+.goal-button[aria-pressed="true"] .goal-mark::before { content: "✓"; font-weight: 800; }
+.step-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 7px; margin-top: 13px; }
+.search-label { display: block; margin: 0 0 5px; font-size: .8rem; color: var(--muted); }
+#test-search { width: 100%; min-height: 44px; padding: 8px 11px; margin-bottom: 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: #100e0d; }
+#test-search::placeholder { color: #a99d92; }
+.test-list { display: grid; gap: 7px; }
+.test-option {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap: 4px 10px;
+  align-items: center;
+  padding: 8px 10px 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #171411ed;
+}
+.test-option h2 { font-size: .91rem; line-height: 1.2; }
+.test-option p { color: var(--muted); font-size: .77rem; line-height: 1.35; margin-top: 3px; }
+.test-option-method { display: block; color: #edc8a2; margin-top: 3px; font-size: .7rem; }
+.test-actions { display: flex; flex-wrap: wrap; gap: 4px; justify-content: end; }
+.test-actions button {
+  min-height: 44px;
+  padding: 6px 8px;
+  border: 1px solid #dfc3a661;
+  border-radius: 6px;
+  background: #261e17;
+  color: var(--ink);
+  font-size: .73rem;
+  font-weight: 740;
+}
+.test-actions button:hover { background: #3a2a1d; }
+.list-link { margin-top: 6px; min-height: 44px; padding-inline: 0; }
+.empty-state { padding: 12px; color: var(--muted); font-size: .83rem; }
+.preview-tools { position: fixed; inset: auto 13px 13px auto; }
+.preview-tools .secondary-button { min-height: 39px; font-size: .73rem; }
+.funnel-dialog { width: min(480px, calc(100vw - 28px)); max-height: calc(100dvh - 28px); margin: auto; border: 1px solid var(--line); border-radius: 12px; padding: 18px; background: var(--surface); color: var(--ink); }
+.funnel-dialog::backdrop { background: #000b; }
+.funnel-head { display: flex; align-items: center; justify-content: space-between; gap: 9px; }
+.funnel-dialog h2 { font-size: 1.3rem; }
+.funnel-dialog p, .funnel-dialog li { margin-top: 7px; color: var(--muted); font-size: .83rem; }
+.funnel-dialog ol { padding-inline-start: 26px; }
+@media (max-width: 600px) {
+  .app-header { width: calc(100% - 34px); min-height: 56px; }
+  .panes { padding: 4px 16px max(17px, env(safe-area-inset-bottom)); }
+  .home-screen h1 { font-size: clamp(3.1rem, 13vw, 4.7rem); }
+  .screen-heading h1 { font-size: clamp(2.25rem, 9vw, 3.2rem); }
+  .home-screen { padding-bottom: 26px; }
+  .step-actions .button { flex: 1 0 100%; }
+  .screen-heading { margin-bottom: 12px; }
+}
+@media (max-width: 360px) {
+  .goal-button { padding: 8px 10px; }
+  .test-actions { max-width: 130px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .screen, .backdrop::before { animation: none; }
+}
+
+.studio { position: relative; overflow: hidden; }
+.studio-poster, .studio-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.studio-poster { object-fit: cover; }
+.studio-canvas { display: block; visibility: hidden; }
+.studio.has-studio .studio-canvas { visibility: visible; }
+.studio.has-studio .studio-poster { visibility: hidden; }
+
+.screen.detail-screen {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: stretch;
+  justify-items: stretch;
+  align-self: stretch;
+  justify-self: center;
+  width: min(100%, 900px);
+  height: 100%;
+  min-height: 0;
+  text-align: left;
+}
+
+.detail-screen[hidden] { display: none; }
+
+.detail-screen .detail-scroll {
+  display: grid;
+  grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+  align-items: center;
+  align-content: safe center;
+  gap: clamp(19px, 4vw, 55px);
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  padding: 10px 4px 14px;
+}
+
+.detail-screen .detail-copy { min-width: 0; }
+
+.detail-screen #detail-title {
+  margin: 0;
+  color: var(--ink, #f4eee8);
+  font: 500 clamp(2.55rem, 5.7vw, 4.7rem) / .98 var(--serif, Georgia, serif);
+  letter-spacing: -.055em;
+  overflow-wrap: anywhere;
+}
+
+.detail-screen .detail-purpose {
+  max-width: 32ch;
+  margin: 14px 0 0;
+  color: var(--muted, #c1b6ab);
+  font-size: clamp(.91rem, 2vw, 1.05rem);
+  line-height: 1.5;
+}
+
+.detail-screen .detail-method {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 9px;
+  align-items: baseline;
+  margin: 15px 0 0;
+  color: var(--muted, #c1b6ab);
+  font-size: .79rem;
+}
+
+.detail-screen .detail-method strong {
+  color: var(--ink, #f4eee8);
+  font-size: .88rem;
+  font-weight: 650;
+}
+
+.detail-screen .detail-kit { display: grid; justify-items: center; min-width: 0; }
+.detail-screen .detail-studio { width: 100%; }
+
+.detail-screen .detail-studio .studio {
+  width: 100%;
+  max-height: min(47dvh, 350px);
+  min-height: 0;
+  aspect-ratio: 1.48;
+  margin: 0;
+  background: #0a0807;
+  border: 0;
+  border-radius: 0;
+  mask-image: radial-gradient(ellipse at 50% 52%, #000 40%, #000e 61%, #0000 89%);
+}
+
+.detail-screen .detail-studio .studio-poster { object-position: center; }
+
+.detail-screen .detail-kit-toggle {
+  z-index: 1;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 13px;
+  border: 1px solid #e7c5a35e;
+  border-radius: 7px;
+  background: #211912;
+  color: var(--ink, #f4eee8);
+  font-size: .83rem;
+  font-weight: 670;
+}
+
+.detail-screen .detail-kit-toggle:hover,
+.detail-screen .detail-kit-toggle[aria-expanded="true"] { background: #31251a; }
+
+.detail-screen .detail-kit-indicator {
+  position: relative;
+  display: grid;
+  width: 10px;
+  height: 10px;
+  place-items: center;
+}
+
+.detail-screen .detail-kit-indicator::before,
+.detail-screen .detail-kit-indicator::after {
+  grid-area: 1 / 1;
+  display: block;
+  width: 10px;
+  height: 1px;
+  background: currentColor;
+  content: "";
+}
+
+.detail-screen .detail-kit-indicator::after { transform: rotate(90deg); }
+.detail-screen .detail-kit-toggle[aria-expanded="true"] .detail-kit-indicator::after { visibility: hidden; }
+
+.detail-screen .detail-kit-info {
+  display: grid;
+  grid-template-columns: 55px minmax(0, 1fr);
+  align-items: center;
+  width: 100%;
+  max-width: 390px;
+  min-width: 0;
+  gap: 11px;
+  padding: 10px;
+  margin-top: 12px;
+  border: 1px solid var(--line, #eee1d226);
+  border-radius: 8px;
+  background: var(--surface, #161412);
+}
+
+.detail-screen .detail-kit-info[hidden],
+.detail-screen .detail-kit-photos img[hidden] { display: none; }
+
+.detail-screen .detail-kit-photos {
+  display: grid;
+  width: 55px;
+  height: 58px;
+  overflow: hidden;
+  border-radius: 5px;
+  background: #c7b8a3;
+}
+
+.detail-screen .detail-kit-photos img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+.detail-screen .detail-kit-copy h2 {
+  margin: 0 0 4px;
+  font-size: .84rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.detail-screen .detail-kit-copy p {
+  margin: 0;
+  color: var(--muted, #c1b6ab);
+  font-size: .77rem;
+  line-height: 1.4;
+}
+
+.detail-screen .detail-checkout {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(9px, 3vw, 27px);
+  padding: 13px 4px max(8px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line, #eee1d226);
+}
+
+.detail-screen .detail-offer { display: grid; gap: 2px; line-height: 1.1; white-space: nowrap; }
+.detail-screen .detail-offer span { color: var(--muted, #c1b6ab); font-size: .75rem; }
+.detail-screen .detail-offer strong { color: var(--ink, #f4eee8); font-size: clamp(1.43rem, 3.3vw, 1.9rem); }
+
+.detail-screen .detail-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  width: min(100%, 350px);
+  gap: 9px;
+  padding: 7px 10px;
+  color: var(--action-ink, #1b140e);
+  background: var(--action, #edd8bf);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  justify-self: end;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1.25;
+  font-size: .9rem;
+  font-weight: 740;
+}
+
+.detail-screen .detail-action[href]:hover { background: #f8e7d5; color: #1b140e; }
+
+@media (max-width: 680px) {
+  .detail-screen .detail-scroll {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(8px, 1.7dvh, 16px);
+    padding-top: 7px;
+  }
+  .detail-screen .detail-purpose { margin-top: 8px; font-size: .9rem; }
+  .detail-screen .detail-method { margin-top: 8px; }
+  .detail-screen .detail-studio .studio { max-height: min(34dvh, 240px); }
+  .detail-screen .detail-checkout { gap: 10px; padding-top: 10px; }
+}
+
+@media (max-width: 680px) and (max-height: 670px) {
+  .detail-screen #detail-title { font-size: clamp(1.9rem, 8.5vw, 2.6rem); }
+  .detail-screen .detail-studio .studio { max-height: 27dvh; }
+}
+
+.detail-screen .detail-studio .studio {
+  --stage-vertical-mask: linear-gradient(180deg, transparent, #0008 6%, #000e 12%, #000 19%, #000 78%, transparent);
+  background: transparent;
+  mask-image:
+    linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent),
+    var(--stage-vertical-mask);
+  mask-composite: intersect;
+}
+
+.detail-screen .detail-studio .studio[data-media="reveal"] {
+  --stage-vertical-mask: linear-gradient(180deg, transparent, #000 4%, #000 78%, transparent);
+}
+
+.studio .studio-poster,
+.studio .studio-open,
+.studio video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.studio .studio-open,
+.studio video { opacity: 0; }
+
+.studio .studio-open,
+.studio video { transition: opacity 130ms ease-out; }
+.studio[data-media="idle"] .studio-idle,
+.studio[data-media="reveal"] .studio-reveal,
+.studio[data-media="open"] .studio-open { opacity: 1; }
+.studio[data-media="open"] .studio-open { z-index: 1; }
+.studio img:not([src]),
+.detail-kit-photos img:not([src]) { visibility: hidden; }
+
+.detail-screen .detail-kit-info {
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(11px, 3vw, 17px);
+  margin-top: 10px;
+  border-color: transparent;
+  background: radial-gradient(ellipse at 43% 53%, color-mix(in srgb, var(--surface) 73%, transparent), transparent 76%);
+}
+
+.detail-screen .detail-kit-photos {
+  width: auto;
+  height: clamp(125px, 21dvh, 166px);
+  aspect-ratio: 53 / 73;
+  border-radius: 0;
+  background: transparent;
+  mask-image:
+    radial-gradient(ellipse 66% 67% at 46% 50%, #000 56%, #000e 72%, #0005 91%, transparent 100%),
+    linear-gradient(90deg, transparent, #000 20%, #000 83%, transparent),
+    linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+  mask-composite: intersect;
+  transition: opacity 180ms ease-out;
+}
+
+.detail-screen .detail-kit-photos img { object-fit: contain; }
+.detail-screen .detail-kit-info[data-revealing] .detail-kit-photos { opacity: 0; }
+
+html[data-theme="biomarkers"] .screen.detail-screen { animation: none; }
+html[data-theme="biomarkers"] .detail-screen .studio-open,
+html[data-theme="biomarkers"] .detail-screen .studio video,
+html[data-theme="biomarkers"] .detail-screen .detail-kit-photos { transition: none; }
+
+@media (max-width: 680px) and (max-height: 670px) {
+  .detail-screen .detail-studio .studio {
+    width: min(100%, 40dvh);
+    margin-inline: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio .studio-open,
+  .studio video,
+  .detail-screen .detail-kit-photos { transition: none; }
+}
+
+html[data-theme] {
+  --action-hover: #fff1de;
+  --checkout-hover: #f8e7d5;
+  --control: #161311cc;
+  --control-hover: #2c2119;
+  --control-line: #d6bda669;
+  --goal-fill: #151210e8;
+  --chosen-fill: #2b2118;
+  --search-fill: #100e0d;
+  --placeholder: #a99d92;
+  --row-fill: #171411ed;
+  --row-action: #261e17;
+  --row-action-hover: #3a2a1d;
+  --row-action-line: #dfc3a661;
+  --kit-action: #211912;
+  --kit-action-hover: #31251a;
+  --kit-action-line: #e7c5a35e;
+}
+
+html[data-theme="hearth"] {
+  --base: #090807;
+  --ink: #f3ede4;
+  --hearth-ring: #c5a47c47;
+}
+
+html[data-theme="hearth"] .backdrop::before {
+  background: repeating-radial-gradient(ellipse at 80% 81%, transparent 0 19px, var(--hearth-ring) 20px, transparent 21px 27px);
+  animation-duration: 12s;
+}
+
+html[data-theme]:not([data-theme="hearth"]) {
+  --action-ink: #101114;
+  --action-hover: #ffffff;
+  --checkout-hover: #f8f9fb;
+  --control: #121316db;
+  --control-hover: #202227;
+  --control-line: #b3b9c36f;
+  --goal-fill: #111215ed;
+  --chosen-fill: #22252b;
+  --search-fill: #101115;
+  --placeholder: #a7aab3;
+  --row-fill: #121316ed;
+  --row-action: #1d2025;
+  --row-action-hover: #2a2e35;
+  --row-action-line: #b3b9c36f;
+  --kit-action: #1a1c20;
+  --kit-action-hover: #282c31;
+  --kit-action-line: #b3b9c36f;
+}
+
+html[data-theme="monochrome"],
+html[data-theme="unboxing-mono"] {
+  --base: #050505;
+  --surface: #101010;
+  --ink: #f5f5f5;
+  --muted: #c2c2c2;
+  --line: #ababab54;
+  --focus: #f5f5f5;
+  --accent: #f5f5f5;
+  --action: #f5f5f5;
+  --control: #111111e8;
+  --control-hover: #222222;
+  --control-line: #cecece67;
+  --goal-fill: #101010ed;
+  --chosen-fill: #242424;
+  --search-fill: #111111;
+  --placeholder: #a7a7a7;
+  --row-fill: #141414ed;
+  --row-action: #191919;
+  --row-action-hover: #272727;
+  --row-action-line: #b3b3b366;
+  --kit-action: #191919;
+  --kit-action-hover: #292929;
+  --kit-action-line: #b3b3b36d;
+}
+
+html[data-theme="glass"] {
+  --base: #07090b;
+  --surface: #12181e;
+  --ink: #eef1f4;
+  --muted: #b9c3cc;
+  --line: #8fa6bc60;
+  --focus: #d1e6fa;
+  --accent: #c0cfda;
+  --action: #eef1f4;
+  --control: #131a22db;
+  --control-hover: #232d37;
+  --control-line: #77828cbb;
+  --goal-fill: #111720ed;
+  --chosen-fill: #202c39;
+  --search-fill: #10161e;
+  --row-fill: #111720ed;
+  --row-action: #1a2634;
+  --row-action-hover: #283747;
+  --kit-action: #1a222e;
+  --kit-action-hover: #283547;
+}
+
+html[data-theme="silver"] {
+  --base: #050506;
+  --surface: #151619;
+  --ink: #e5e7eb;
+  --muted: #bfc2c8;
+  --line: #9da3ab65;
+  --focus: #eef0f3;
+  --accent: #d0d4db;
+  --action: #e5e7eb;
+  --control: #17181ce3;
+  --chosen-fill: #26282e;
+}
+
+html[data-theme="particles"],
+html[data-theme="unboxing"],
+html[data-theme="biomarkers"] {
+  --base: #040506;
+  --surface: #12151a;
+  --ink: #f1f3f6;
+  --muted: #bdc2cd;
+  --line: #9ca3af64;
+  --focus: #eef1f7;
+  --accent: #d5dbe5;
+  --action: #f1f3f6;
+  --goal-fill: #111319ed;
+  --row-fill: #111319f0;
+}
+
+html[data-theme="unboxing-mono"] {
+  --base: #020202;
+  --surface: #0d0d0d;
+  --ink: #fff;
+  --accent: #fff;
+  --action: #fff;
+  --action-ink: #101010;
+  --checkout-hover: #f5f5f5;
+}
+html[data-theme="unboxing-mono"] .progress span { background: #ffffff3b; }
+html[data-theme="unboxing-mono"] .progress span[data-active] { background: var(--accent); }
+
+html[data-theme] .button:not(:disabled):hover { background: var(--action-hover); }
+html[data-theme] .secondary-button { background: var(--control); border-color: var(--control-line); }
+html[data-theme] .secondary-button:hover { background: var(--control-hover); }
+html[data-theme] .goal-button { background: var(--goal-fill); }
+html[data-theme] .goal-button[aria-pressed="true"] { background: var(--chosen-fill); }
+html[data-theme] .goal-mark { border-color: var(--control-line); }
+html[data-theme] .goal-button[aria-pressed="true"] .goal-mark { border-color: var(--accent); }
+html[data-theme] #test-search { background: var(--search-fill); }
+html[data-theme] #test-search::placeholder { color: var(--placeholder); }
+html[data-theme] .test-option { background: var(--row-fill); }
+html[data-theme] .test-option-method { color: var(--accent); }
+html[data-theme] .test-actions button { background: var(--row-action); border-color: var(--row-action-line); }
+html[data-theme] .test-actions button:hover { background: var(--row-action-hover); }
+html[data-theme] .detail-screen .detail-kit-toggle { background: var(--kit-action); border-color: var(--kit-action-line); }
+html[data-theme] .detail-screen .detail-kit-toggle:hover,
+html[data-theme] .detail-screen .detail-kit-toggle[aria-expanded="true"] { background: var(--kit-action-hover); }
+html[data-theme] .detail-screen .detail-action[href]:hover { background: var(--checkout-hover); color: var(--action-ink); }
+
+html[data-theme="monochrome"] .backdrop {
+  background: radial-gradient(ellipse at 77% 78%, #141414 0, #0a0a0a 33%, #050505 70%);
+}
+html[data-theme="monochrome"] .backdrop::before {
+  inset: -20%;
+  background:
+    radial-gradient(ellipse 69% 15% at 62% 73%, #55555557 0, #25252540 37%, transparent 73%),
+    radial-gradient(ellipse 22% 40% at 75% 50%, #27272760 0, transparent 86%);
+  mask-image: none;
+  opacity: .46;
+  animation: charcoal-light 12s ease-in-out infinite;
+}
+html[data-theme="monochrome"] .backdrop::after {
+  background: radial-gradient(ellipse at 43% 49%, #050505b8 8%, #05050522 51%, transparent 72%);
+}
+@keyframes charcoal-light {
+  0%, 100% { transform: translate(1%, -2%) rotate(-12deg); }
+  50% { transform: translate(-4%, 2%) rotate(-6deg); }
+}
+
+html[data-theme="glass"] .backdrop {
+  background: radial-gradient(ellipse at 92% 64%, #15212b 0, #0b1015 37%, #07090b 73%);
+}
+html[data-theme="glass"] .backdrop::before {
+  inset: -31% -23% -21% 31%;
+  background:
+    linear-gradient(126deg, transparent 30%, #546a7c14 38%, #a7bdcf46 45.2%, #c1d5e74d 45.4%, #24374788 46%, #17243085 51%, transparent 61%),
+    linear-gradient(149deg, transparent 30%, #94abc31d 48.3%, #e2eef92c 48.6%, #0b151e64 49.2%, transparent 64%),
+    linear-gradient(113deg, transparent 39%, #1d2a377a 49%, #77828c52 57.3%, #d0e3f531 57.6%, #19232d8a 58.5%, transparent 66%);
+  mask-image: radial-gradient(ellipse 55% 53% at 69% 61%, #000 16%, #000e 50%, transparent 92%);
+  opacity: .88;
+  transform-origin: 63% 62%;
+  animation: smoked-glass 11s ease-in-out infinite;
+}
+html[data-theme="glass"] .backdrop::after {
+  background: radial-gradient(ellipse at 36% 51%, #07090bc4 0%, #07090b59 38%, transparent 71%);
+}
+@keyframes smoked-glass {
+  0%, 100% { transform: translate(3%, 2%) rotate(-5deg); }
+  50% { transform: translate(-3%, -4%) rotate(3deg); }
+}
+
+html[data-theme="silver"] .backdrop {
+  background: radial-gradient(ellipse at 88% 72%, #18191b 0%, #0b0c0d 44%, #050506 79%);
+}
+html[data-theme="silver"] .backdrop::before {
+  inset: -27% -25% -22% 28%;
+  background:
+    radial-gradient(ellipse 73% 93% at 25% 15%, #09090a 35%, #101113 53%, #1c1e21 60%, #92979e 70%, #b3b6bb 72.5%, #55595e 77.5%, #202124 82%, #0e0f11 87%, #6a6e74 96%, transparent 99%),
+    linear-gradient(146deg, #0b0b0c 24%, #34363a 49%, #858991 67%, #0b0c0e 92%);
+  mask-image: radial-gradient(ellipse 56% 57% at 76% 65%, #000 9%, #000d 36%, transparent 89%);
+  opacity: .66;
+  transform-origin: 73% 60%;
+  animation: silver-fold 10.5s ease-in-out infinite;
+}
+html[data-theme="silver"] .backdrop::after {
+  background: radial-gradient(ellipse at 41% 47%, #050506c4 3%, #0505067a 38%, transparent 75%);
+}
+@keyframes silver-fold {
+  0%, 100% { transform: translate(3%, -3%) rotate(-9deg) scale(1.02); }
+  50% { transform: translate(-4%, 4%) rotate(3deg) scale(1.07); }
+}
+
+html[data-theme="particles"] .backdrop,
+html[data-theme="unboxing"] .backdrop,
+html[data-theme="biomarkers"] .backdrop {
+  background:
+    radial-gradient(ellipse at 95% 22%, #10131a 0%, transparent 44%),
+    radial-gradient(ellipse at 14% 89%, #13161d 0%, #080a0f 32%, transparent 65%),
+    #040506;
+}
+html[data-theme="particles"] .backdrop::before,
+html[data-theme="unboxing"] .backdrop::before,
+html[data-theme="biomarkers"] .backdrop::before,
+html[data-theme="unboxing-mono"] .backdrop::before { display: none; }
+html[data-theme="particles"] .backdrop::after,
+html[data-theme="unboxing"] .backdrop::after,
+html[data-theme="biomarkers"] .backdrop::after {
+  background:
+    linear-gradient(180deg, #04050680, transparent 17%, transparent 85%, #0405065c),
+    radial-gradient(ellipse 48% 62% at 48% 49%, #040506b0 0%, #04050680 35%, #04050624 71%, transparent 100%);
+}
+html[data-theme="unboxing-mono"] .backdrop {
+  background:
+    radial-gradient(ellipse at 95% 22%, #121212 0%, transparent 44%),
+    radial-gradient(ellipse at 14% 89%, #151515 0%, #080808 32%, transparent 65%),
+    #020202;
+}
+html[data-theme="unboxing-mono"] .backdrop::after {
+  background:
+    linear-gradient(180deg, #02020280, transparent 17%, transparent 85%, #0202025c),
+    radial-gradient(ellipse 48% 62% at 48% 49%, #020202b0 0%, #02020280 35%, #02020224 71%, transparent 100%);
+}
+.theme-particles {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 680px) {
+  html[data-theme="monochrome"] .backdrop::before {
+    background: radial-gradient(ellipse 65% 16% at 73% 70%, #5555554b 0, #25252531 42%, transparent 81%);
+  }
+  html[data-theme="glass"] .backdrop::before {
+    inset: -8% -38% -17% -4%;
+    mask-image: radial-gradient(ellipse 61% 52% at 74% 67%, #000 10%, #000d 37%, transparent 88%);
+  }
+  html[data-theme="silver"] .backdrop::before {
+    inset: -17% -42% -15% -8%;
+    mask-image: radial-gradient(ellipse 59% 53% at 80% 72%, #000 10%, #000c 48%, transparent 89%);
+  }
+  html[data-theme="silver"] .backdrop::after {
+    background: radial-gradient(ellipse at 55% 45%, #050506c4 0%, #05050683 35%, transparent 71%);
+  }
+  html[data-theme="particles"] .backdrop::after,
+  html[data-theme="unboxing"] .backdrop::after,
+  html[data-theme="biomarkers"] .backdrop::after {
+    background:
+      linear-gradient(180deg, #0405066e, transparent 15%, transparent 87%, #04050657),
+      radial-gradient(ellipse 78% 36% at 48% 50%, #040506b8 0%, #04050675 40%, #0405061a 78%, transparent 100%);
+  }
+  html[data-theme="unboxing-mono"] .backdrop::after {
+    background:
+      linear-gradient(180deg, #0202026e, transparent 15%, transparent 87%, #02020257),
+      radial-gradient(ellipse 78% 36% at 48% 50%, #020202b8 0%, #02020275 40%, #0202021a 78%, transparent 100%);
+  }
+}
+
+html[data-theme] .backdrop[data-paused]::before { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] .backdrop::before { animation: none; }
+}
+
+html[data-theme="biomarkers"] .home-trust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2px 7px;
+  margin: 15px auto 0;
+  color: #bec4ce;
+  font-size: .76rem;
+}
+
+html[data-theme="biomarkers"] .home-trust :is(a, button) {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  padding: 0 3px;
+  color: inherit;
+  border: 0;
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: .19em;
+  text-decoration-color: #b3bdca64;
+}
+
+html[data-theme="biomarkers"][data-flow-variant="b"] .home-trust { display: none; }
+
+.wordmark .public-preview-label {
+  display: inline-block;
+  padding: 2px 4px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: .56rem;
+  font-weight: 650;
+  letter-spacing: normal;
+  vertical-align: .12em;
+}
+
+html[data-theme="biomarkers"] .guided-intents {
+  display: grid;
+  gap: 10px;
+}
+
+html[data-theme="biomarkers"] .saliva-shortcut {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 57px;
+  padding: 8px 12px;
+  border: 1px solid #d5deed78;
+  border-radius: 8px;
+  color: var(--ink);
+  background: linear-gradient(125deg, #242933, #13161c 75%);
+  text-align: left;
+  font-size: .91rem;
+}
+
+html[data-theme="biomarkers"] .saliva-shortcut small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: .75rem;
+}
+
+html[data-theme="biomarkers"] .intent-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+html[data-theme="biomarkers"] .intent-list button {
+  display: grid;
+  align-content: start;
+  min-height: 72px;
+  gap: 4px;
+  padding: 8px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: #15181df5;
+  text-align: left;
+  font-size: .82rem;
+  font-weight: 630;
+  line-height: 1.25;
+}
+
+html[data-theme="biomarkers"] .intent-list strong { font-weight: 660; }
+html[data-theme="biomarkers"] .intent-list small { color: #c4cad5; font-size: .715rem; font-weight: 500; }
+
+html[data-theme="biomarkers"] :is(.intent-list button, .saliva-shortcut):hover { background: #282d37; }
+html[data-theme="biomarkers"] .browse-intents { justify-self: start; padding-inline: 0; }
+
+html[data-theme="biomarkers"] .test-actions.has-sample-times {
+  max-width: none;
+  grid-column: 1 / -1;
+  justify-content: stretch;
+  gap: 6px;
+  margin-top: 5px;
+}
+
+html[data-theme="biomarkers"] .has-sample-times button { flex: 1 1 0; padding-inline: 5px; }
+.sample-duration { display: block; margin-top: 2px; color: var(--muted); font-size: .68rem; font-weight: 500; }
+html[data-theme="biomarkers"] .preview-time-note { margin: 8px 0 0; color: var(--muted); font-size: .72rem; }
+html[data-theme="biomarkers"] .detail-method .sample-duration { display: inline; font-size: .75rem; }
+
+html[data-theme="biomarkers"] .detail-screen .purchase-footer {
+  grid-template-columns: minmax(0, 1fr) minmax(210px, .55fr);
+  gap: 10px 24px;
+  padding-top: 7px;
+}
+
+.purchase-plans { border: 0; min-width: 0; margin: 0; padding: 0; }
+.purchase-plan-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 0;
+  color: var(--muted);
+  font-size: .76rem;
+  font-weight: 700;
+}
+.purchase-plan-heading .purchase-results-badge { color: #dce5f1; font-size: .69rem; white-space: nowrap; }
+#purchase-plan-title { white-space: nowrap; }
+.purchase-plan-rows { display: grid; gap: 4px; }
+
+.purchase-plan {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  align-items: center;
+  min-height: 47px;
+  gap: 7px;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #14171ceb;
+  cursor: pointer;
+}
+
+.purchase-plan:hover { background: #1d2129; }
+.purchase-plan:has(input:checked) { border-color: #dae2efba; background: #20252e; }
+.purchase-plan:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+.purchase-plan input { width: 15px; height: 15px; margin: 0; accent-color: #dce4f4; }
+.purchase-plan input:focus-visible { outline: none; }
+.purchase-plan strong, .purchase-plan small { display: block; line-height: 1.22; }
+.purchase-plan strong { font-size: .82rem; }
+.purchase-plan small { margin-top: 2px; color: var(--muted); font-size: .67rem; }
+.purchase-plan-name { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; }
+.purchase-plan-tag {
+  padding: 1px 5px;
+  border: 1px solid #a1b0c954;
+  border-radius: 999px;
+  background: #acbdd114;
+  color: #e2e8f1;
+  font-size: .61rem;
+  font-weight: 650;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+.purchase-price { text-align: right; }
+.purchase-price strong { font-size: .95rem; }
+.purchase-bottom { display: grid; align-self: end; gap: 6px; }
+
+.purchase-benefits {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 5px;
+  color: #d3d9e3;
+  font-size: .69rem;
+}
+
+.purchase-badge { display: inline-block; padding: 2px 7px; border: 1px solid #8d99ae65; border-radius: 999px; }
+html[data-theme="biomarkers"] .purchase-footer .detail-action { justify-self: stretch; width: 100%; min-height: 46px; }
+html[data-theme="biomarkers"] .purchase-footer .detail-action:hover { background: #fff; color: var(--action-ink); }
+
+.purchase-demo {
+  width: min(460px, calc(100vw - 28px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 17px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.purchase-demo::backdrop { background: #020305c7; }
+.purchase-demo-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.purchase-demo-head h2 { font: 500 1.85rem/.99 var(--serif); }
+.purchase-demo-head button { padding-inline: 9px; min-height: 44px; }
+.purchase-demo p, .purchase-demo dt { color: var(--muted); font-size: .84rem; }
+.purchase-demo dl { margin: 12px 0 0; }
+.purchase-demo dl div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; padding-block: 8px; border-top: 1px solid var(--line); }
+.purchase-demo dd { margin: 0; line-height: 1.4; font-size: .88rem; font-weight: 650; }
+.purchase-demo .purchase-demo-note { margin-top: 10px; font-size: .74rem; }
+
+@media (max-width: 680px) {
+  html[data-theme="biomarkers"] .detail-screen .purchase-footer { grid-template-columns: 1fr; gap: 7px; }
+  html[data-theme="biomarkers"] .detail-screen .detail-scroll { align-content: start; }
+  html[data-theme="biomarkers"] .detail-screen .detail-studio .studio { max-height: min(24dvh, 192px); }
+}
+
+@media (max-width: 360px) {
+  .purchase-plan { gap: 5px; padding-inline: 6px; }
+  .purchase-plan small { font-size: .64rem; }
+}
+
+html[data-theme="biomarkers"] .detail-kit:has(.review-actions:not([hidden])) {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 7px;
+}
+
+html[data-theme="biomarkers"] .review-actions { display: contents; }
+
+html[data-theme="biomarkers"] .detail-kit .detail-studio,
+html[data-theme="biomarkers"] .detail-kit .detail-kit-info,
+html[data-theme="biomarkers"] .detail-kit .review-order-link { grid-column: 1 / -1; }
+
+html[data-theme="biomarkers"] .detail-kit .detail-kit-info { order: 1; }
+html[data-theme="biomarkers"] .detail-kit .review-order-link { order: 2; }
+
+html[data-theme="biomarkers"] .detail-kit .detail-kit-toggle,
+html[data-theme="biomarkers"] .review-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  width: 100%;
+  gap: 5px;
+  padding: 6px 7px;
+  border: 1px solid var(--kit-action-line, var(--line));
+  border-radius: 7px;
+  background: var(--kit-action, var(--surface));
+  color: var(--ink);
+  font-size: clamp(.73rem, 2.5vw, .86rem);
+  font-weight: 670;
+  line-height: 1.2;
+  text-align: center;
+}
+
+html[data-theme="biomarkers"] .detail-kit-indicator { flex: 0 0 10px; }
+html[data-theme="biomarkers"] .review-action:hover { background: var(--kit-action-hover, var(--surface)); }
+
+html[data-theme="biomarkers"] .review-order-link {
+  min-height: 44px;
+  margin-top: 2px;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 620;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+html[data-theme="biomarkers"] .review-order-link:hover { color: var(--ink); }
+html[data-theme="biomarkers"] .review-order-link span { margin-left: 3px; }
+
+html[data-theme="biomarkers"] .review-dialog {
+  width: min(calc(100% - 24px), 460px);
+  max-height: calc(100dvh - max(env(safe-area-inset-top), 12px) - max(env(safe-area-inset-bottom), 12px));
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--ink);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+html[data-theme="biomarkers"] .review-dialog::backdrop { background: #000b; }
+
+html[data-theme="biomarkers"] .review-dialog-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px clamp(13px, 4vw, 22px);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+html[data-theme="biomarkers"] .review-dialog-header h2 {
+  font: 500 clamp(1.3rem, 5vw, 1.7rem)/1.05 var(--serif);
+  letter-spacing: -.035em;
+}
+
+html[data-theme="biomarkers"] .review-dialog-header h2:focus { outline: none; }
+
+html[data-theme="biomarkers"] .review-dialog-close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--kit-action, transparent);
+  color: var(--ink);
+  font-size: 1.28rem;
+  line-height: 1;
+}
+
+html[data-theme="biomarkers"] .review-dialog-close:hover { background: var(--kit-action-hover, var(--surface)); }
+
+html[data-theme="biomarkers"] .review-dialog-body {
+  display: grid;
+  padding: clamp(13px, 4vw, 22px);
+}
+
+html[data-theme="biomarkers"] .review-result {
+  --result-accent: #a6ddc2;
+  display: grid;
+  gap: 16px;
+  padding: clamp(14px, 4.2vw, 24px);
+  border: 1px solid #a4adbd41;
+  border-radius: 12px;
+  background: linear-gradient(140deg, #181c22, #0d1014 72%);
+}
+
+html[data-theme="biomarkers"] .review-result-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid #a4adbd35;
+}
+
+html[data-theme="biomarkers"] .review-result-header h3 {
+  font: 500 clamp(1.33rem, 5vw, 1.62rem)/1.08 var(--serif);
+  letter-spacing: -.026em;
+}
+
+html[data-theme="biomarkers"] .review-result-header p {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: .79rem;
+}
+
+html[data-theme="biomarkers"] .review-result-badge {
+  padding: 3px 8px;
+  border: 1px solid #a4adbd50;
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: .69rem;
+  font-weight: 650;
+}
+
+html[data-theme="biomarkers"] .review-result-reading,
+html[data-theme="biomarkers"] .review-result-reading dd { margin: 0; }
+
+html[data-theme="biomarkers"] .review-result-reading dt {
+  color: var(--muted);
+  font-size: .74rem;
+}
+
+html[data-theme="biomarkers"] .review-result-reading dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 7px;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: .84rem;
+}
+
+html[data-theme="biomarkers"] .review-result-reading strong {
+  color: var(--ink);
+  font-size: clamp(2.55rem, 10vw, 3.25rem);
+  font-weight: 560;
+  font-variant-numeric: tabular-nums;
+  line-height: .96;
+  letter-spacing: -.055em;
+}
+
+html[data-theme="biomarkers"] .review-result-scale {
+  --thumb-size: 18px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+html[data-theme="biomarkers"] .review-result-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: .76rem;
+}
+
+html[data-theme="biomarkers"] .review-result-reset {
+  min-height: 36px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink);
+  font-size: .73rem;
+}
+
+html[data-theme="biomarkers"] .review-result-reset:hover { background: var(--kit-action-hover, var(--surface)); }
+
+html[data-theme="biomarkers"] .review-result-slider {
+  position: relative;
+  height: 44px;
+}
+
+html[data-theme="biomarkers"] .review-result-track {
+  position: absolute;
+  inset: 18.5px calc(var(--thumb-size) / 2) auto;
+  height: 7px;
+  border-radius: 99px;
+  background: linear-gradient(to right,
+    #39424c var(--reference-start), #5f9680 var(--reference-start) var(--reference-end), #39424c var(--reference-end));
+  pointer-events: none;
+}
+
+html[data-theme="biomarkers"] .review-result-slider input {
+  position: relative;
+  width: 100%;
+  height: 44px;
+  margin: 0;
+  border-radius: 7px;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+html[data-theme="biomarkers"] .review-result-slider input::-webkit-slider-runnable-track { height: 44px; }
+html[data-theme="biomarkers"] .review-result-slider input::-webkit-slider-thumb {
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  margin-top: calc((44px - var(--thumb-size)) / 2);
+  border: 2px solid #10161a;
+  border-radius: 50%;
+  appearance: none;
+  background: #d4f3e4;
+  box-shadow: 0 0 0 1px #b5dfcb50;
+}
+
+html[data-theme="biomarkers"] .review-result-slider input::-moz-range-track { height: 44px; background: transparent; }
+html[data-theme="biomarkers"] .review-result-slider input::-moz-range-thumb {
+  box-sizing: border-box;
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  border: 2px solid #10161a;
+  border-radius: 50%;
+  background: #d4f3e4;
+  box-shadow: 0 0 0 1px #b5dfcb50;
+}
+
+html[data-theme="biomarkers"] .review-result-ticks {
+  position: relative;
+  height: 13px;
+  margin: -9px calc(var(--thumb-size) / 2) 0;
+  font-size: .69rem;
+  pointer-events: none;
+}
+
+html[data-theme="biomarkers"] .review-result-ticks span {
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+html[data-theme="biomarkers"] .review-result-ticks span:first-child { left: var(--reference-start); }
+html[data-theme="biomarkers"] .review-result-ticks span:last-child { left: var(--reference-end); }
+
+html[data-theme="biomarkers"] .review-result-range {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px 8px;
+  margin-top: -10px;
+  color: var(--muted);
+  font-size: .75rem;
+}
+
+html[data-theme="biomarkers"] .review-result-range strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+html[data-theme="biomarkers"] .review-result-context {
+  padding: 11px 12px;
+  border: 1px solid #77ae9742;
+  border-radius: 8px;
+  background: #13211e;
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.46;
+}
+
+html[data-theme="biomarkers"] .review-result-context h4 {
+  margin: 0 0 3px;
+  color: var(--result-accent);
+  font-size: .84rem;
+  font-weight: 680;
+}
+
+html[data-theme="biomarkers"] .review-result-context:is([data-range="below"], [data-range="above"]) {
+  --result-accent: #f1d69c;
+  border-color: #bd9d6260;
+  background: #241e14;
+}
+
+html[data-theme="biomarkers"] .review-fact {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+html[data-theme="biomarkers"] .review-fact:first-child { padding-top: 0; }
+html[data-theme="biomarkers"] .review-fact:last-child { border-bottom: 0; padding-bottom: 0; }
+
+html[data-theme="biomarkers"] .review-fact h3 { font-size: .96rem; line-height: 1.3; }
+html[data-theme="biomarkers"] .review-fact p { color: var(--muted); font-size: .85rem; line-height: 1.48; }
+
+html[data-theme="biomarkers"] .review-fact :is(a, .review-fact-link) {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--accent);
+  text-underline-offset: 3px;
+  font-weight: 630;
+  font-size: .8rem;
+}
+
+html[data-theme="biomarkers"] .review-fact-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-decoration: underline;
+}
+
+html[data-theme="biomarkers"] .review-fact-links { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+
+html[data-theme="biomarkers"] .privacy-dialog { width: min(calc(100% - 24px), 720px); }
+
+html[data-theme="biomarkers"] .privacy-policy-content {
+  padding: 4px clamp(14px, 5vw, 33px) 29px;
+  color: #d6dbe4;
+  font-size: .95rem;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+html[data-theme="biomarkers"] .privacy-policy-content :is(p, ul) { margin: 13px 0; }
+html[data-theme="biomarkers"] .privacy-policy-content ul { padding-inline-start: 1.35em; }
+html[data-theme="biomarkers"] .privacy-policy-content li + li { margin-top: 7px; }
+html[data-theme="biomarkers"] .privacy-policy-content h3 {
+  margin: 23px 0 6px;
+  color: var(--ink);
+  font-size: 1.04rem;
+  line-height: 1.25;
+}
+
+html[data-theme="biomarkers"] .privacy-policy-content a { color: var(--ink); text-underline-offset: .17em; }
+
+html[data-theme="biomarkers"] .clia-certificate-preview {
+  display: grid;
+  grid-template-columns: minmax(84px, 108px) 1fr;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  margin: 8px 0 2px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--kit-action, var(--surface));
+  color: var(--ink);
+  text-align: left;
+  font-size: .85rem;
+}
+
+html[data-theme="biomarkers"] .clia-certificate-preview:hover { background: var(--kit-action-hover, var(--surface)); }
+html[data-theme="biomarkers"] .clia-certificate-preview img {
+  height: auto;
+  aspect-ratio: 1.5;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 3px;
+  background: #fff;
+}
+
+html[data-theme="biomarkers"] .clia-certificate-preview small { display: block; color: var(--muted); }
+html[data-theme="biomarkers"] .clia-certificate-dialog { width: min(calc(100% - 24px), 720px); }
+html[data-theme="biomarkers"] .clia-certificate-sheet figcaption { display: grid; gap: 4px; margin-bottom: 10px; }
+html[data-theme="biomarkers"] .clia-certificate-sheet figcaption > span { color: var(--muted); font-size: .87rem; }
+html[data-theme="biomarkers"] .clia-certificate-sheet a { display: inline-flex; min-height: 44px; align-items: center; gap: 5px; justify-self: start; }
+html[data-theme="biomarkers"] .clia-certificate-sheet img { height: auto; border-radius: 4px; background: #fff; }
+
+.proof-stamps { display: none; }
+
+html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  width: min(100%, 286px);
+  margin: clamp(29px, 6.3dvh, 57px) auto 0;
+}
+
+.proof-stamp {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  min-height: 70px;
+  gap: 4px;
+  padding: 0 4px 5px;
+  border: 0;
+  border-radius: 5px;
+  background: radial-gradient(ellipse 65% 68% at 50% 50%, #080a10dc, #080a1000 88%);
+  color: var(--muted);
+  font: 620 .72rem/1.22 system-ui, sans-serif;
+  text-decoration: none;
+  text-underline-offset: .19em;
+}
+
+.proof-stamp + .proof-stamp::before {
+  position: absolute;
+  inset: 19px auto 7px 0;
+  width: 1px;
+  background: linear-gradient(transparent, #b8c3d540 66%, transparent);
+  content: "";
+}
+
+.proof-stamp:hover,
+.proof-stamp:focus-visible {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+.proof-stamp-art {
+  display: block;
+  width: 66px;
+  height: 50px;
+}
+
+@media (max-height: 600px) {
+  html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps { margin-top: 22px; }
+}
+</style>
+<script>document.querySelector('meta[name="theme-color"]').content = getComputedStyle(document.documentElement).getPropertyValue('--base').trim();</script>
+</head>
+<body>
+<div class="backdrop" aria-hidden="true"></div>
+<div class="app">
+  <header class="app-header">
+    <button class="wordmark" type="button" data-home aria-label="ALYX BIO home">ALYX <span>BIO</span> <span class="public-preview-label">Preview</span></button>
+    <div class="progress" aria-label="Progress" hidden>
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <button class="back-button" type="button" data-back hidden><span aria-hidden="true">←</span> Back</button>
+  </header>
+
+  <main class="panes" id="main">
+    <section class="screen home-screen" data-screen="home" aria-labelledby="home-title">
+      <h1 id="home-title">Lab testing <em>from home.</em></h1>
+      <div class="home-actions">
+        <button type="button" class="button" data-route="goals">Help me find a test <span aria-hidden="true">↗</span></button>
+        <button type="button" class="secondary-button" data-route="menu">I already know my test</button>
+      </div>
+<p class="home-trust" data-home-trust hidden>
+  <button type="button" data-review-open="trust-dialog" aria-haspopup="dialog" aria-controls="trust-dialog">CLIA-certified lab</button>
+  <span aria-hidden="true">·</span>
+  <button type="button" data-review-open="privacy-dialog" aria-haspopup="dialog" aria-controls="privacy-dialog">Private results</button>
+</p>
+<div class="proof-stamps" role="group" aria-label="Laboratory and privacy">
+  <button class="proof-stamp" type="button" data-review-open="trust-dialog" aria-haspopup="dialog">
+    <canvas class="proof-stamp-art" data-proof-mark="shield" width="132" height="100" aria-hidden="true"></canvas>
+    <span>CLIA-certified lab</span>
+  </button>
+  <button class="proof-stamp" type="button" data-review-open="privacy-dialog" aria-haspopup="dialog" aria-controls="privacy-dialog">
+    <canvas class="proof-stamp-art" data-proof-mark="lock" width="132" height="100" aria-hidden="true"></canvas>
+    <span>Private results</span>
+  </button>
+</div>
+    </section>
+
+    <section class="screen chooser-screen" data-screen="goals" aria-labelledby="goals-title" hidden>
+      <div class="screen-heading">
+        <h1 id="goals-title">What do you want to check?</h1>
+        <p>Pick any that fit.</p>
+      </div>
+      <div class="goal-list" role="group" aria-label="What do you want to check?">
+        <button type="button" class="goal-button" data-goal="nutrients" aria-pressed="false">
+          <span><strong>Vitamin D or iron</strong><small>Check vitamin D or stored iron.</small></span>
+          <span class="goal-mark" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="goal-button" data-goal="hormones" aria-pressed="false">
+          <span><strong>Hormone levels</strong><small>Explore testosterone, thyroid, and cortisol tests.</small></span>
+          <span class="goal-mark" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="goal-button" data-goal="cholesterol" aria-pressed="false">
+          <span><strong>Cholesterol</strong><small>See what a total cholesterol test measures.</small></span>
+          <span class="goal-mark" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="step-actions">
+        <button class="button" type="button" id="show-matches" disabled>See matching tests <span aria-hidden="true">↗</span></button>
+        <button class="text-button" type="button" id="show-all">Explore all tests</button>
+      </div>
+<div class="guided-intents" id="guided-intents" hidden>
+  <button class="saliva-shortcut" type="button" id="saliva-shortcut">
+    <span><strong>I only want a saliva test</strong><small>(Use spit to check one of your body’s stress signals)</small></span>
+    <span aria-hidden="true">→</span>
+  </button>
+  <div class="intent-list" role="group" aria-label="What would you like to learn?">
+    <button type="button" data-intent="Testosterone"><strong>Check my testosterone level</strong><small>(It plays a role in muscle strength and sex drive)</small></button>
+    <button type="button" data-intent="Cortisol"><strong>Cortisol</strong><small>(Checks a signal your body uses to respond to stress)</small></button>
+    <button type="button" data-intent="Cholesterol"><strong>Check my total cholesterol</strong><small>(Doctors use this to check heart health)</small></button>
+    <button type="button" data-intent="Vitamin D"><strong>Check my vitamin D level</strong><small>(See if you’re low on a vitamin that helps keep bones strong)</small></button>
+    <button type="button" data-intent="TSH"><strong>Check how my thyroid is working</strong><small>(Your thyroid helps your body control how it uses energy)</small></button>
+    <button type="button" data-intent="Ferritin"><strong>Check my iron supply</strong><small>(Iron is a mineral your blood needs to carry oxygen)</small></button>
+  </div>
+  <button class="text-button browse-intents" id="browse-intents" type="button">Browse all tests</button>
+</div>
+    </section>
+
+    <section class="screen chooser-screen" data-screen="list" aria-labelledby="list-title" hidden>
+      <div class="screen-heading">
+        <h1 id="list-title">Choose a test.</h1>
+        <p id="list-summary"></p>
+      </div>
+      <label class="search-label" for="test-search" hidden>Search by test name</label>
+      <input id="test-search" type="search" placeholder="Search by test name" autocomplete="off" hidden>
+<p class="preview-time-note" data-time-note hidden>Collection times shown for preview.</p>
+      <div class="test-list" id="test-list"></div>
+      <p class="empty-state" id="empty-list" role="status" hidden>No matching tests. Try a name like Vitamin D or Ferritin.</p>
+      <button type="button" id="see-full-list" class="text-button list-link" hidden>See all featured tests</button>
+    </section>
+
+    <section data-screen="detail" id="detail" class="screen detail-screen" aria-labelledby="detail-title" hidden>
+  <div class="detail-scroll">
+    <header class="detail-copy">
+      <h1 id="detail-title" tabindex="-1">Your test</h1>
+      <p class="detail-purpose" data-detail-purpose></p>
+      <p class="detail-method"><span>Collection</span> <strong data-detail-method></strong> <span class="sample-duration" data-detail-time hidden></span></p>
+    </header>
+
+    <div class="detail-kit">
+      <div class="detail-studio"><figure class="studio" data-method="blood">
+  <img class="studio-poster" data-src="media/kit-closed.jpg" alt="Black cylindrical ALYX collection kit" width="1080" height="720" decoding="async">
+  <img class="studio-open" alt="" width="1080" height="720" decoding="async">
+  <video class="studio-idle" data-src="media/kit-idle.mp4" muted playsinline loop preload="none" aria-hidden="true"></video>
+  <video class="studio-reveal" muted playsinline preload="none" aria-hidden="true"></video>
+</figure></div>
+      <button class="detail-kit-toggle" id="kit-toggle" type="button" aria-expanded="false" aria-controls="kit-info">
+        <span data-kit-toggle-label>Open the kit</span><span class="detail-kit-indicator" aria-hidden="true"></span>
+      </button>
+<div class="review-actions" hidden>
+  <button class="review-action" type="button" data-review-open="results-dialog" aria-controls="results-dialog" aria-haspopup="dialog">See example results</button>
+  <button class="review-action" type="button" data-review-open="trust-dialog" aria-controls="trust-dialog" aria-haspopup="dialog">Why trust ALYX?</button>
+  <button class="review-order-link" type="button" data-review-open="order-dialog" aria-controls="order-dialog" aria-haspopup="dialog">
+    What happens after I order? <span aria-hidden="true">↗</span>
+  </button>
+</div>
+      <div class="detail-kit-info" id="kit-info" hidden>
+        <div class="detail-kit-photos"><img data-src="media/blood.jpg" data-kit-photo="blood" alt="White-and-red upper-arm blood collection device" width="424" height="584" decoding="async"><img data-src="media/saliva.jpg" data-kit-photo="saliva" alt="Clear saliva collection tube showing its cap and fill line" width="424" height="584" decoding="async" hidden></div>
+        <div class="detail-kit-copy">
+          <h2 data-kit-method-label>Upper-arm collection device</h2>
+          <p data-kit-method-copy>Collect your sample from home using the kit instructions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="detail-checkout legacy-checkout">
+    <div class="detail-offer">
+      <span>One-time test</span>
+      <strong data-detail-price></strong>
+    </div>
+    <a class="detail-action" id="checkout-link">Continue to checkout <span aria-hidden="true">→</span></a>
+  </footer>
+<footer class="detail-checkout purchase-footer" id="purchase-options" hidden>
+  <fieldset class="purchase-plans" aria-labelledby="purchase-plan-title">
+    <legend class="purchase-plan-heading">
+      <span id="purchase-plan-title">Choose a plan</span>
+      <span class="purchase-badge purchase-results-badge">Results in 3 Days</span>
+    </legend>
+    <div id="purchase-plan-rows" class="purchase-plan-rows"></div>
+  </fieldset>
+  <div class="purchase-bottom">
+    <div class="purchase-benefits" aria-label="Checkout benefits">
+      <span class="purchase-badge">FSA/HSA accepted</span>
+      <span class="purchase-badge">Free shipping</span>
+    </div>
+    <button type="button" class="detail-action" id="preview-checkout-button" aria-haspopup="dialog">
+      <span id="preview-checkout-label">Continue to checkout</span><span aria-hidden="true">→</span>
+    </button>
+  </div>
+</footer>
+</section>
+
+  </main>
+</div>
+<div class="preview-tools" hidden>
+  <button type="button" id="funnel-open" class="secondary-button">Preview funnel</button>
+</div>
+<dialog class="funnel-dialog" aria-labelledby="funnel-title">
+  <div class="funnel-head">
+    <h2 id="funnel-title">This tab’s funnel</h2>
+    <form method="dialog"><button type="submit" class="secondary-button">Close</button></form>
+  </div>
+  <p>Local preview events. Purchases are recorded by Shopify once live analytics is connected.</p>
+  <ol id="funnel-events"></ol>
+</dialog>
+<dialog class="review-dialog" id="results-dialog" aria-labelledby="results-dialog-title" data-review-event="results_viewed">
+  <header class="review-dialog-header">
+    <h2 id="results-dialog-title" tabindex="-1">See example results</h2>
+    <form method="dialog"><button class="review-dialog-close" type="submit" aria-label="Close example results">×</button></form>
+  </header>
+  <div class="review-dialog-body">
+    <article class="review-result" aria-labelledby="example-marker">
+      <header class="review-result-header">
+        <div>
+          <h3 id="example-marker">Cortisol</h3>
+          <p>Saliva sample</p>
+        </div>
+        <span class="review-result-badge">Example</span>
+      </header>
+      <dl class="review-result-reading">
+        <dt>Example value</dt>
+        <dd><strong data-example-reading>18.7</strong> <span>nmol/L</span></dd>
+      </dl>
+      <div class="review-result-scale">
+        <div class="review-result-controls">
+          <label for="example-result-value">Drag or tap to try a value</label>
+          <button class="review-result-reset" type="button" data-example-reset>Reset</button>
+        </div>
+        <div class="review-result-slider">
+          <div class="review-result-track" aria-hidden="true"></div>
+          <input type="range" id="example-result-value" min="0" max="33" step="0.1" value="18.7" data-reference-min="8" data-reference-max="25" aria-describedby="example-reference-range">
+        </div>
+        <div class="review-result-ticks" aria-hidden="true"><span>8</span><span>25</span></div>
+      </div>
+      <p class="review-result-range" id="example-reference-range">Example reference range <strong>8–25 nmol/L</strong></p>
+      <section class="review-result-context" data-example-context data-range="within">
+        <h4 data-example-status>Within the example range</h4>
+        <p>The lab report compares your measurement with a reference range for your test so you can see where it falls.</p>
+      </section>
+    </article>
+  </div>
+</dialog>
+
+<dialog class="review-dialog" id="trust-dialog" aria-labelledby="trust-dialog-title" data-review-event="trust_viewed">
+  <header class="review-dialog-header">
+    <h2 id="trust-dialog-title" tabindex="-1">Why trust ALYX?</h2>
+    <form method="dialog"><button class="review-dialog-close" type="submit" aria-label="Close trust details">×</button></form>
+  </header>
+  <div class="review-dialog-body">
+    <section class="review-fact">
+      <h3>CLIA-certified lab</h3>
+      <p>ALYX says it uses a CLIA-certified lab. The certificate below is for Ebien, Inc., doing business as Knowing Labs. ALYX still needs to confirm which tests this lab processes.</p>
+      <button class="clia-certificate-preview" type="button" data-review-open="clia-certificate-dialog" aria-haspopup="dialog" aria-controls="clia-certificate-dialog">
+        <img data-src="media/clia-certificate.png" width="1237" height="1600" alt="" decoding="async">
+        <span><strong>View full certificate</strong><small>CMS · CLIA 45D2232931</small></span>
+      </button>
+    </section>
+    <section class="review-fact">
+      <h3>Private results</h3>
+      <p>Read how ALYX handles health and testing information and what choices you have about your data.</p>
+      <button class="review-fact-link" type="button" data-review-open="privacy-dialog" aria-haspopup="dialog" aria-controls="privacy-dialog">Read the privacy policy</button>
+    </section>
+    <section class="review-fact">
+      <h3>Questions about your test?</h3>
+      <a href="mailto:support@alyxbio.com">Email ALYX support</a>
+    </section>
+  </div>
+</dialog>
+
+<dialog class="review-dialog clia-certificate-dialog" id="clia-certificate-dialog" aria-labelledby="clia-certificate-title">
+  <header class="review-dialog-header">
+    <h2 id="clia-certificate-title" tabindex="-1">CLIA certificate</h2>
+    <form method="dialog"><button class="review-dialog-close" type="submit" aria-label="Close certificate">×</button></form>
+  </header>
+  <div class="review-dialog-body">
+    <figure class="clia-certificate-sheet">
+      <figcaption>
+        <strong>Ebien, Inc. (Knowing Labs)</strong>
+        <span>Certificate of Accreditation · CLIA 45D2232931</span>
+        <span>Valid May 9, 2025 through May 8, 2027</span>
+        <a href="https://iqies.cms.gov/api/clia/v1/public/assets/CLIA-Certificate-45D2232931-2025-05-09.pdf" target="_blank" rel="noopener noreferrer">Open original CMS PDF <span aria-hidden="true">↗</span></a>
+      </figcaption>
+      <img data-src="media/clia-certificate.png" width="1237" height="1600" alt="Official CMS Clinical Laboratory Improvement Amendments Certificate of Accreditation for Ebien, Inc., doing business as Knowing Labs." decoding="async">
+    </figure>
+  </div>
+</dialog>
+
+<dialog class="review-dialog" id="order-dialog" aria-labelledby="order-dialog-title" data-review-event="order_info_viewed">
+  <header class="review-dialog-header">
+    <h2 id="order-dialog-title" tabindex="-1">What happens after I order?</h2>
+    <form method="dialog"><button class="review-dialog-close" type="submit" aria-label="Close order details">×</button></form>
+  </header>
+  <div class="review-dialog-body">
+    <section class="review-fact">
+      <h3>1. Receive your kit</h3>
+      <p>Check your delivery estimate at checkout. ALYX still needs to confirm delivery timing for this preview.</p>
+    </section>
+    <section class="review-fact">
+      <h3>2. Collect at home and mail your sample</h3>
+      <p>Follow the return instructions included in your kit. ALYX still needs to confirm whether return postage is included.</p>
+    </section>
+    <section class="review-fact">
+      <h3>3. View your results online</h3>
+      <p>ALYX lists a three-day results estimate for cortisol. The point when that estimate starts still needs confirmation.</p>
+      <a href="https://alyxbio.com/pages/cortisol" target="_blank" rel="noopener noreferrer">View the cortisol test</a>
+    </section>
+    <section class="review-fact">
+      <h3>Order issues and returns</h3>
+      <p>Contact ALYX for a damaged kit or unusable sample. Its refund policy explains the conditions for returns and replacements.</p>
+      <div class="review-fact-links">
+        <a href="mailto:support@alyxbio.com">Email support</a>
+        <a href="https://alyxbio.com/policies/refund-policy" target="_blank" rel="noopener noreferrer">Read the refund policy</a>
+      </div>
+    </section>
+  </div>
+</dialog>
+
+<!-- Source: https://alyxbio.com/policies/privacy-policy · Snapshot checked November 22, 2026. -->
+<dialog class="review-dialog privacy-dialog" id="privacy-dialog" aria-labelledby="privacy-dialog-title">
+  <header class="review-dialog-header">
+    <h2 id="privacy-dialog-title" tabindex="-1">Privacy policy</h2>
+    <form method="dialog"><button class="review-dialog-close" type="submit" aria-label="Close privacy policy">×</button></form>
+  </header>
+  <article class="privacy-policy-content" aria-labelledby="privacy-dialog-title">
+<div>
+<p>Last updated: June 21, 2026</p>
+<p>ALYXBIO operates this store and website, including all related information, content, features, tools, products and services, in order to provide you, the customer, with a curated shopping experience (the "Services"). ALYXBIO is powered by Shopify, which enables us to provide the Services to you. This Privacy Policy describes how we collect, use, and disclose your personal information when you visit, use, or make a purchase or other transaction using the Services or otherwise communicate with us. If there is a conflict between our Terms of Service and this Privacy Policy, this Privacy Policy controls with respect to the collection, processing, and disclosure of your personal information.</p>
+<p>Please read this Privacy Policy carefully. By using and accessing any of the Services, you acknowledge that you have read this Privacy Policy and understand the collection, use, and disclosure of your information as described in this Privacy Policy.</p>
+<h3>Personal Information We Collect or Process</h3>
+<p>When we use the term "personal information," we are referring to information that identifies or can reasonably be linked to you or another person. Personal information does not include information that is collected anonymously or that has been de-identified, so that it cannot identify or be reasonably linked to you. We may collect or process the following categories of personal information, including inferences drawn from this personal information, depending on how you interact with the Services, where you live, and as permitted or required by applicable law:</p>
+<ul>
+<li>
+<strong>Contact details</strong> including your name, address, billing address, shipping address, phone number, and email address.</li>
+<li>
+<strong>Financial information</strong> including credit card, debit card, and financial account numbers, payment card information, financial account information, transaction details, form of payment, payment confirmation and other payment details.</li>
+<li>
+<strong>Account information</strong> including your username, password, security questions, preferences and settings.</li>
+<li>
+<strong>Transaction information</strong> including the items you view, put in your cart, add to your wishlist, or purchase, return, exchange or cancel and your past transactions.</li>
+<li>
+<strong>Communications with us</strong> including the information you include in communications with us, for example, when sending a customer support inquiry.</li>
+<li>
+<strong>Device information</strong> including information about your device, browser, or network connection, your IP address, and other unique identifiers.</li>
+<li>
+<strong>Usage information</strong> including information regarding your interaction with the Services, including how and when you interact with or navigate the Services.</li>
+</ul>
+<h3>Personal Information Sources</h3>
+<p>We may collect personal information from the following sources:</p>
+<ul>
+<li>
+<strong>Directly from you</strong> including when you create an account, visit or use the Services, communicate with us, or otherwise provide us with your personal information;</li>
+<li>
+<strong>Automatically through the Services</strong> including from your device when you use our products or services or visit our websites, and through the use of cookies and similar technologies;</li>
+<li>
+<strong>From our service providers</strong> including when we engage them to enable certain technology and when they collect or process your personal information on our behalf;</li>
+<li><strong>From our partners or other third parties.</strong></li>
+</ul>
+<h3>How We Use Your Personal Information</h3>
+<p>Depending on how you interact with us or which of the Services you use, we may use personal information for the following purposes:</p>
+<ul>
+<li>
+<strong>Provide, Tailor, and Improve the Services.</strong> We use your personal information to provide you with the Services, including to perform our contract with you, to process your payments, to fulfill your orders, to remember your preferences and items you are interested in, to send notifications to you related to your account, to process purchases, returns, exchanges or other transactions, to create, maintain and otherwise manage your account, to arrange for shipping, to facilitate any returns and exchanges, to enable you to post reviews, and to create a customized shopping experience for you, such as recommending products related to your purchases. This may include using your personal information to better tailor and improve the Services.</li>
+<li>
+<strong>Marketing and Advertising.</strong> We use your personal information for marketing and promotional purposes, such as to send marketing, advertising and promotional communications by email, text message or postal mail, and to show you online advertisements for products or services on the Services or other websites, including based on items you previously have purchased or added to your cart and other activity on the Services.</li>
+<li>
+<strong>Security and Fraud Prevention.</strong> We use your personal information to authenticate your account, to provide a secure payment and shopping experience, detect, investigate or take action regarding possible fraudulent, illegal, unsafe, or malicious activity, protect public safety, and to secure our services. If you choose to use the Services and register an account, you are responsible for keeping your account credentials safe. We highly recommend that you do not share your username, password or other access details with anyone else.</li>
+<li>
+<strong>Communicating with You.</strong> We use your personal information to provide you with customer support, to be responsive to you, to provide effective services to you and to maintain our business relationship with you. By providing your mobile number, you consent to receive transactional messages regarding your orders, account, and testing services. Marketing communications will only be sent where permitted by applicable law and with appropriate consent.</li>
+<li>
+<strong>Legal Reasons.</strong> We use your personal information to comply with applicable law or respond to valid legal process, including requests from law enforcement or government agencies, to investigate or participate in civil discovery, potential or actual litigation, or other adversarial legal proceedings, and to enforce or investigate potential violations of our terms or policies.</li>
+</ul>
+<h3>How We Disclose Personal Information</h3>
+<p>In certain circumstances, we may disclose your personal information to third parties for legitimate purposes subject to this Privacy Policy. Such circumstances may include:</p>
+<ul>
+<li>With Shopify, vendors and other third parties who perform services on our behalf (e.g. IT management, payment processing, data analytics, customer support, cloud storage, fulfillment and shipping).</li>
+<li>With business and marketing partners to provide marketing services and advertise to you. For example, we use Shopify to support personalized advertising with third-party services based on your online activity with different merchants and websites. Our business and marketing partners will use your information in accordance with their own privacy notices. Depending on where you reside, you may have a right to direct us not to share information about you to show you targeted advertisements and marketing based on your online activity with different merchants and websites. </li>
+<li>When you direct, request us or otherwise consent to our disclosure of certain information to third parties, such as to ship you products or through your use of social media widgets or login integrations.</li>
+<li>With our affiliates or otherwise within our corporate group.</li>
+<li>In connection with a business transaction such as a merger or bankruptcy, to comply with any applicable legal obligations (including to respond to subpoenas, search warrants and similar requests), to enforce any applicable terms of service or policies, and to protect or defend the Services, our rights, and the rights of our users or others.</li>
+</ul>
+<h3>Relationship with Shopify</h3>
+<p>The Services are hosted by Shopify, which collects and processes personal information about your access to and use of the Services in order to provide and improve the Services for you. Information you submit to the Services will be transmitted to and shared with Shopify as well as third parties that may be located in countries other than where you reside, in order to provide and improve the Services for you. In addition, to help protect, grow, and improve our business, we use certain Shopify enhanced features that incorporate data and information obtained from your interactions with our Store, along with other merchants and with Shopify. To provide these enhanced features, Shopify may make use of personal information collected about your interactions with our store, along with other merchants, and with Shopify. In these circumstances, Shopify is responsible for the processing of your personal information, including for responding to your requests to exercise your rights over use of your personal information for these purposes. To learn more about how Shopify uses your personal information and any rights you may have, you can visit the <a href="https://www.shopify.com/legal/privacy/app-users" target="_blank" rel="noopener noreferrer">Shopify Consumer Privacy Policy</a> . Depending on where you live, you may exercise certain rights with respect to your personal information here <a href="https://privacy.shopify.com/en" target="_blank" rel="noopener noreferrer">Shopify Privacy Portal Link</a>.</p>
+<h3>Third Party Websites and Links</h3>
+<p>The Services may provide links to websites or other online platforms operated by third parties. If you follow links to sites not affiliated or controlled by us, you should review their privacy and security policies and other terms and conditions. We do not guarantee and are not responsible for the privacy or security of such sites, including the accuracy, completeness, or reliability of information found on these sites. Information you provide on public or semi-public venues, including information you share on third-party social networking platforms may also be viewable by other users of the Services and/or users of those third-party platforms without limitation as to its use by us or by a third party. Our inclusion of such links does not, by itself, imply any endorsement of the content on such platforms or of their owners or operators, except as disclosed on the Services.</p>
+<h3>Children's Data</h3>
+<p>The Services are not intended to be used by children, and we do not knowingly collect any personal information about children under the age of majority in your jurisdiction. If you are the parent or guardian of a child who has provided us with their personal information, you may contact us using the contact details set out below to request that it be deleted.As of the Effective Date of this Privacy Policy, we do not have actual knowledge that we "share" or "sell" (as those terms are defined in applicable law) personal information of individuals under 16 years of age.</p>
+<h3>Security and Retention of Your Information</h3>
+<p>Please be aware that no security measures are perfect or impenetrable, and we cannot guarantee "perfect security." In addition, any information you send to us may not be secure while in transit. We recommend that you do not use unsecure channels to communicate sensitive or confidential information to us.</p>
+<p>How long we retain your personal information depends on different factors, such as whether we need the information to maintain your account, to provide you with Services, comply with legal obligations, resolve disputes or enforce other applicable contracts and policies.</p>
+<h3>Health and Testing Information</h3>
+<p>When you subscribe to Alyx membership, you purchase laboratory testing services, we may collect information related to your test orders, specimen collection, laboratory results, and related health information necessary to provide the Services. We collect and process this information solely for the purpose of fulfilling your orders, delivering results, customer support, quality assurance, legal compliance, and other purposes described in this Privacy Policy.</p>
+<h3>HIPAA Notice</h3>
+<p>ALYXBIO is not a healthcare provider and many services offered through the platform may not be subject to the Health Insurance Portability and Accountability Act (HIPAA). However, we take the privacy and security of your information seriously and implement reasonable administrative, technical, and physical safeguards to protect personal information.</p>
+<h3>Your Rights and Choices</h3>
+<p>Depending on where you live, you may have some or all of the rights listed below in relation to your personal information. However, these rights are not absolute, may apply only in certain circumstances and, in certain cases, we may decline your request as permitted by law.</p>
+<ul>
+<li>
+<strong>Right to Access / Know.</strong> You may have a right to request access to personal information that we hold about you.</li>
+<li>
+<strong>Right to Delete.</strong> You may have a right to request that we delete personal information we maintain about you.</li>
+<li>
+<strong>Right to Correct.</strong> You may have a right to request that we correct inaccurate personal information we maintain about you.</li>
+<li>
+<strong>Right of Portability.</strong> You may have a right to receive a copy of the personal information we hold about you and to request that we transfer it to a third party, in certain circumstances and with certain exceptions.</li>
+<li>
+<strong>Right to Opt out of Sale or Sharing for Targeted Advertising.</strong> Depending on where you reside, you may have a right to opt out of the "sale" or "share" of your personal information or to opt out of the processing of your personal information for purposes considered to be "targeted advertising", as defined in applicable privacy laws. You can exercise your rights to opt-out of those uses <a href="https://alyxbio.com/pages/data-sharing-opt-out" target="_blank" rel="noopener noreferrer">here</a>. Please note that if you visit our website with the Global Privacy Control opt-out preference signal enabled, depending on where you are, we will automatically treat this as a request to opt-out for the device and browser that you use to visit the website. If we are able to associate the device sending the signal to a Shopify account, we will apply the opt out request to the account as well. To learn more about Global Privacy Control, you can visit https://globalprivacycontrol.org/. Other than the Global Privacy Control, we do not recognize other "Do Not Track" signals that may be sent from your web browser or device.</li>
+<li>
+<strong>Managing Communication Preferences.</strong> We may send you promotional emails, and you may opt out of receiving these at any time by using the unsubscribe option displayed in our emails to you. If you opt out, we may still send you non-promotional emails, such as those about your account or orders that you have made.</li>
+</ul>
+<div><br></div>
+<p>You may exercise any of these rights where indicated on the Services or by contacting us using the contact details provided below. To learn more about how Shopify uses your personal information and any rights you may have, including rights related to data processed by Shopify, you can visit https://privacy.shopify.com/en.</p>
+<p>We will not discriminate against you for exercising any of these rights. We may need to verify your identity before we can process your requests, as permitted or required under applicable law. In accordance with applicable laws, you may designate an authorized agent to make requests on your behalf to exercise your rights. Before accepting such a request from an agent, we will require that the agent provide proof you have authorized them to act on your behalf, and we may need you to verify your identity directly with us. We will respond to your request in a timely manner as required under applicable law.</p>
+<h3>Complaints</h3>
+<p>If you have complaints about how we process your personal information, please contact us using the contact details provided below. Depending on where you live, you may have the right to appeal our decision by contacting us using the contact details set out below, or lodge your complaint with your local data protection authority.</p>
+<h3>International Transfers</h3>
+<p>Please note that we may transfer, store and process your personal information outside the country you live in.</p>
+<p>If we transfer your personal information out of the European Economic Area or the United Kingdom, we will rely on recognized transfer mechanisms like the European Commission's Standard Contractual Clauses, or any equivalent contracts issued by the relevant competent authority of the UK, as relevant, unless the data transfer is to a country that has been determined to provide an adequate level of protection.</p>
+<h3>Changes to This Privacy Policy</h3>
+<p>We may update this Privacy Policy from time to time, including to reflect changes to our practices or for other operational, legal, or regulatory reasons. We will post the revised Privacy Policy on this website, update the "Last updated" date and provide notice as required by applicable law.</p>
+<h3>Contact</h3>
+<p>Should you have any questions about our privacy practices or this Privacy Policy, or if you would like to exercise any of the rights available to you, please call or email us at support@alyxbio.com or contact us at PO BOX 160547, Austin, TX, 78716, US</p>
+</div>
+  </article>
+</dialog>
+
+<dialog id="purchase-demo" class="purchase-demo" aria-labelledby="purchase-demo-title">
+  <form method="dialog" class="purchase-demo-head">
+    <h2 id="purchase-demo-title">Checkout preview</h2>
+    <button class="secondary-button" autofocus>Close</button>
+  </form>
+  <p>This is a local demo. Payment and fulfillment require a Shopify sandbox test.</p>
+  <dl>
+    <div><dt>Test</dt><dd data-demo-test></dd></div>
+    <div><dt>Collection</dt><dd data-demo-method></dd></div>
+    <div><dt>Purchase</dt><dd data-demo-plan></dd></div>
+    <div><dt>Credits</dt><dd data-demo-credit></dd></div>
+  </dl>
+  <p class="purchase-demo-note">Confirm monthly plan share, FSA/HSA acceptance and free shipping before launch.</p>
+</dialog>
+
+<script id="catalog" type="application/json">[{"name": "Cholesterol", "goal": "cholesterol", "info": "Check the total cholesterol in your blood.", "options": [{"label": "Cholesterol", "method": "Upper-arm blood", "kind": "blood", "id": "67641592316035", "memberId": "48022500049027", "price": "$69"}]}, {"name": "Cortisol", "goal": "hormones", "info": "Measure cortisol, a hormone involved in the body’s stress response.", "options": [{"label": "Cortisol (saliva)", "method": "Saliva", "kind": "saliva", "id": "67641592152195", "memberId": "48022499885187", "price": "$69"}, {"label": "Cortisol (blood)", "method": "Upper-arm blood", "kind": "blood", "id": "67641592184963", "memberId": "48022499917955", "price": "$69"}]}, {"name": "Ferritin", "goal": "nutrients", "info": "Measure ferritin, a marker of how much iron your body stores.", "options": [{"label": "Ferritin", "method": "Upper-arm blood", "kind": "blood", "id": "67641592021123", "memberId": "48022499754115", "price": "$69"}]}, {"name": "Testosterone", "goal": "hormones", "info": "Check the amount of total testosterone in your blood.", "options": [{"label": "Testosterone", "method": "Upper-arm blood", "kind": "blood", "id": "67641591857283", "memberId": "48022499623043", "price": "$69"}]}, {"name": "TSH", "goal": "hormones", "info": "Measure thyroid-stimulating hormone, the signal that helps regulate your thyroid.", "options": [{"label": "TSH", "method": "Upper-arm blood", "kind": "blood", "id": "67641591726211", "memberId": "48022499491971", "price": "$69"}]}, {"name": "Vitamin D", "goal": "nutrients", "info": "Check the level of vitamin D in your blood.", "options": [{"label": "Vitamin D", "method": "Upper-arm blood", "kind": "blood", "id": "67641592053891", "memberId": "48022499786883", "price": "$69"}]}]</script>
+<script>window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
+  const footer = document.querySelector('#purchase-options');
+  const button = footer.querySelector('#preview-checkout-button');
+  const buttonLabel = footer.querySelector('#preview-checkout-label');
+  const checkoutLabel = document.documentElement.hasAttribute('data-public-preview') ? 'Checkout demo' : 'Checkout';
+  const dialog = document.querySelector('#purchase-demo');
+  const plans = {
+    once: {
+      name: 'One-time test', price: '$69', billing: 'Once', action: '$69 once',
+      summary: '1 credit valid 12 months · No membership required', credit: 'One test credit, valid for 12 months',
+    },
+    monthly: {
+      name: 'Monthly membership', price: '$59', billing: 'Billed monthly', action: '$59/month',
+      summary: '1 credit per month · Renews monthly', credit: 'One test credit each month',
+      badge: 'Most picked', sellingPlanId: '2802286723',
+    },
+    annual: {
+      name: 'Annual membership', price: '$599', billing: 'Billed annually', action: '$599/year',
+      summary: '12 credits upfront · Renews annually', credit: 'All 12 test credits upfront',
+      badge: 'Highest Value', sellingPlanId: '2802581635',
+    },
+  };
+  const radios = new Map();
+  const rows = footer.querySelector('#purchase-plan-rows');
+  const orderFields = {
+    test: dialog.querySelector('[data-demo-test]'),
+    method: dialog.querySelector('[data-demo-method]'),
+    plan: dialog.querySelector('[data-demo-plan]'),
+    credit: dialog.querySelector('[data-demo-credit]'),
+  };
+  let selectedTest;
+  const defaultPlan = 'monthly';
+  let planKey = defaultPlan;
+
+  function text(tag, value, className = '') {
+    const element = document.createElement(tag);
+    element.textContent = value;
+    element.className = className;
+    return element;
+  }
+
+  for (const [key, plan] of Object.entries(plans)) {
+    const label = document.createElement('label');
+    label.className = 'purchase-plan';
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'purchase-plan';
+    radio.value = key;
+    radio.addEventListener('change', () => changePlan(key));
+    radios.set(key, radio);
+
+    const description = document.createElement('span');
+    const heading = document.createElement('span');
+    heading.className = 'purchase-plan-name';
+    heading.append(text('strong', plan.name));
+    if (plan.badge) heading.append(text('span', plan.badge, 'purchase-plan-tag'));
+    description.append(heading, text('small', plan.summary));
+    const price = document.createElement('span');
+    price.className = 'purchase-price';
+    price.append(text('strong', plan.price), text('small', plan.billing));
+    label.append(radio, description, price);
+    rows.append(label);
+  }
+
+  button.addEventListener('click', () => {
+    const plan = plans[planKey];
+    const variantId = plan.sellingPlanId ? selectedTest.memberId : selectedTest.id;
+    orderFields.test.textContent = selectedTest.label;
+    orderFields.method.textContent = selectedTest.method;
+    orderFields.plan.textContent = `${plan.name} · ${plan.action}`;
+    orderFields.credit.textContent = plan.credit;
+    // Expose the resolved Shopify line locally for review without creating a production cart.
+    dialog.dataset.variantId = variantId;
+    if (plan.sellingPlanId) dialog.dataset.sellingPlanId = plan.sellingPlanId;
+    else delete dialog.dataset.sellingPlanId;
+    dialog.showModal();
+    openCheckout(planKey);
+  });
+  dialog.addEventListener('close', () => {
+    if (!footer.closest('[hidden]')) button.focus({ preventScroll: true });
+  });
+
+  return {
+    render(test, nextPlan) {
+      selectedTest = test;
+      planKey = radios.has(nextPlan) ? nextPlan : defaultPlan;
+      radios.get(planKey).checked = true;
+      buttonLabel.textContent = `${checkoutLabel} · ${plans[planKey].action}`;
+      footer.hidden = false;
+    },
+  };
+};
+</script>
+<script>(() => {
+  const get = (selector) => document.querySelector(selector);
+  const all = (selector) => [...document.querySelectorAll(selector)];
+  const catalog = JSON.parse(get('#catalog').textContent);
+  const variants = new Map();
+  for (const test of catalog) {
+    for (const option of test.options) variants.set(option.id, { ...option, purpose: test.info });
+  }
+
+  const screens = all('[data-screen]');
+  const goals = all('[data-goal]');
+  const list = get('#test-list');
+  const search = get('#test-search');
+  const back = get('[data-back]');
+  const progress = get('.progress');
+  const kit = get('.studio');
+  const kitToggle = get('#kit-toggle');
+  const kitInfo = get('#kit-info');
+  const checkout = get('#checkout-link');
+  const flowVariant = document.documentElement.dataset.flowVariant;
+  const guidedIntents = flowVariant === 'b';
+  const purchase = flowVariant && window.createAlyxPurchaseReview?.({
+    changePlan(plan) {
+      update({ plan });
+      purchase.render(variants.get(state.variant), plan);
+      record('plan_selected', plan);
+    },
+    openCheckout(plan) { record('checkout_demo_opened', plan); },
+  });
+  const normalRoute = ['home', 'goals', 'list', 'detail'];
+  const directRoute = ['home', 'list', 'detail'];
+  const home = { screen: 'home', path: null, goals: [], showAll: false, query: '', variant: null };
+  const historyKey = flowVariant ? 'alyx-biomarkers-' + flowVariant : 'alyx';
+  const stored = history.state?.[historyKey];
+  let state = stored && normalRoute.includes(stored.screen) &&
+    (stored.screen !== 'detail' || variants.has(stored.variant)) ? stored : home;
+
+  const funnelKey = flowVariant ? 'alyx-biomarkers-funnel-' + flowVariant : 'alyx-clickthrough-funnel';
+  let events = [];
+  try { events = JSON.parse(sessionStorage.getItem(funnelKey)) || []; } catch {}
+
+  const eventNames = {
+    home_viewed: 'Opened the homepage',
+    path_chosen: 'Chose a path',
+    goals_viewed: 'Viewed goal choices',
+    matches_viewed: 'Viewed matching tests',
+    test_menu_viewed: 'Viewed the test menu',
+    test_selected: 'Selected a test',
+    test_details_viewed: 'Viewed the test and price',
+    kit_opened: 'Opened the kit',
+    results_viewed: 'Viewed example results',
+    trust_viewed: 'Viewed the trust details',
+    order_info_viewed: 'Viewed delivery and results timing',
+    plan_selected: 'Selected a plan',
+    checkout_demo_opened: 'Opened the local checkout demo',
+    checkout_handoff: 'Continued to Shopify checkout',
+  };
+
+  function record(name, plan) {
+    const entry = { name, path: state.path };
+    if (plan) entry.plan = plan;
+    events = [...events.slice(-99), entry];
+    try { sessionStorage.setItem(funnelKey, JSON.stringify(events)); } catch {}
+  }
+
+  function currentView() {
+    if (state.screen === 'detail') return 'test_details_viewed';
+    if (state.screen === 'list') return state.showAll ? 'test_menu_viewed' : 'matches_viewed';
+    return state.screen + '_viewed';
+  }
+
+  function transition(next, event) {
+    state = next;
+    history.pushState({ [historyKey]: state }, '');
+    if (event) record(event);
+    render(true);
+    record(currentView());
+  }
+
+  function update(values) {
+    state = { ...state, ...values };
+    history.replaceState({ [historyKey]: state }, '');
+  }
+
+  function renderGoals() {
+    if (guidedIntents) return;
+    for (const button of goals) {
+      button.setAttribute('aria-pressed', state.goals.includes(button.dataset.goal));
+    }
+    get('#show-matches').disabled = !state.goals.length;
+  }
+
+  function makeElement(tag, className, label) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (label) node.textContent = label;
+    return node;
+  }
+
+  function collectionTime(kind) {
+    return kind === 'saliva' ? 'Under 2 minutes' : 'Under 5 minutes';
+  }
+
+  function testCard(test) {
+    const card = makeElement('article', 'test-option');
+    const copy = makeElement('div');
+    copy.append(makeElement('h2', '', test.name), makeElement('p', '', test.info));
+    if (test.options.length === 1) {
+      const { method, kind } = test.options[0];
+      const duration = purchase ? ' · ' + collectionTime(kind) : '';
+      copy.append(makeElement('small', 'test-option-method', method + duration));
+    }
+    const actions = makeElement('div', 'test-actions');
+    if (purchase && test.options.length > 1) actions.classList.add('has-sample-times');
+    for (const option of test.options) {
+      const label = test.options.length === 1 ? 'Select' : option.kind === 'saliva' ? 'Saliva' : 'Blood';
+      const sampleChoice = purchase && test.options.length > 1;
+      const button = makeElement('button', '', sampleChoice ? option.method : label);
+      if (sampleChoice) button.append(makeElement('small', 'sample-duration', collectionTime(option.kind)));
+      button.type = 'button';
+      button.dataset.testId = option.id;
+      button.setAttribute('aria-label', 'Select ' + option.label + (sampleChoice ? ', ' + collectionTime(option.kind) : ''));
+      actions.append(button);
+    }
+    card.append(copy, actions);
+    return card;
+  }
+
+  function renderRows() {
+    const query = state.query.toLowerCase().trim();
+    const matching = catalog.filter(({ goal, name, info }) =>
+      (state.showAll || (state.intent ? name === state.intent : state.goals.includes(goal))) &&
+      (name + ' ' + info).toLowerCase().includes(query),
+    );
+    list.replaceChildren(...matching.map(testCard));
+    get('#empty-list').hidden = matching.length > 0;
+  }
+
+  function renderList() {
+    get('#list-title').textContent = state.showAll ? 'Choose a test.' : state.intent ? 'A test for your goal.' : 'Tests that match.';
+    get('#list-summary').textContent = state.showAll
+      ? 'Select a test to see how you collect your sample.'
+      : state.intent ? 'See what it measures and choose how to collect your sample.' : 'Explore tests related to what you picked.';
+    get('.search-label').hidden = !state.showAll;
+    search.hidden = !state.showAll;
+    search.value = state.query;
+    get('#see-full-list').hidden = state.showAll;
+    if (guidedIntents) get('#see-full-list').textContent = 'Browse all tests';
+    renderRows();
+  }
+
+  function showKit(open) {
+    kitToggle.setAttribute('aria-expanded', open);
+    get('[data-kit-toggle-label]').textContent = open ? 'Close the kit' : 'Open the kit';
+    kit.toggleAttribute('data-open', open);
+    kitInfo.hidden = !open;
+  }
+
+  function renderDetail() {
+    const selected = variants.get(state.variant);
+    get('#detail-title').textContent = selected.label;
+    get('[data-detail-purpose]').textContent = selected.purpose;
+    get('[data-detail-method]').textContent = selected.method;
+    get('[data-detail-price]').textContent = selected.price;
+    kit.dataset.method = selected.kind;
+    const saliva = selected.kind === 'saliva';
+    get('[data-kit-method-label]').textContent = saliva ? 'Saliva collection tube' : 'Upper-arm collection device';
+    get('[data-kit-method-copy]').textContent = saliva
+      ? 'Collect a saliva sample in the tube and follow the return instructions included in your kit.'
+      : 'Use the device on your upper arm and follow the return instructions included in your kit.';
+    for (const photo of all('[data-kit-photo]')) photo.hidden = photo.dataset.kitPhoto !== selected.kind;
+    if (purchase) {
+      get('[data-detail-time]').textContent = '· ' + collectionTime(selected.kind) + ' (preview)';
+      purchase.render(selected, state.plan);
+    } else {
+      checkout.href = 'https://alyxbio.com/cart/' + selected.id + ':1';
+      checkout.referrerPolicy = 'no-referrer';
+    }
+    get('.detail-scroll').scrollTop = 0;
+    showKit(false);
+  }
+
+  function render(moveFocus = false) {
+    const route = state.shortcut ? ['home', 'goals', 'detail'] : state.path === 'direct' ? directRoute : normalRoute;
+    const step = route.indexOf(state.screen) + 1;
+    for (const screen of screens) screen.hidden = screen.dataset.screen !== state.screen;
+    progress.hidden = back.hidden = state.screen === 'home';
+    progress.setAttribute('aria-label', 'Step ' + step + ' of ' + route.length);
+    for (const [index, dot] of [...progress.children].entries()) {
+      dot.hidden = index >= route.length;
+      dot.toggleAttribute('data-active', index < step);
+    }
+
+    if (state.screen === 'goals') renderGoals();
+    if (state.screen === 'list') renderList();
+    if (state.screen === 'detail') renderDetail();
+    get('.panes').scrollTop = 0;
+    if (moveFocus) {
+      const heading = get('[data-screen="' + state.screen + '"] h1');
+      heading.tabIndex = -1;
+      heading.focus({ preventScroll: true });
+    }
+  }
+
+  for (const button of all('[data-route]')) {
+    button.addEventListener('click', () => {
+      if (button.dataset.route === 'goals') {
+        transition({ ...home, screen: 'goals', path: 'guided' }, 'path_chosen');
+      } else {
+        transition({ ...home, screen: 'list', path: 'direct', showAll: true }, 'path_chosen');
+      }
+    });
+  }
+
+  for (const button of goals) {
+    button.addEventListener('click', () => {
+      const { goal } = button.dataset;
+      const picked = new Set(state.goals);
+      if (picked.has(goal)) picked.delete(goal);
+      else picked.add(goal);
+      update({ goals: [...picked] });
+      renderGoals();
+    });
+  }
+
+  if (purchase) {
+    get('.legacy-checkout').hidden = true;
+    get('[data-home-trust]').hidden = false;
+    get('[data-detail-time]').hidden = false;
+    get('[data-time-note]').hidden = false;
+    document.addEventListener('alyx:review-interaction', ({ detail }) => {
+      if (['results_viewed', 'trust_viewed', 'order_info_viewed'].includes(detail)) record(detail);
+    });
+  }
+
+  if (guidedIntents) {
+    get('#goals-title').textContent = 'What would you like to learn?';
+    get('#goals-title + p').textContent = 'Choose what matters to you and see a related test.';
+    get('.goal-list').hidden = true;
+    get('.step-actions').hidden = true;
+    get('#guided-intents').hidden = false;
+    get('#browse-intents').addEventListener('click', () => transition({ ...state, screen: 'list', showAll: true }));
+    for (const button of all('[data-intent]')) {
+      button.addEventListener('click', () => transition({ ...state, screen: 'list', intent: button.dataset.intent }));
+    }
+    const saliva = [...variants.values()].find(({ kind }) => kind === 'saliva');
+    const shortcut = get('#saliva-shortcut');
+    shortcut.hidden = !saliva;
+    if (saliva) shortcut.addEventListener('click', () => {
+      transition({ ...state, screen: 'detail', variant: saliva.id, shortcut: true }, 'test_selected');
+    });
+  }
+
+  get('#show-matches').addEventListener('click', () => {
+    transition({ ...state, screen: 'list', showAll: false });
+  });
+  get('#show-all').addEventListener('click', () => {
+    transition({ ...state, screen: 'list', showAll: true });
+  });
+  get('#see-full-list').addEventListener('click', () => {
+    update({ showAll: true });
+    render(true);
+    record(currentView());
+  });
+  search.addEventListener('input', () => {
+    update({ query: search.value });
+    renderRows();
+  });
+  list.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-test-id]');
+    if (button) transition({ ...state, screen: 'detail', variant: button.dataset.testId }, 'test_selected');
+  });
+
+  kitToggle.addEventListener('click', () => {
+    const open = kitInfo.hidden;
+    showKit(open);
+    if (open) record('kit_opened');
+  });
+  checkout.addEventListener('click', () => {
+    try {
+      sessionStorage.setItem('alyx-clickthrough-selection', JSON.stringify({ variant: state.variant, quantity: 1 }));
+    } catch {}
+    record('checkout_handoff');
+  });
+
+  get('[data-home]').addEventListener('click', () => {
+    if (state.screen !== 'home') transition(home);
+  });
+  back.addEventListener('click', () => history.back());
+  window.addEventListener('popstate', ({ state: previous }) => {
+    for (const dialog of all('.review-dialog[open], #purchase-demo[open]')) dialog.close();
+    state = previous?.[historyKey] || home;
+    render(true);
+    record(currentView());
+  });
+
+  if (new URLSearchParams(location.search).get('funnel') === '1') {
+    get('.preview-tools').hidden = false;
+    get('#funnel-open').addEventListener('click', () => {
+      const rows = events.map(({ name, path, plan }) =>
+        makeElement('li', '', [eventNames[name], path, plan].filter(Boolean).join(' · ')),
+      );
+      get('#funnel-events').replaceChildren(...rows);
+      get('.funnel-dialog').showModal();
+    });
+  }
+
+  history.replaceState({ [historyKey]: state }, '');
+  render();
+  record(currentView());
+})();
+</script>
+<script>(() => {
+  if (document.documentElement.dataset.theme !== 'biomarkers') return;
+
+  const actions = document.querySelector('.review-actions');
+  if (!actions) return;
+  actions.hidden = false;
+
+  const results = document.getElementById('results-dialog');
+  const slider = results?.querySelector('#example-result-value');
+  let resetExample;
+  if (slider) {
+    const reading = results.querySelector('[data-example-reading]');
+    const context = results.querySelector('[data-example-context]');
+    const status = results.querySelector('[data-example-status]');
+    const min = Number(slider.min);
+    const max = Number(slider.max);
+    const lower = Number(slider.dataset.referenceMin);
+    const upper = Number(slider.dataset.referenceMax);
+    const scale = slider.closest('.review-result-scale');
+    scale.style.setProperty('--reference-start', `${(lower - min) / (max - min) * 100}%`);
+    scale.style.setProperty('--reference-end', `${(upper - min) / (max - min) * 100}%`);
+
+    function updateExample() {
+      const value = slider.valueAsNumber;
+      const range = value < lower ? 'below' : value > upper ? 'above' : 'within';
+      const label = range[0].toUpperCase() + range.slice(1) + ' the example range';
+      reading.textContent = value.toFixed(1);
+      status.textContent = label;
+      context.dataset.range = range;
+      slider.setAttribute('aria-valuetext', `${value.toFixed(1)} nmol/L, ${label.toLowerCase()}`);
+    }
+
+    resetExample = () => {
+      slider.value = slider.defaultValue;
+      updateExample();
+    };
+    slider.addEventListener('input', updateExample);
+    results.querySelector('[data-example-reset]').addEventListener('click', resetExample);
+    resetExample();
+  }
+
+  const triggers = new WeakMap();
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-review-open]');
+    if (!button) return;
+
+    const dialog = document.getElementById(button.dataset.reviewOpen);
+    if (!dialog || dialog.open) return;
+    if (dialog === results) resetExample?.();
+    const illustration = dialog.querySelector('img[data-src]:not([src])');
+    if (illustration) illustration.src = illustration.dataset.src;
+    triggers.set(dialog, button);
+    dialog.showModal();
+    dialog.scrollTop = 0;
+    dialog.querySelector('h2').focus({ preventScroll: true });
+    if (dialog.dataset.reviewEvent) {
+      document.dispatchEvent(new CustomEvent('alyx:review-interaction', {
+        bubbles: true,
+        detail: dialog.dataset.reviewEvent,
+      }));
+    }
+  });
+
+  for (const dialog of document.querySelectorAll('.review-dialog')) {
+    dialog.addEventListener('close', () => {
+      const trigger = triggers.get(dialog);
+      triggers.delete(dialog);
+      if (trigger && !trigger.closest('[hidden], dialog:not([open])')) trigger.focus({ preventScroll: true });
+    });
+  }
+})();
+</script>
+<script>(() => {
+  const root = document.documentElement;
+  if (root.dataset.theme !== 'biomarkers' || root.dataset.flowVariant !== 'b') return;
+
+  const home = document.querySelector('.home-screen');
+  if (!home) return;
+
+  const outlines = {
+    shield: [
+      [[33, 8], [28, 10], [22, 12], [19, 13], [19, 24], [20, 30], [23, 35], [28, 40],
+        [33, 43], [38, 40], [43, 35], [46, 30], [47, 24], [47, 13], [44, 12], [38, 10], [33, 8]],
+      [[26, 25], [31, 30], [41, 20]],
+    ],
+    lock: [
+      [[22, 21], [44, 21], [46, 23], [46, 39], [44, 41], [22, 41], [20, 39], [20, 23], [22, 21]],
+      [[25, 21], [25, 15], [26, 12], [29, 9], [33, 8], [37, 9], [40, 12], [41, 15], [41, 21]],
+      [[33, 28], [32, 29], [33, 30], [34, 29], [33, 28], [33, 35]],
+    ],
+  };
+  const phaseLength = 7200;
+  const frameInterval = 1000 / 26;
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function createPoints(paths) {
+    const points = [];
+    for (let pathIndex = 0; pathIndex < paths.length; pathIndex++) {
+      const path = paths[pathIndex];
+      for (let index = 1; index < path.length; index++) {
+        const [ax, ay] = path[index - 1];
+        const [bx, by] = path[index];
+        const length = Math.hypot(bx - ax, by - ay);
+        const samples = Math.max(1, Math.round(length / 1.42));
+        for (let sample = 0; sample < samples; sample++) {
+          const ratio = sample / samples;
+          const seed = (points.length + 1) * 2.399963;
+          points.push({
+            x: ax + (bx - ax) * ratio,
+            y: ay + (by - ay) * ratio,
+            angle: seed,
+            drift: .5 + .5 * Math.cos(seed * 1.62),
+            size: .64 + (pathIndex ? .18 : 0) + .25 * (.5 + .5 * Math.sin(seed * 2.83)),
+          });
+        }
+      }
+    }
+    return points;
+  }
+
+  const marks = [...home.querySelectorAll('[data-proof-mark]')].flatMap((node) => {
+    const context = node.getContext('2d');
+    const shape = outlines[node.dataset.proofMark];
+    if (!context || !shape) return [];
+    context.scale(2, 2);
+    return [{ context, points: createPoints(shape) }];
+  });
+  if (!marks.length) return;
+
+  function draw(timestamp, settled = false) {
+    for (const [index, { context, points }] of marks.entries()) {
+      const time = (timestamp + index * 1030) % phaseLength;
+      const turn = time / phaseLength * Math.PI * 2;
+      const dispersal = settled ? 0 : (.5 + .5 * Math.cos(turn)) ** 11;
+
+      context.clearRect(0, 0, 66, 50);
+      context.fillStyle = '#d8e3f1';
+      for (let spark = 0; spark < 22; spark++) {
+        const angle = spark * 2.399963 + (settled ? 0 : turn);
+        const orbit = 17 + (spark % 7) * 1.45;
+        const x = 33 + Math.cos(angle) * orbit;
+        const y = 25 + Math.sin(angle) * orbit * .67;
+        context.globalAlpha = .055 + (spark % 4) * .09 + dispersal * .12;
+        context.fillRect(x, y, .86, .86);
+      }
+      for (const point of points) {
+        const spread = dispersal * (1.4 + 10.5 * point.drift);
+        const glint = settled ? 0 : .21 * Math.sin(point.angle + turn * 3);
+        const x = point.x + spread * Math.cos(point.angle + turn);
+        const y = point.y + spread * Math.sin(point.angle + turn) * .62;
+        context.globalAlpha = Math.min(1, .70 + point.drift * .19 + glint * (1 - dispersal) - .3 * dispersal);
+        context.beginPath();
+        context.arc(x, y, point.size, 0, Math.PI * 2);
+        context.fill();
+      }
+    }
+  }
+
+  let frame = 0;
+  let start;
+  let last = 0;
+  function animate(timestamp) {
+    start ??= timestamp;
+    const elapsed = timestamp - start;
+    if (elapsed - last >= frameInterval) {
+      draw(elapsed);
+      last = elapsed;
+    }
+    frame = window.requestAnimationFrame(animate);
+  }
+
+  function sync() {
+    if (!home.hidden && !document.hidden && !motion.matches) {
+      if (!frame) {
+        start = undefined;
+        last = 0;
+        draw(0);
+        frame = window.requestAnimationFrame(animate);
+      }
+      return;
+    }
+    if (frame) window.cancelAnimationFrame(frame);
+    frame = 0;
+    if (!home.hidden && !document.hidden) draw(0, true);
+  }
+
+  new MutationObserver(sync).observe(home, { attributes: true, attributeFilter: ['hidden'] });
+  motion.addEventListener('change', sync);
+  document.addEventListener('visibilitychange', sync);
+  sync();
+})();
+</script>
+<script>(() => {
+  const detail = document.querySelector('#detail');
+  const pane = detail.querySelector('.detail-scroll');
+  const info = detail.querySelector('#kit-info');
+  const stage = detail.querySelector('.studio');
+  const closedPoster = stage.querySelector('.studio-poster');
+  const openPoster = stage.querySelector('.studio-open');
+  const idle = stage.querySelector('.studio-idle');
+  const reveal = stage.querySelector('.studio-reveal');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const network = navigator.connection;
+  const stillKit = document.documentElement.dataset.theme === 'biomarkers';
+  idle.defaultPlaybackRate = 1.2;
+  idle.playbackRate = 1.2;
+  let mode = 'hidden';
+  let attempt = 0;
+  let revealTimer = 0;
+
+  function load(source, path = source?.dataset.src) {
+    if (source && path && source.getAttribute('src') !== path) source.src = path;
+  }
+
+  function show(frame) {
+    stage.dataset.media = frame;
+    if (frame === 'open') info.removeAttribute('data-revealing');
+  }
+
+  function shouldPlay() {
+    return !stillKit && !reduced.matches && !network?.saveData && !/2g/.test(network?.effectiveType || '');
+  }
+
+  function play(video, frame, fallback, path) {
+    const revision = ++attempt;
+    load(video, path);
+    if (video.ended) video.currentTime = 0;
+    video.play().then(() => {
+      if (revision !== attempt) return;
+      window.clearTimeout(revealTimer);
+      show(frame);
+    }).catch(() => {
+      if (revision !== attempt) return;
+      window.clearTimeout(revealTimer);
+      show(fallback);
+    });
+  }
+
+  function fitDisclosure() {
+    requestAnimationFrame(() => {
+      if (info.hidden || detail.hidden) return;
+      const missing = info.getBoundingClientRect().bottom - pane.getBoundingClientRect().bottom;
+      if (missing > 0) pane.scrollTop += missing + 6;
+    });
+  }
+
+  function update() {
+    const visible = !detail.hidden;
+    const open = stage.hasAttribute('data-open');
+    const method = stage.dataset.method;
+    if (visible) {
+      load(closedPoster);
+      if (open || stillKit) {
+        load(openPoster, 'media/kit-open-' + method + '.jpg');
+        load(info.querySelector('[data-kit-photo]:not([hidden])'));
+      }
+    }
+
+    const move = visible && !document.hidden && shouldPlay();
+    const next = !visible ? 'hidden' : open ? (move ? 'revealing' : 'open') : (move ? 'moving' : 'closed');
+    if (mode === next) return;
+
+    const wasOpen = mode === 'revealing' || mode === 'open';
+    mode = next;
+    ++attempt;
+    window.clearTimeout(revealTimer);
+    idle.pause();
+    reveal.pause();
+
+    if (open && visible) {
+      fitDisclosure();
+      show(wasOpen || !move ? 'open' : 'closed');
+      if (!wasOpen && move) {
+        info.setAttribute('data-revealing', '');
+        if (reveal.readyState > 0) reveal.currentTime = 0;
+        play(reveal, 'reveal', 'open', 'media/kit-reveal-' + method + '.mp4');
+        revealTimer = window.setTimeout(() => {
+          ++attempt;
+          reveal.pause();
+          show('open');
+        }, 1400);
+      }
+    } else {
+      info.removeAttribute('data-revealing');
+      show('closed');
+      if (mode === 'moving') play(idle, 'idle', 'closed');
+    }
+  }
+
+  reveal.addEventListener('ended', () => {
+    if (!detail.hidden && stage.hasAttribute('data-open')) show('open');
+  });
+  reveal.addEventListener('waiting', () => {
+    if (mode !== 'revealing' || stage.dataset.media !== 'reveal') return;
+    window.clearTimeout(revealTimer);
+    revealTimer = window.setTimeout(() => {
+      ++attempt;
+      reveal.pause();
+      show('open');
+    }, 1400);
+  });
+  reveal.addEventListener('playing', () => window.clearTimeout(revealTimer));
+  idle.addEventListener('error', () => {
+    if (mode === 'moving') show('closed');
+  });
+  reveal.addEventListener('error', () => {
+    if (mode === 'revealing') show('open');
+  });
+  const observer = new MutationObserver(update);
+  observer.observe(detail, { attributes: true, attributeFilter: ['hidden'] });
+  observer.observe(stage, { attributes: true, attributeFilter: ['data-open', 'data-method'] });
+  reduced.addEventListener('change', update);
+  network?.addEventListener('change', update);
+  document.addEventListener('visibilitychange', update);
+  update();
+})();
+</script>
+<script>(() => {
+  const backdrop = document.querySelector('.backdrop');
+  if (!backdrop) return;
+
+  const root = document.documentElement;
+  const panes = document.querySelector('.panes');
+  const detailScreen = panes?.querySelector('[data-screen="detail"]');
+  const header = document.querySelector('.app-header');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const tau = 2 * Math.PI;
+  const duration = 12000;
+  const frameInterval = 1000 / 30;
+  const initialPhase = .45;
+  const palettes = [
+    'rgba(112,122,138,.15)',
+    'rgba(130,141,157,.22)',
+    'rgba(154,165,181,.31)',
+    'rgba(176,186,201,.41)',
+    'rgba(194,203,215,.52)',
+    'rgba(214,220,231,.63)',
+    'rgba(232,236,243,.79)',
+  ];
+  const blackAndWhite = [
+    'rgba(105,105,105,.15)',
+    'rgba(132,132,132,.22)',
+    'rgba(154,154,154,.31)',
+    'rgba(181,181,181,.41)',
+    'rgba(206,206,206,.52)',
+    'rgba(230,230,230,.63)',
+    'rgba(255,255,255,.79)',
+  ];
+  const isUnboxing = (name) => name === 'unboxing' || name === 'unboxing-mono';
+  const usesParticles = (name) => name === 'particles' || name === 'biomarkers' || isUnboxing(name);
+  let canvas;
+  let context;
+  let field;
+  let viewport;
+  let frame;
+  let timestamp;
+  let elapsed = 0;
+  let theme;
+  let revealTarget;
+  let deviceScript;
+  let biomarkerScript;
+  let biomarkerReady = false;
+  let biomarkerDetail = false;
+
+  function randomSource() {
+    let state = 0x348bf913;
+    return () => {
+      state = (Math.imul(1664525, state) + 1013904223) >>> 0;
+      return state / 4294967296;
+    };
+  }
+
+  function sweep(family, position, strand) {
+    const waviness = .74 + .26 * Math.sin(position * 3.8 + family);
+    if (family === 0) {
+      return [
+        -.18 + position * 1.36 + strand * .042,
+        1.02 - position * 1.03 - .185 * Math.sin(position * tau + .08) + strand * .067 * waviness,
+      ];
+    }
+    if (family === 1) {
+      return [
+        -.20 + position * 1.42 - strand * .036,
+        .03 + position * .85 + .138 * Math.sin(position * tau + .48) + strand * .085 * waviness,
+      ];
+    }
+    return [
+      .16 + position * .68 - .17 * Math.sin(position * tau + .3) + strand * .083 * waviness,
+      -.14 + position * 1.32 + strand * .024,
+    ];
+  }
+
+  function particleField(dense) {
+    const random = randomSource();
+    const shell = [];
+    function makePoint(angle, radius, height, surface, lid = false) {
+      const z = Math.sin(angle) * radius;
+      const x = Math.cos(angle) * radius;
+      const edge = Math.abs(x) / .46;
+      const light = Math.max(0, 1 - Math.abs(x - .26) / .46) * .24 + edge ** 6 * .21;
+      const tint = surface + light + z * .17 + random() * .26;
+      const family = Math.floor(random() * 3);
+      const position = random();
+      const strand = (random() - .5) * 2.8;
+      const [dispersedX, dispersedY] = sweep(family, position, strand);
+      shell.push({
+        x, z, height, tint, lid,
+        size: .47 + random() * .77,
+        dispersedX, dispersedY,
+        curve: (random() - .5) * 2,
+        glimmer: .78 + random() * .22,
+      });
+    }
+
+    const bodyCount = dense ? 2280 : 1570;
+    for (let index = 0; index < bodyCount; index++) {
+      const height = -.94 + ((index + random()) / bodyCount) * 1.89;
+      const angle = random() * Math.PI - .10;
+      const radius = (height > .71 ? .427 : .443) + (random() - .5) * .02;
+      makePoint(angle, radius, height, .19);
+    }
+    const lidCount = dense ? 410 : 260;
+    for (let index = 0; index < lidCount; index++) {
+      makePoint(random() * tau, Math.sqrt(random()) * .401, -.958, .08, true);
+    }
+    // Layered contours describe the lip and lower seam at a glance.
+    const contours = [
+      { height: -.978, radius: .433, count: 200, tone: .40, lid: true },
+      { height: -.925, radius: .449, count: 147, tone: .35 },
+      { height: .689, radius: .443, count: 151, tone: .30 },
+      { height: .729, radius: .426, count: 106, tone: .24 },
+      { height: .959, radius: .423, count: 130, tone: .27 },
+    ];
+    for (const { height, radius, count, tone, lid } of contours) {
+      const contourCount = dense ? Math.round(count * 1.55) : count;
+      for (let index = 0; index < contourCount; index++) {
+        const arc = height < 0 ? tau : Math.PI;
+        const angle = ((index + random() * .96) / contourCount) * arc;
+        makePoint(angle, radius + (random() - .5) * .023, height + (random() - .5) * .03, tone, lid);
+      }
+    }
+
+    const ambient = [];
+    const ambientCount = dense ? 4300 : 3450;
+    for (let index = 0; index < ambientCount; index++) {
+      const loose = index % 6 === 0;
+      const family = index % 3;
+      const position = random();
+      const feather = (random() - .5) * 1.28;
+      const strand = (Math.floor(random() * 12) - 5.5) * .37 + feather * .24;
+      const [x, y] = loose ? [random(), random()] : sweep(family, position, strand);
+      const crest = Math.exp(-(strand * strand) * .7);
+      const tint = loose ? random() * .31 : .10 + crest * .34 + random() * .36;
+      ambient.push({
+        index, x, y, tint,
+        size: .44 + random() * .79,
+        driftX: (loose ? .009 : .024) * Math.sin(position * 8 + family),
+        driftY: (loose ? .012 : .031) * Math.cos(position * 6.5 + strand),
+      });
+    }
+    return {
+      shell: shell.sort((first, second) => first.tint - second.tint),
+      ambient: ambient.sort((first, second) => first.tint - second.tint),
+    };
+  }
+
+  function ease(value) {
+    const clamped = Math.max(0, Math.min(1, value));
+    return clamped * clamped * (3 - 2 * clamped);
+  }
+
+  function positionReveal() {
+    if (!isUnboxing(theme) || !viewport) return;
+    const screen = panes?.querySelector('[data-screen]:not([hidden])');
+    const method = screen?.querySelector('.studio')?.dataset.method;
+    const { width, height, small, scale, centerX } = viewport;
+    const top = (header?.getBoundingClientRect().bottom ?? 56) + 10;
+    if (small) {
+      const titleTop = (screen?.querySelector('h1')?.getBoundingClientRect().top ?? height * .38) - 15;
+      const gap = titleTop - top;
+      if (gap > 70) {
+        const deviceScale = Math.min(scale * .62, gap * .75);
+        revealTarget = { x: width * .31, y: top + gap * .48, scale: deviceScale, opacity: 1, method };
+      } else {
+        revealTarget = { x: width * .26, y: height * .20, scale: scale * .44, opacity: .24, method };
+      }
+      return;
+    }
+
+    revealTarget = {
+      x: Math.max(width * .64, centerX - scale * .23),
+      y: Math.max(top + scale * .28, height * .22),
+      scale: Math.min(scale * .59, height * .24),
+      opacity: 1,
+      method,
+    };
+  }
+
+  function drawDevice(time, phase, state, paint) {
+    if (!revealTarget || !field.devices) return;
+    const rise = ease((phase - .40) / .18);
+    if (!rise || phase >= .99) return;
+
+    const { x: targetX, y: targetY, scale, opacity, method } = revealTarget;
+    const travel = ease((phase - .46) / .23);
+    const scatter = ease((phase - .78) / .21);
+    const alternate = Math.floor(time / duration + .30) % 2 === 0 ? 'saliva' : 'blood';
+    const kind = method ?? alternate;
+    const points = field.devices[kind];
+    const orbital = phase * tau;
+    const rotation = -.15 + travel * .11 + Math.sin(orbital * 2) * .09;
+    const cosine = Math.cos(rotation);
+    const sine = Math.sin(rotation);
+    const rimX = state.centerX + state.scale * .94 * state.sine;
+    const rimY = state.centerY - state.scale * .94 * state.cosine;
+    const liftY = rimY + scale * (.44 - rise * 1.00);
+    const centerX = rimX + (targetX - rimX) * travel;
+    const centerY = liftY + (targetY - liftY) * travel
+      - Math.sin(travel * Math.PI) * scale * .16 + Math.sin(orbital * 2) * travel * scale * .035;
+    const usePhotoColors = theme === 'unboxing';
+    const glass = kind === 'saliva';
+    const size = Math.min(1.16, .72 + scale / 520);
+
+    context.globalAlpha = Math.min(1, rise * 2.7) * (1 - scatter) * opacity * .98;
+    for (let index = 0; index < points.length; index++) {
+      const point = points[index];
+      const px = point.x * cosine - point.y * sine;
+      const py = point.x * sine + point.y * cosine;
+      const angle = index * 2.399963;
+      const x = centerX + scale * (px + scatter * Math.cos(angle) * .77);
+      const y = centerY + scale * (py + scatter * Math.sin(angle) * .66);
+      if (travel < .33 && y > rimY + (x - rimX) * state.sine) continue;
+      const throughGlass = glass && point.y > -.26 && Math.abs(point.x) < .092;
+      paint(x, y, size * (throughGlass ? .72 : 1), point.tint, usePhotoColors ? point.color : null);
+    }
+  }
+
+  function draw(time) {
+    const { width, height, small, scale, centerX, centerY } = viewport;
+    const previewUnboxing = isUnboxing(theme);
+    const previewBiomarkers = theme === 'biomarkers';
+    const colors = theme === 'unboxing-mono' ? blackAndWhite : palettes;
+
+    context.clearRect(0, 0, width, height);
+    let previousColor;
+    function paint(x, y, size, tint, sourceColor) {
+      if (x < 0 || x > width || y < 0 || y > height) return;
+      const nextPaint = Math.min(colors.length - 1, Math.max(0, Math.floor(tint * colors.length)));
+      const color = sourceColor ?? colors[nextPaint];
+      if (color !== previousColor) {
+        previousColor = color;
+        context.fillStyle = color;
+      }
+      context.fillRect(x, y, size, size);
+    }
+
+    if (biomarkerDetail) {
+      window.drawAlyxCortisol?.({ time, viewport, context, paint });
+      return;
+    }
+
+    const ambientDuration = previewBiomarkers ? (window.alyxBiomarkerCycle ?? duration) / 2 : duration;
+    const phase = (time / ambientDuration + (previewUnboxing ? .30 : initialPhase)) % 1;
+    const orbital = phase * tau;
+    const assembly = previewUnboxing
+      ? ease((phase - .025) / .27) * (1 - ease((phase - .79) / .21))
+      : ease((phase - .04) / .34) * (1 - ease((phase - .59) / .35));
+    const lidLift = previewUnboxing ? ease((phase - .32) / .20) : 0;
+    const flow = Math.sin(orbital);
+    const pulse = Math.cos(orbital);
+    const lean = .34 + flow * .105;
+    const cosine = Math.cos(lean);
+    const sine = Math.sin(lean);
+    const tilt = .235 + pulse * .054;
+    const eddy = Math.sin(assembly * Math.PI);
+
+    context.globalAlpha = small ? .84 : .94;
+    for (const point of field.ambient) {
+      if (small && point.index >= (previewUnboxing || previewBiomarkers ? 3350 : 2520)) continue;
+      const x = width * (point.x + flow * point.driftX + pulse * .006);
+      const y = height * (point.y + pulse * point.driftY + flow * .005);
+      paint(x, y, point.size * (small ? .96 : 1.13), point.tint);
+    }
+
+    if (previewBiomarkers) {
+      if (biomarkerReady) window.drawAlyxBiomarkerSequence({ time, field, viewport, context, paint, ease });
+      return;
+    }
+
+    context.globalAlpha = .35 + assembly * (small ? .52 : .6);
+    for (const point of field.shell) {
+      const elevated = point.height + point.z * tilt;
+      const moveLid = point.lid ? lidLift : 0;
+      const shellX = centerX + scale * (point.x * cosine - elevated * sine - moveLid * .23);
+      const shellY = centerY + scale * (point.x * sine + elevated * cosine - moveLid * (.39 - point.x * .32));
+      const freeX = width * (point.dispersedX + flow * .022 * point.curve);
+      const freeY = height * (point.dispersedY + pulse * .038 * point.curve);
+      const x = freeX + (shellX - freeX) * assembly + eddy * point.curve * width * .14;
+      const y = freeY + (shellY - freeY) * assembly - eddy * point.glimmer * height * .075;
+      const tint = point.tint + .10 * assembly - .16 * (1 - assembly);
+      paint(x, y, point.size * (small ? 1.06 : 1.17), tint);
+    }
+    if (previewUnboxing) drawDevice(time, phase, { centerX, centerY, scale, sine, cosine }, paint);
+  }
+
+  function sizeField() {
+    if (!context) return;
+    const width = backdrop.clientWidth;
+    const height = backdrop.clientHeight;
+    if (!width || !height) return;
+    const small = width <= 680;
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, small ? 1.3 : 1.4);
+    const scale = small ? Math.min(width * .79, height * .344) : Math.min(width * .255, height * .354, 430);
+    viewport = {
+      width, height, small, scale,
+      centerX: width * (small ? .60 : .71),
+      centerY: height * (small ? .57 : .53),
+    };
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    positionReveal();
+    draw(reducedMotion.matches ? stillTime() : elapsed);
+  }
+
+  function stopAnimation() {
+    if (frame) window.cancelAnimationFrame(frame);
+    frame = undefined;
+    timestamp = undefined;
+  }
+
+  function render(now) {
+    const previous = timestamp ?? now;
+    const delta = now - previous;
+    if (delta >= frameInterval - 1 || timestamp === undefined) {
+      timestamp = now;
+      let cycle = duration;
+      if (biomarkerDetail) cycle = window.alyxCortisolCycle ?? duration;
+      else if (theme === 'biomarkers') cycle = window.alyxBiomarkerCycle ?? duration;
+      else if (isUnboxing(theme)) cycle = duration * 2;
+      elapsed = (elapsed + delta) % cycle;
+      if (viewport) draw(elapsed);
+    }
+    frame = window.requestAnimationFrame(render);
+  }
+
+  function loadParticleAsset(path) {
+    const script = document.createElement('script');
+    script.src = path;
+    script.addEventListener('load', sync, { once: true });
+    document.head.append(script);
+    return script;
+  }
+
+  function sync() {
+    backdrop.toggleAttribute('data-paused', document.hidden);
+    if (!usesParticles(root.dataset.theme)) {
+      stopAnimation();
+      canvas?.remove();
+      canvas = context = viewport = undefined;
+      elapsed = 0;
+      return;
+    }
+    if (theme !== root.dataset.theme) {
+      theme = root.dataset.theme;
+      field = particleField(theme !== 'particles');
+      elapsed = 0;
+      biomarkerReady = false;
+      biomarkerDetail = theme === 'biomarkers' && detailScreen?.hidden === false;
+    }
+
+    if (!canvas) {
+      canvas = document.createElement('canvas');
+      canvas.className = 'theme-particles';
+      canvas.setAttribute('aria-hidden', 'true');
+      context = canvas.getContext('2d');
+      if (!context) {
+        canvas = undefined;
+        return;
+      }
+      backdrop.append(canvas);
+    }
+    if (isUnboxing(theme) || theme === 'biomarkers') {
+      field.devices = window.alyxParticleDevices;
+      if (!field.devices && !deviceScript) deviceScript = loadParticleAsset('media/particle-devices.js?v=398dfebf1ab2');
+    }
+    if (theme === 'biomarkers' && !window.drawAlyxBiomarkerSequence && !biomarkerScript) {
+      biomarkerScript = loadParticleAsset('media/particle-biomarkers.js?v=77fc604780db');
+    }
+    if (theme === 'biomarkers' && !biomarkerReady && window.drawAlyxBiomarkerSequence && field.devices && window.alyxParticleMolecules?.cortisol) {
+      biomarkerReady = true;
+      if (!biomarkerDetail) elapsed = 0;
+    }
+    sizeField();
+
+    if (document.hidden || reducedMotion.matches) {
+      stopAnimation();
+      if (viewport && reducedMotion.matches && !document.hidden) draw(stillTime());
+    } else if (!frame) {
+      frame = window.requestAnimationFrame(render);
+    }
+  }
+
+  function stillTime() {
+    if (theme === 'biomarkers') return biomarkerDetail ? 0 : window.alyxBiomarkerStill ?? 0;
+    return isUnboxing(theme) ? duration * .35 : 0;
+  }
+
+  new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  if (panes) {
+    new MutationObserver(() => {
+      if (!context || !viewport) return;
+      if (theme === 'biomarkers') {
+        const showingDetail = detailScreen?.hidden === false;
+        if (showingDetail === biomarkerDetail) return;
+        biomarkerDetail = showingDetail;
+        elapsed = 0;
+      } else if (isUnboxing(theme)) {
+        positionReveal();
+      } else {
+        return;
+      }
+      draw(reducedMotion.matches ? stillTime() : elapsed);
+    }).observe(panes, { subtree: true, attributes: true, attributeFilter: ['hidden', 'data-method'] });
+  }
+  window.addEventListener('resize', sizeField, { passive: true });
+  reducedMotion.addEventListener('change', sync);
+  document.addEventListener('visibilitychange', sync);
+  sync();
+})();
+</script>
+</body>
+</html>
