@@ -1,11 +1,12 @@
 <!doctype html>
-<html lang="en" data-theme="biomarkers" data-public-preview>
+<html lang="en" data-theme="biomarkers" data-live-storefront>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#090807">
-<meta name="robots" content="noindex, nofollow">
-<title>ALYX Bio · Storefront preview</title>
+<meta name="referrer" content="no-referrer">
+<link rel="canonical" href="https://d42pe.com/alyxbio/">
+<title>Lab testing from home · ALYX Bio</title>
 <script>
   (() => {
     const params = new URLSearchParams(location.search);
@@ -853,17 +854,6 @@ html[data-theme="biomarkers"] .home-trust :is(a, button) {
 
 html[data-theme="biomarkers"][data-flow-variant="b"] .home-trust { display: none; }
 
-.wordmark .public-preview-label {
-  display: inline-block;
-  padding: 2px 4px;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  font-size: .56rem;
-  font-weight: 650;
-  letter-spacing: normal;
-  vertical-align: .12em;
-}
-
 html[data-theme="biomarkers"] .guided-intents {
   display: grid;
   gap: 10px;
@@ -992,6 +982,7 @@ html[data-theme="biomarkers"] .detail-screen .purchase-footer {
 .purchase-price { text-align: right; }
 .purchase-price strong { font-size: .95rem; }
 .purchase-bottom { display: grid; align-self: end; gap: 6px; }
+.purchase-status { margin: 0; color: var(--ink); font-size: .74rem; line-height: 1.35; }
 
 .purchase-benefits {
   display: flex;
@@ -1487,7 +1478,7 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
 <div class="backdrop" aria-hidden="true"></div>
 <div class="app">
   <header class="app-header">
-    <button class="wordmark" type="button" data-home aria-label="ALYX BIO home">ALYX <span>BIO</span> <span class="public-preview-label">Preview</span></button>
+    <button class="wordmark" type="button" data-home aria-label="ALYX BIO home">ALYX <span>BIO</span></button>
     <div class="progress" aria-label="Progress" hidden>
       <span></span><span></span><span></span><span></span>
     </div>
@@ -1565,7 +1556,6 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
       </div>
       <label class="search-label" for="test-search" hidden>Search by test name</label>
       <input id="test-search" type="search" placeholder="Search by test name" autocomplete="off" hidden>
-<p class="preview-time-note" data-time-note hidden>Collection times shown for preview.</p>
       <div class="test-list" id="test-list"></div>
       <p class="empty-state" id="empty-list" role="status" hidden>No matching tests. Try a name like Vitamin D or Ferritin.</p>
       <button type="button" id="see-full-list" class="text-button list-link" hidden>See all featured tests</button>
@@ -1622,11 +1612,12 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
     <div id="purchase-plan-rows" class="purchase-plan-rows"></div>
   </fieldset>
   <div class="purchase-bottom">
+    <p class="purchase-status" id="purchase-status" role="status" hidden></p>
     <div class="purchase-benefits" aria-label="Checkout benefits">
       <span class="purchase-badge">FSA/HSA accepted</span>
       <span class="purchase-badge">Free shipping</span>
     </div>
-    <button type="button" class="detail-action" id="preview-checkout-button" aria-haspopup="dialog">
+    <button type="button" class="detail-action" id="preview-checkout-button">
       <span id="preview-checkout-label">Continue to checkout</span><span aria-hidden="true">→</span>
     </button>
   </div>
@@ -1635,17 +1626,6 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
 
   </main>
 </div>
-<div class="preview-tools" hidden>
-  <button type="button" id="funnel-open" class="secondary-button">Preview funnel</button>
-</div>
-<dialog class="funnel-dialog" aria-labelledby="funnel-title">
-  <div class="funnel-head">
-    <h2 id="funnel-title">This tab’s funnel</h2>
-    <form method="dialog"><button type="submit" class="secondary-button">Close</button></form>
-  </div>
-  <p>Local preview events. Purchases are recorded by Shopify once live analytics is connected.</p>
-  <ol id="funnel-events"></ol>
-</dialog>
 <dialog class="review-dialog" id="results-dialog" aria-labelledby="results-dialog-title" data-review-event="results_viewed">
   <header class="review-dialog-header">
     <h2 id="results-dialog-title" tabindex="-1">See example results</h2>
@@ -1692,7 +1672,7 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
   <div class="review-dialog-body">
     <section class="review-fact">
       <h3>CLIA-certified lab</h3>
-      <p>ALYX says it uses a CLIA-certified lab. The certificate below is for Ebien, Inc., doing business as Knowing Labs. ALYX still needs to confirm which tests this lab processes.</p>
+      <p>ALYX uses a CLIA-certified lab. View the official certificate for Knowing Labs, operated by Ebien, Inc.</p>
       <button class="clia-certificate-preview" type="button" data-review-open="clia-certificate-dialog" aria-haspopup="dialog" aria-controls="clia-certificate-dialog">
         <img data-src="media/clia-certificate.png" width="1237" height="1600" alt="" decoding="async">
         <span><strong>View full certificate</strong><small>CMS · CLIA 45D2232931</small></span>
@@ -1736,16 +1716,15 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
   <div class="review-dialog-body">
     <section class="review-fact">
       <h3>1. Receive your kit</h3>
-      <p>Check your delivery estimate at checkout. ALYX still needs to confirm delivery timing for this preview.</p>
+      <p>Shipping is free. Check your delivery estimate at checkout.</p>
     </section>
     <section class="review-fact">
       <h3>2. Collect at home and mail your sample</h3>
-      <p>Follow the return instructions included in your kit. ALYX still needs to confirm whether return postage is included.</p>
+      <p>Follow the collection and return instructions included in your kit.</p>
     </section>
     <section class="review-fact">
       <h3>3. View your results online</h3>
-      <p>ALYX lists a three-day results estimate for cortisol. The point when that estimate starts still needs confirmation.</p>
-      <a href="https://alyxbio.com/pages/cortisol" target="_blank" rel="noopener noreferrer">View the cortisol test</a>
+      <p>View your lab results online. ALYX lists a three-day results turnaround.</p>
     </section>
     <section class="review-fact">
       <h3>Order issues and returns</h3>
@@ -1866,27 +1845,69 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
   </article>
 </dialog>
 
-<dialog id="purchase-demo" class="purchase-demo" aria-labelledby="purchase-demo-title">
-  <form method="dialog" class="purchase-demo-head">
-    <h2 id="purchase-demo-title">Checkout preview</h2>
-    <button class="secondary-button" autofocus>Close</button>
-  </form>
-  <p>This is a local demo. Payment and fulfillment require a Shopify sandbox test.</p>
-  <dl>
-    <div><dt>Test</dt><dd data-demo-test></dd></div>
-    <div><dt>Collection</dt><dd data-demo-method></dd></div>
-    <div><dt>Purchase</dt><dd data-demo-plan></dd></div>
-    <div><dt>Credits</dt><dd data-demo-credit></dd></div>
-  </dl>
-  <p class="purchase-demo-note">Confirm monthly plan share, FSA/HSA acceptance and free shipping before launch.</p>
-</dialog>
-
 <script id="catalog" type="application/json">[{"name": "Cholesterol", "goal": "cholesterol", "info": "Check the total cholesterol in your blood.", "options": [{"label": "Cholesterol", "method": "Upper-arm blood", "kind": "blood", "id": "67641592316035", "memberId": "48022500049027", "price": "$69"}]}, {"name": "Cortisol", "goal": "hormones", "info": "Measure cortisol, a hormone involved in the body’s stress response.", "options": [{"label": "Cortisol (saliva)", "method": "Saliva", "kind": "saliva", "id": "67641592152195", "memberId": "48022499885187", "price": "$69"}, {"label": "Cortisol (blood)", "method": "Upper-arm blood", "kind": "blood", "id": "67641592184963", "memberId": "48022499917955", "price": "$69"}]}, {"name": "Ferritin", "goal": "nutrients", "info": "Measure ferritin, a marker of how much iron your body stores.", "options": [{"label": "Ferritin", "method": "Upper-arm blood", "kind": "blood", "id": "67641592021123", "memberId": "48022499754115", "price": "$69"}]}, {"name": "Testosterone", "goal": "hormones", "info": "Check the amount of total testosterone in your blood.", "options": [{"label": "Testosterone", "method": "Upper-arm blood", "kind": "blood", "id": "67641591857283", "memberId": "48022499623043", "price": "$69"}]}, {"name": "TSH", "goal": "hormones", "info": "Measure thyroid-stimulating hormone, the signal that helps regulate your thyroid.", "options": [{"label": "TSH", "method": "Upper-arm blood", "kind": "blood", "id": "67641591726211", "memberId": "48022499491971", "price": "$69"}]}, {"name": "Vitamin D", "goal": "nutrients", "info": "Check the level of vitamin D in your blood.", "options": [{"label": "Vitamin D", "method": "Upper-arm blood", "kind": "blood", "id": "67641592053891", "memberId": "48022499786883", "price": "$69"}]}]</script>
-<script>window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
+<script>(() => {
+  const store = 'https://alyxbio.com';
+  const query = `mutation StartCheckout($input: CartInput!) {
+    cartCreate(input: $input) {
+      userErrors { code }
+      cart {
+        checkoutUrl
+        totalQuantity
+        cost { subtotalAmount { amount currencyCode } }
+        lines(first: 1) {
+          nodes {
+            merchandise { ... on ProductVariant { id } }
+            sellingPlanAllocation { sellingPlan { id } }
+          }
+        }
+      }
+    }
+  }`;
+
+  window.createAlyxShopifyCheckout = async ({ variantId, sellingPlanId, price, signal }) => {
+    const merchandiseId = `gid://shopify/ProductVariant/${variantId}`;
+    const expectedPlan = sellingPlanId ? `gid://shopify/SellingPlan/${sellingPlanId}` : null;
+    const line = { merchandiseId, quantity: 1 };
+    if (expectedPlan) line.sellingPlanId = expectedPlan;
+
+    const response = await fetch(`${store}/api/2026-10/graphql.json`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'omit',
+      referrerPolicy: 'no-referrer',
+      signal,
+      body: JSON.stringify({ query, variables: { input: { lines: [line] } } }),
+    });
+    if (!response.ok) throw new Error('Shopify checkout unavailable');
+
+    const { data, errors } = await response.json();
+    const result = data?.cartCreate;
+    if (errors?.length || !result?.cart || result.userErrors?.length) {
+      throw new Error('Shopify could not create the cart');
+    }
+
+    const { cart } = result;
+    const [actualLine] = cart.lines.nodes;
+    const subtotal = cart.cost.subtotalAmount;
+    const returnedPlan = actualLine?.sellingPlanAllocation?.sellingPlan?.id ?? null;
+    if (cart.totalQuantity !== 1 || actualLine?.merchandise?.id !== merchandiseId ||
+        returnedPlan !== expectedPlan || subtotal.currencyCode !== 'USD' || Number(subtotal.amount) !== price) {
+      throw new Error('Shopify returned a different test, plan, or price');
+    }
+
+    const checkout = new URL(cart.checkoutUrl);
+    if (checkout.origin !== store || checkout.username || checkout.password) throw new Error('Invalid checkout destination');
+    return checkout.href;
+  };
+})();
+
+window.createAlyxPurchaseReview = ({ changePlan, openCheckout }) => {
   const footer = document.querySelector('#purchase-options');
   const button = footer.querySelector('#preview-checkout-button');
   const buttonLabel = footer.querySelector('#preview-checkout-label');
-  const checkoutLabel = document.documentElement.hasAttribute('data-public-preview') ? 'Checkout demo' : 'Checkout';
+  const status = footer.querySelector('#purchase-status');
+  const createShopifyCheckout = window.createAlyxShopifyCheckout;
   const dialog = document.querySelector('#purchase-demo');
   const plans = {
     once: {
@@ -1906,7 +1927,7 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
   };
   const radios = new Map();
   const rows = footer.querySelector('#purchase-plan-rows');
-  const orderFields = {
+  const orderFields = dialog && {
     test: dialog.querySelector('[data-demo-test]'),
     method: dialog.querySelector('[data-demo-method]'),
     plan: dialog.querySelector('[data-demo-plan]'),
@@ -1915,6 +1936,20 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
   let selectedTest;
   const defaultPlan = 'monthly';
   let planKey = defaultPlan;
+  let checkoutRequest;
+
+  function resetButton() {
+    button.disabled = false;
+    buttonLabel.textContent = `Checkout · ${plans[planKey].action}`;
+  }
+
+  function cancelCheckout() {
+    if (!createShopifyCheckout) return;
+    checkoutRequest?.abort();
+    checkoutRequest = undefined;
+    status.hidden = true;
+    resetButton();
+  }
 
   function text(tag, value, className = '') {
     const element = document.createElement(tag);
@@ -1946,9 +1981,41 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
     rows.append(label);
   }
 
+  async function goToShopify(plan, variantId) {
+    const request = new AbortController();
+    checkoutRequest = request;
+    status.hidden = true;
+    button.disabled = true;
+    buttonLabel.textContent = 'Opening secure checkout…';
+    const timeout = setTimeout(() => request.abort(), 10000);
+    let handingOff = false;
+    try {
+      const url = await createShopifyCheckout({
+        variantId, sellingPlanId: plan.sellingPlanId, price: Number(plan.price.slice(1)), signal: request.signal,
+      });
+      if (checkoutRequest !== request) return;
+      location.assign(url);
+      handingOff = true;
+    } catch {
+      if (checkoutRequest !== request) return;
+      status.hidden = false;
+      status.textContent = 'Checkout couldn’t open. Try again or contact ALYX support.';
+    } finally {
+      clearTimeout(timeout);
+      if (checkoutRequest === request && !handingOff) {
+        checkoutRequest = undefined;
+        resetButton();
+      }
+    }
+  }
+
   button.addEventListener('click', () => {
     const plan = plans[planKey];
     const variantId = plan.sellingPlanId ? selectedTest.memberId : selectedTest.id;
+    if (createShopifyCheckout) {
+      if (!checkoutRequest) void goToShopify(plan, variantId);
+      return;
+    }
     orderFields.test.textContent = selectedTest.label;
     orderFields.method.textContent = selectedTest.method;
     orderFields.plan.textContent = `${plan.name} · ${plan.action}`;
@@ -1960,16 +2027,21 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
     dialog.showModal();
     openCheckout(planKey);
   });
-  dialog.addEventListener('close', () => {
+  dialog?.addEventListener('close', () => {
     if (!footer.closest('[hidden]')) button.focus({ preventScroll: true });
+  });
+  if (createShopifyCheckout) window.addEventListener('pageshow', (event) => {
+    if (event.persisted) cancelCheckout();
   });
 
   return {
+    cancelCheckout,
     render(test, nextPlan) {
+      cancelCheckout();
       selectedTest = test;
       planKey = radios.has(nextPlan) ? nextPlan : defaultPlan;
       radios.get(planKey).checked = true;
-      buttonLabel.textContent = `${checkoutLabel} · ${plans[planKey].action}`;
+      resetButton();
       footer.hidden = false;
     },
   };
@@ -1994,6 +2066,7 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
   const kitToggle = get('#kit-toggle');
   const kitInfo = get('#kit-info');
   const checkout = get('#checkout-link');
+  const liveStorefront = document.documentElement.hasAttribute('data-live-storefront');
   const flowVariant = document.documentElement.dataset.flowVariant;
   const guidedIntents = flowVariant === 'b';
   const purchase = flowVariant && window.createAlyxPurchaseReview?.({
@@ -2014,7 +2087,9 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
 
   const funnelKey = flowVariant ? 'alyx-biomarkers-funnel-' + flowVariant : 'alyx-clickthrough-funnel';
   let events = [];
-  try { events = JSON.parse(sessionStorage.getItem(funnelKey)) || []; } catch {}
+  if (!liveStorefront) {
+    try { events = JSON.parse(sessionStorage.getItem(funnelKey)) || []; } catch {}
+  }
 
   const eventNames = {
     home_viewed: 'Opened the homepage',
@@ -2034,6 +2109,7 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
   };
 
   function record(name, plan) {
+    if (liveStorefront) return;
     const entry = { name, path: state.path };
     if (plan) entry.plan = plan;
     events = [...events.slice(-99), entry];
@@ -2147,7 +2223,7 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
       : 'Use the device on your upper arm and follow the return instructions included in your kit.';
     for (const photo of all('[data-kit-photo]')) photo.hidden = photo.dataset.kitPhoto !== selected.kind;
     if (purchase) {
-      get('[data-detail-time]').textContent = '· ' + collectionTime(selected.kind) + ' (preview)';
+      get('[data-detail-time]').textContent = '· ' + collectionTime(selected.kind) + (liveStorefront ? '' : ' (preview)');
       purchase.render(selected, state.plan);
     } else {
       checkout.href = 'https://alyxbio.com/cart/' + selected.id + ':1';
@@ -2158,6 +2234,7 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
   }
 
   function render(moveFocus = false) {
+    purchase?.cancelCheckout();
     const route = state.shortcut ? ['home', 'goals', 'detail'] : state.path === 'direct' ? directRoute : normalRoute;
     const step = route.indexOf(state.screen) + 1;
     for (const screen of screens) screen.hidden = screen.dataset.screen !== state.screen;
@@ -2204,7 +2281,7 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
     get('.legacy-checkout').hidden = true;
     get('[data-home-trust]').hidden = false;
     get('[data-detail-time]').hidden = false;
-    get('[data-time-note]').hidden = false;
+    if (!liveStorefront) get('[data-time-note]').hidden = false;
     document.addEventListener('alyx:review-interaction', ({ detail }) => {
       if (['results_viewed', 'trust_viewed', 'order_info_viewed'].includes(detail)) record(detail);
     });
@@ -2271,7 +2348,7 @@ html[data-theme="biomarkers"][data-flow-variant="b"] .proof-stamps {
     record(currentView());
   });
 
-  if (new URLSearchParams(location.search).get('funnel') === '1') {
+  if (!liveStorefront && new URLSearchParams(location.search).get('funnel') === '1') {
     get('.preview-tools').hidden = false;
     get('#funnel-open').addEventListener('click', () => {
       const rows = events.map(({ name, path, plan }) =>
